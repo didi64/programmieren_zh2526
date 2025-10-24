@@ -1,3 +1,3 @@
 # list of contents
-1: Jupyterlab_Intro.ipynb test.ipynb
-999: foo.ipynb
+1: Aufgaben_01.ipynb Jupyterlab_Intro.ipynb MiniPython_III.ipynb MiniPython_II.ipynb MiniPython_I.ipynb Unterhaltung_mit_dem_Interpreter.ipynb update_und_get_src.ipynb
+999:
