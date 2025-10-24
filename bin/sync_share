@@ -1,0 +1,29 @@
+#!/bin/bash
+
+
+set -euo pipefail
+
+share_repo="${HOME}/work/share"
+response_repo="${HOME}/work/share/.response"
+response="${HOME}/work/share/response"
+
+git -C "$share_repo" add .
+git -C "$share_repo" commit . -m "$(date)" || true
+git -C "$share_repo" push -f
+
+git -C "${response_repo}" reset --hard
+git -C "${response_repo}" fetch
+git -C "${response_repo}" merge --allow-unrelated-histories --no-edit
+
+# copy the new files to response
+
+mapfile -t lines < <(git -C share/.response/ log --name-status -1)
+for ((i=${#lines[@]}-1; i>=0; i--)); do
+    line=${lines[i]}
+    echo $line | while read a b; do  # default delimiter is space tab and newline!
+        if [[ $a == [AM] ]]; then
+            # echo "cp -i ${b} ${response}/."
+            cp -i "${response_repo}/${b}" "${response}/."  # does not wait for user to respond !
+        fi
+    done
+done
