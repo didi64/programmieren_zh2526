@@ -53,9 +53,13 @@ def _search_words(words, rootdir='/home/studi/work'):
     return results
 
 
-def word_finder(*words, max_res=5, rootdir='/home/studi/work'):
+def word_finder(*words, n=5, rootdir='/home/studi/work'):
+    '''*words: str
+        searches rootdir for notebooks containing the given words and shows links to these notebooks
+    '''
+    assert all(type(word) is str for word in words), 'all positional arguments must be strings!'
     res = _search_words(words, rootdir=rootdir)
-    _show_results(res, n=max_res)
+    _show_results(res, n=n)
 
 
 def tag_finder(*args, **kwarg):
