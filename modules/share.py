@@ -47,7 +47,7 @@ def init_share(user, pin=12345):
         f.write(tok)
 
     print('share folder initialized, cloning repos ...')
-    res = subprocess.call(ROOT + '.src/bin/init_share')
+    res = subprocess.call(ROOT + '/.src/bin/init_share')
     if res == 0:
         print('Share-Folder fuer User {} eingerichtet.'.format(user))
     else:
