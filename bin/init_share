@@ -10,15 +10,16 @@ token=$(cat "$root/.token_share")
 user=$(cat "$root/.user")
 name=(${user//./ })
 fname=${name[0]}
-lname=${name[1]}
-initials=$(printf %.1s "$fname")$(printf %.1s "$lname")
+# lname=${name[1]}
+# initials=$(printf %.1s "$fname")$(printf %.1s "$lname")
 
 if [[ -d "$share_dir" ]]; then
     echo "share folder already exists"
     exit 1
 fi
 
-repo="${initials}_share" 
+#repo="${initials}_share" 
+repo="${fname}_share"
 
 
 git -C "$root" clone --recurse-submodules "https://${owner}:${token}@github.com/${owner}/${repo}.git" share
