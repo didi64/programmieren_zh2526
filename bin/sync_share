@@ -11,7 +11,7 @@ git -C "$share_repo" add .
 git -C "$share_repo" commit . -m "$(date)" || true
 git -C "$share_repo" push -f
 
-if [[ $(git  -C "${response_repo}" fetch --dry-run | wc -l) -eq 0 ]]; then
+if [[ $(git -C "${response_repo}" fetch --dry-run 2>&1 | wc -l) -eq 0 ]]; then
     echo "no new files in response"
     exit 0
 fi
