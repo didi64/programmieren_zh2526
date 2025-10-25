@@ -4,7 +4,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# exclude hidden files and directories, except .gitignore
+# exclude hidden files and directories, except .gitignore and .keep
 .*
 !.gitignore
+!.keep
 
