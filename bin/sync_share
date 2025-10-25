@@ -17,7 +17,7 @@ git -C "${response_repo}" merge --allow-unrelated-histories --no-edit
 
 # copy the new files to response
 
-mapfile -t lines < <(git -C share/.response/ log --name-status -1)
+mapfile -t lines < <(git -C $response_repo log --name-status -1)
 for ((i=${#lines[@]}-1; i>=0; i--)); do
     line=${lines[i]}
     echo $line | while read a b; do  # default delimiter is space tab and newline!
