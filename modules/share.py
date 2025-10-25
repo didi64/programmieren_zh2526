@@ -34,7 +34,7 @@ def init_share(user, pin=12345):
     with open(DATA + '/coords') as f:
         coords = f.read()
     tok = decode(coords, pin)
-    print(tok)
+    # print(tok)
     if tok[-3:] != 'qBx':
         raise ValueError('Ungueltiger Pin!')
     if user not in email_prefixes:
