@@ -11,6 +11,11 @@ git -C "$share_repo" add .
 git -C "$share_repo" commit . -m "$(date)" || true
 git -C "$share_repo" push -f
 
+if [[ $(git  -C "${response_repo}" fetch --dry-run | wc -l) -eq 0 ]]; then
+    echo "no new files in response"
+    exit 0
+fi
+
 git -C "${response_repo}" reset --hard
 git -C "${response_repo}" fetch
 git -C "${response_repo}" merge --allow-unrelated-histories --no-edit
@@ -22,8 +27,9 @@ for ((i=${#lines[@]}-1; i>=0; i--)); do
     line=${lines[i]}
     echo $line | while read a b; do  # default delimiter is space tab and newline!
         if [[ $a == [AM] ]]; then
-            # echo "cp -i ${b} ${response}/."
-            cp -i "${response_repo}/${b}" "${response}/."  # does not wait for user to respond !
+            # cp -i "${response_repo}/${b}" "${response}/."  # does not wait for user to response !
+            cp "${response_repo}/${b}" "${response}/."
+            echo "updated ${b} in response"
         fi
     done
 done
