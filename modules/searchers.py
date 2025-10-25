@@ -22,7 +22,7 @@ def _show_results(results, n=5):
             display(link)
 
 
-def _search_words(words, max_res=5, rootdir='/home/studi/work'):
+def _search_words(words, rootdir='/home/studi/work'):
     results = []
 
     if type(words) is str:
@@ -53,9 +53,9 @@ def _search_words(words, max_res=5, rootdir='/home/studi/work'):
     return results
 
 
-def word_finder(*words, rootdir='/home/studi/work'):
+def word_finder(*words, max_res=5, rootdir='/home/studi/work'):
     res = _search_words(words, rootdir=rootdir)
-    _show_results(res)
+    _show_results(res, n=max_res)
 
 
 def tag_finder(*args, **kwarg):
