@@ -10,7 +10,7 @@ token=$(cat "$root/.token_share")
 user=$(cat "$root/.user")
 name=(${user//./ })
 fname=${name[0]}
-# lname=${name[1]}
+lname=${name[1]}
 # initials=$(printf %.1s "$fname")$(printf %.1s "$lname")
 
 if [[ -d "$share_dir" ]]; then
