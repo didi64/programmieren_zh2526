@@ -17,25 +17,21 @@ HELP=$(cat <<EOF
 usage:
 ======
 1a) update <Nummer der Lektion>
-    kopiert die Files der Lektion <Nummer der Lektion> nach  work/notebooks
+    kopiert die Files der Lektion <Nummer der Lektion> nach  work/
 
 1b) update -n <Nummer der Lektion>
     update -y <Nummer der Lektion>
-    kopiert die Files der Lektion <Nummer der Lektion> nach  work/notebooks und ueberschreibt immer (-y) oder nie (-n)
+    kopiert die Files der Lektion <Nummer der Lektion> nach  work/und ueberschreibt immer (-y) oder nie (-n)
        
 
 2) update <file1> [<file2> ...]
-   Kopiere, falls vorhanden, die FIles oder Ordner <file1>,... nach work/notebooks
-
-3) update -e
-   update extras
+   Kopiere, falls vorhanden, die Files oder Ordner <file1>,... nach work/
 
 Beispiele:
 ==========
 studi@jlab:~/work$ update 1
-studi@jlab:~/work$ update some_notebook.ipynb
-studi@jlab:~/work$ update -n some_folder\n
- 
+studi@jlab:~/work$ update -n live 
+
 EOF
 )
 
@@ -47,14 +43,38 @@ fi
 process_file () {
     # echo "target: $nb_dir"
     echo "processing $1"
-    if [[ "$ANSWER" == "" ]]; then
-        find "$repo_url" -type d -name $1 -exec cp -ri {} "$nb_dir" \;
-        find "$repo_url" -type f -name $1 -exec cp -i {} "$nb_dir" \;
-    else
-        find "$repo_url" -type d -name $1 -exec cp -ri {} "$nb_dir" &> /dev/null \; < <(yes $ANSWER)
-        find "$repo_url" -type f -name $1 -exec cp -i {} "$nb_dir" &> /dev/null \; < <(yes $ANSWER)
+   
+    readarray -d '' files < <(find "$repo_url" -type f -name $1 -print0)
+    readarray -d '' folders < <(find "$repo_url" -type d -name $1 -print0)
+
+    if [[ ${#files[@]} -gt 0 ]]; then 
+        file=${files[0]}
+        if [[ "$ANSWER" == "" ]]; then
+                cp $file -i "$nb_dir"
+        else
+            cp $file -i "$nb_dir" &> /dev/null < <(yes $ANSWER) 
+        fi
+    elif [[ ${#folders[@]} -gt 0 ]]; then 
+        folder=${folders[0]}
+        if [[ "$ANSWER" == "" ]]; then
+                cp $folder -ri "$nb_dir"
+        else
+            cp $folder -ri "$nb_dir" &> /dev/null < <(yes $ANSWER) 
+        fi
     fi
 }
+
+#process_file () {
+#    # echo "target: $nb_dir"
+#    echo "processing $1"
+#    if [[ "$ANSWER" == "" ]]; then
+#        find "$repo_url" -type d -name $1 -exec cp -ri {} "$nb_dir" \;
+#        find "$repo_url" -type f -name $1 -exec cp -i {} "$nb_dir" \;
+#    else
+#        find "$repo_url" -type d -name $1 -exec cp -ri {} "$nb_dir" &> /dev/null \; < <(yes $ANSWER)
+#        find "$repo_url" -type f -name $1 -exec cp -i {} "$nb_dir" &> /dev/null \; < <(yes $ANSWER)
+#    fi
+#}
 
 pull () {
     git -C "$repo_url" pull
@@ -73,10 +93,10 @@ while [[ $# -gt 0 ]]; do
       ANSWER="no"
       set -- "${@:2}"
       ;;
-    -e|--extras)
-      set -- "${@:2}"
-      POSITIONAL_ARGS+=("999") # s--extras are lesson 999
-      ;;
+#    -e|--extras)
+#      set -- "${@:2}"
+#      POSITIONAL_ARGS+=("999") # s--extras are lesson 999
+#      ;;
     -*|--*)
       echo "Unknown option $1"
       exit 1
