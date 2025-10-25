@@ -56,3 +56,7 @@ def _search_words(words, max_res=5, rootdir='/home/studi/work'):
 def word_finder(*words, rootdir='/home/studi/work'):
     res = _search_words(words, rootdir=rootdir)
     _show_results(res)
+
+
+def tag_finder(*args, **kwarg):
+    raise NotImplementedError
