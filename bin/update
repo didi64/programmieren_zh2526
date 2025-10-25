@@ -46,6 +46,7 @@ fi
 
 process_file () {
     # echo "target: $nb_dir"
+    echo "processing $1"
     if [[ "$ANSWER" == "" ]]; then
         find "$repo_url" -type d -name $1 -exec cp -ri {} "$nb_dir" \;
         find "$repo_url" -type f -name $1 -exec cp -i {} "$nb_dir" \;
