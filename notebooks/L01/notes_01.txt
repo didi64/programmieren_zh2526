@@ -1,0 +1,190 @@
+Nachtrag Lektion 1:
+int: 1.0 == 1! type(1) is type(1.0)  # False!
+Booleans:
+- 'to be' or not 'to be'  # 'to be'
+  '' or not 'to be'       # False
+
+1. Teil
+=======
+
+Lektion 1 und folgende
+
+Installation von Docker desktop (nur Docker desktop)
+
+1) Jupyterlab Intro: 
+    Hello world, erste print-Anweisung
+
+2) Wozu dient Jupyterlab ueberhaupt:
+    -> Unterhaltung mit dem Interpreter.
+
+
+3) Mini-Python;
+
+  3a) Integer: Tippe ein paar Integers und Ausdruecke.
+         23/5 vs 23 // 5,
+         3*4 == 2*6
+         1 == 1.0!
+
+  Strings: 'Hello,' + 'world!'
+         80 * '-'
+
+  Wahrheitswerte/Booleans: not True, not False, False and True, False or True, 
+
+  Operatoren: +,-,*,//,   == Einstellige: -, not
+
+Vor 2. Notebook (MiniPython_II)
+  3b) Variabeln, Ausdruecke un Zuweisungen.
+  Variabeln: Einschub: Konventionen zur Wahl von Variabelnamen. (spaeter)
+
+  Was sind die elementaren Ausdruecke (Literale)?
+  Wie kann man aus bestehenden Ausdruecken komplexere Ausdruecke erhalten?
+
+
+  Analysiere dieses Programm: Liste von Zuweisungen und einer print-ANweisung.
+  Beachte: Einruecken gehoert in Python zur Syntax!
+  Manipuliere den Code.
+  Beachte, was der Languageserver sagt, und worueber sich der Interpreter beklagt.
+
+  3c) Zuweisungen
+    first_line = 'erste Zeile'
+    second_line = 'zweite Zeile'
+    third_line = 80 * '-'
+    s = first_line + '\n' + second_line + '\n' + third_line
+    print(s)
+
+  Ausdruecke und Zuweisungen noch offiziell Einfuehren.
+
+
+4) if-Anweisungen:
+    x = 1  # teste welche Ausdruecke true, True, false oder False sind
+    if x:
+        print('x ist true')
+    if x is True:  # testet of x gleich den Objekt True (es gibt nur ein solches Objekt)
+        print('x ist True')
+    if not x:
+        print('x ist false')
+    if x is False:
+        print('x ist False')
+
+lasse den Interpreter die Fehler korrigieren!
+x = 2
+if x = 2
+    print(x ist 2)
+
+
+5) While-Schleifen
+
+
+
+
+
+# Countdown von n an.
+    n = 5
+    while n > 0:
+        print(n)
+        n = n - 1 # mache das zuerst!
+
+while tasks:
+    ...
+
+
+
+6) erste Probleme in Minipython loesen
+    Anzahl Stellen einer positiven ganzen Zahl bestimmen
+        435 // 10 == 43 (letzte Ziffer wird abgeschnitten)
+    Anzahl Stellen einer nicht-negativen ganzen Zahl bestimmen
+    Teste, ob ein bestimmtes Zeichen in einem String vorkommt?
+    Teste, ob ein bestimmte Ziffer in einer Zahl vorkommt?
+    Zähle, wie oft ein bestimmtes Zeichen in einem String vorkommt
+    Drehe ein Wort um
+    Teste, ob ein Wort ein Palindrom ist (gleich dem umgedrehten Wort)
+    Teste, ob eine Zahl eine Primzahl ist
+    Zerlege ein Wort in zwei Teile
+    Sortierte Wörter zusammenfügen
+
+
+
+from_word1 = (j >= n) or (i < m and word1[i] <= word2[j])
+
+i: momentante Position im 1. Wort
+m: Laenge des 1. Worts
+j: momentante Position im 2. Wort
+n: Laenge des 2. Worts
+
+Neachster Buchstabe kommt aus dem 1. Wort falls
+- j >= n ( keine Buchstaben mehr im 2. Wort)
+- es hat noch Buchstaben im 1. Wort (i < m) und der i-te Buchstabe vom 1. Worts is kleiner als der j-te Buchstabe vom 2. Worts
+
+---
+Stringliterale inkl. triple-quoted Strings (wegen DocStrings)
+
+Funktionen I
+Funktionen schreiben und in File/Modul speichern
+    schreibe eine Funktion zu jedem im Notebook Mini-python geloesten PRoblem und
+    speichere diese Funktionen in einem File
+    minipython_funktionen.py
+    
+-> Funktionen_Beispiele mit Interlude: Koennen Funktionen mehr als einen Wert zurueckgeben?
+   Bsp: split_word(word, idx) -> head, tail
+
+   Nein, aber man kann ein Tuple, eine unveranederbare Liste mit diesen Werten zurueckgeben.
+   - Tulpes_I.ipynb
+  
+
+   Komplexere Programme aus diesen Funktionen aufbauen.
+   Sort_word
+
+---
+
+mehr zu print (print als Variadic Function)
+Variadic_functions I: 
+    f(*args, <defaltarg list>)
+
+---
+
+For_Schleifen_I.ipynb
+
+
+
+if elif else (sign, fizzbuzz)
+
+indexnotation
+slicenotation
+
+input
+
+str-methoden (erster Blick auf Objekte)
+
+
+f-Strings
+
+
+----
+
+
+2. Teil
+=========
+Typen und Objekte cont.
+In python sind alle Werte Objekte.
+
+Objekte haben Methoden
+Basic type
+Variabeln-Objekte-Referenzen
+
+range, revisite indexing and slicing 'abcde'.__getitem__(slice(1,3))
+
+divide and conquor: 
+   Guessing Game: Strategy um rasch loesung zu finden
+   Element in sortierter Liste finden
+   Telefonlistenbeispiel
+
+ev. Iterable, Iterator, exemplarisch zip und enumerate
+
+Eingene implementationen einiger Stringmethoden
+mit Interlude: enumerate
+    was ist mit len, in, iter, next
+
+RE: Telefonlistenbeispiel
+   bucketlist strategy
+
+
