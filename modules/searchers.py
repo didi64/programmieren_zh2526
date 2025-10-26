@@ -1,12 +1,15 @@
 import os
 import re
 import nbf.searchables
-import nbf.helpers
+from filetools import file_iter
+from tagging import tag_finder as _search_tags
 from ipywidgets import Output
 from IPython.display import Markdown, display
 
 
-def _show_results(results, n=5):
+
+
+def show_results(results, n=5):
     n = min(len(results), n)
     link_widget = Output(layout={'border': '1px solid black'})
     display(link_widget)
@@ -29,11 +32,7 @@ def _search_words(words, rootdir='/home/studi/work'):
         words = (words,)
     pats = set(re.compile(re.escape(k)) for k in words)
 
-    # iterator
-    files = nbf.helpers.file_iter(rootdir,
-                                  filetypes=('.ipynb', '.py'),
-                                  exclude_dirs=('__pycache__', 'src'),
-                                  )
+    files = file_iter(rootdir, filetypes=('.ipynb', '.py'), exclude_dirs=('__pycache__', 'src'))
     for fn in files:
         s = nbf.searchables.Searchable(fn)
         d = s.search(pats)
@@ -59,8 +58,10 @@ def word_finder(*words, n=5, rootdir='/home/studi/work'):
     '''
     assert all(type(word) is str for word in words), 'all positional arguments must be strings!'
     res = _search_words(words, rootdir=rootdir)
-    _show_results(res, n=n)
+    show_results(res, n=n)
 
 
-def tag_finder(*args, **kwarg):
-    raise NotImplementedError
+def tag_finder(*words, n=5, rootdir='/home/studi/work'):
+    assert all(type(word) is str for word in words), 'all positional arguments must be strings!'
+    res = _search_tags(rootdir, words)
+    show_results(res, n=n)

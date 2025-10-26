@@ -1,6 +1,6 @@
 # Tags
 
-# L01
+@ L01
 Der_Befehl_update.ipynb:
 Jupyterlab_Intro.ipynb:
 Kontrollfragen_01A.ipynb:
@@ -11,5 +11,5 @@ MiniPython_III.ipynb:
 Unterhaltung_mit_dem_Interpreter.ipynb:
 Web_Ressourcen.ipynb:
 
-# L02
+@ L02
 
