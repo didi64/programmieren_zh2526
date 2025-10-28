@@ -1,47 +1,9 @@
-Kurze Vorstellungsrunde
-20'
-Slides plus Installation von Docker desktop (nur Docker desktop)
-20'
+Der Dockercontainer ist eist eien virtuelle Maschine, welche nur via Browser mit der AUssenwelt kommunizieren kann.
+Der input Befehl wartet auf input von innerhalb des Containers.
+Container hat aber keine angeschlossene Tastatur.
 
-Notebooks 1.Teil:
 
-1) Web-Ressources: W3 School, offizielles Python Tutorial
-2) Der Befehl update: loesche Jupyterlab Intro, dann: update -n 1
-3) Jupyterlab Intro: 
-    Basics,  Hinweis: Beachte die Links
-    Hello world, erste print-Anweisung
 
-20' um sich mit Jupyterlab vertraut zu machen, Markdown-Tutorial!
-
-====
-edit contents und push und lasse weitere notbookss holen.
-
-2) Wozu dient Jupyterlab ueberhaupt:
-    -> Unterhaltung mit dem Interpreter.
-
-Oeffne neues Notbook, benamse es,
-Zeige: Integer, Floats, rechnen damit
-Zeige Stings, rechnen damit
-Zeige Booleans, 
-
-3) Mini-Python;
-
-  3a) Integer: Tippe ein paar Integers und Ausdruecke.
-         23/5 vs 23 // 5,
-         3*4 == 2*6
-         1 == 1.0!
-
-  Strings: 'Hello,' + 'world!'
-         80 * '-'
-
-  Wahrheitswerte/Booleans: not True, not False, False and True, False or True, 
-
-  Operatoren: +,-,*,//,   == Einstellige: -, not
-
-Vor 2. Notebook (MiniPython_II)
-  3b) Variabeln, Ausdruecke un Zuweisungen.
-
-Was sind Variabeln. x, x_1, number, resultat,
 
 x = 2
 y = 3*x
