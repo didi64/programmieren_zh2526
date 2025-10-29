@@ -1,115 +1,42 @@
+Erst in L03?
+- And_Or
+
+
 Der Dockercontainer ist eist eien virtuelle Maschine, welche nur via Browser mit der AUssenwelt kommunizieren kann.
 Der input Befehl wartet auf input von innerhalb des Containers.
 Container hat aber keine angeschlossene Tastatur.
 
+Recap: 30'
+Minipython 2 address testing!
+update MiniPython_II.ipynb
+Korrektur 
+  Ein Ausdruck ist aufgebaut aus Variabeln, Intergern, Floats, ... und Operationen. Jeder Ausdruck kann wie folgt aufgebaut werden:
+  - Jede Variable, Integer, Float, String und Wahrheitswert ist ein Ausdruck.
+
+Nur Theorieteil, und aus Whileteil
+- Countdown, -> fuege print Anweisungen hinzu
+- Ueber String iterieren: Pattern: Variabeln initialisieren, Schleife, Ausgebe des Resultates
+- log 2. Code testen!
 
 
 
-x = 2
-y = 3*x
-y
+Types_I 15'
 
-x = '-'
-80 * x
+--
 
-Zuweisungen:
+input   45'
+--
+Loesungen Input 15'
 
-first_line = 'erste Zeile'
-second_line = 'zweite Zeile'
-third_line = 80 * '-'
-s = first_line + '\n' + second_line + '\n' + third_line
-print(s)
+Kontrollfragen 1
+20
+Loese auf
 
 
-Bedinge Anweisungen:
-
-answer = 'yes'
-if answer == 'yes':
-    print('do stuff for yes-case')
+Zahlenratespiel, Divide and Conquor 30'
 
 
-
-lasse den Interpreter die Fehler korrigieren!
-answer =='yes'
-if answer = 'yes'
-    print(do stuff for yes-case)
-
-while
-
-n = 3
-while n > 0:
-    print(n)
-    n = n - 1 # first!
-
-
-# Zeichen eines String ausgeben
-
-word = 'abcd'
-n = len(s)
-i = 0
-
-while i < n:
-    c = word[i]
-    print(c)
-    i = i + 1  # first!
-
-
-# Zeichen suchen. Was passiert, falls der String das gesuchte Zewichennicht enthaelt?
-word = 'abcde'
-char = 'e'
-i = 0
-
-while word[i] != char:
-    i = i + 1
-
-print('Zeichen', char, 'tritt zum erten Mal an Position', i, 'auf')
-
-
-# Sicherstellen das Schleifenbedingung falsch wird:
-# gesuchtes Zeichen an word anhaengen.
-word = 'abcdefgh'
-char = 'e'
-i = 0
-
-word_with_char = word + char
-
-while word_with_char[i] != char:
-    i = i + 1
-
-if i < len(word):
-    print('Zeichen', char, 'tritt zum erten Mal an Position', i, 'auf')
-
-
-Zeige ev. andere moeglichkeit:
-
-text = 'agagdfsgdsf'
-character = 'x'
-
-n = len(text)
-i = 0
-contains_character = False
-
-while i < n and not contains_character:
-    if text[i] == character:
-        contains_character = True
-    i = i + 1
-
-contains_character
-
-Zeige, wie man Code analysieren kann: Mit print vieles Ausgeben
-
-Kontrollfragen:
-20 Min
-
-
-
-Notebook MiniPython II
-
-  Analysiere diese Programm: Liste von Zuweisungen und einer print-Anweisung.
-  Beachte: Einruecken gehoert in Python zur Syntax!
-  Manipuliere den Code.
-  Beachte, was der Languageserver sagt, und worueber sich der Interpreter beklagt.
-
+---
 
 
 Minipython III: Was sind MiniPython Programme? Wie kann man das definieren?
@@ -127,90 +54,5 @@ Minipython III: Was sind MiniPython Programme? Wie kann man das definieren?
     Zerlege ein Wort in zwei Teile
     Sortierte Wörter zusammenfügen
 
-
-
-
-from_word1 = (j >= n) or (i < m and word1[i] <= word2[j])
-
-i: momentante Position im 1. Wort
-m: Laenge des 1. Worts
-j: momentante Position im 2. Wort
-n: Laenge des 2. Worts
-
-Neachster Buchstabe kommt aus dem 1. Wort falls
-- j >= n ( keine Buchstaben mehr im 2. Wort)
-- es hat noch Buchstaben im 1. Wort (i < m) und der i-te Buchstabe vom 1. Worts is kleiner als der j-te Buchstabe vom 2. Worts
-
----
-Stringliterale inkl. triple-quoted Strings (wegen DocStrings)
-
-Funktionen I
-Funktionen schreiben und in File/Modul speichern
-    schreibe eine Funktion zu jedem im Notebook Mini-python geloesten PRoblem und
-    speichere diese Funktionen in einem File
-    minipython_funktionen.py
-    
--> Funktionen_Beispiele mit Interlude: Koennen Funktionen mehr als einen Wert zurueckgeben?
-   Bsp: split_word(word, idx) -> head, tail
-
-   Nein, aber man kann ein Tuple, eine unveranederbare Liste mit diesen Werten zurueckgeben.
-   - Tulpes_I.ipynb
-  
-
-   Komplexere Programme aus diesen Funktionen aufbauen.
-   Sort_word
-
----
-
-mehr zu print (print als Variadic Function)
-Variadic_functions I: 
-    f(*args, <defaltarg list>)
-
----
-
-For_Schleifen_I.ipynb
-
-
-
-if elif else (sign, fizzbuzz)
-
-indexnotation
-slicenotation
-
-input
-
-str-methoden (erster Blick auf Objekte)
-
-
-f-Strings
-
-
-----
-
-
-2. Teil
-=========
-Typen und Objekte cont.
-In python sind alle Werte Objekte.
-
-Objekte haben Methoden
-Basic type
-Variabeln-Objekte-Referenzen
-
-range, revisite indexing and slicing 'abcde'.__getitem__(slice(1,3))
-
-divide and conquor: 
-   Guessing Game: Strategy um rasch loesung zu finden
-   Element in sortierter Liste finden
-   Telefonlistenbeispiel
-
-ev. Iterable, Iterator, exemplarisch zip und enumerate
-
-Eingene implementationen einiger Stringmethoden
-mit Interlude: enumerate
-    was ist mit len, in, iter, next
-
-RE: Telefonlistenbeispiel
-   bucketlist strategy
 
 
