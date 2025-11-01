@@ -1,13 +1,18 @@
+https://www.youtube.com/watch?v=X5EVykwXbeM
+Talk to Tobias Giger!
+Maerh TObias recording in 3 Lektion
+
 Erst in L03?
 - And_Or
-
+- all_distinct. nested while loops
 
 Der Dockercontainer ist eist eien virtuelle Maschine, welche nur via Browser mit der AUssenwelt kommunizieren kann.
 Der input Befehl wartet auf input von innerhalb des Containers.
 Container hat aber keine angeschlossene Tastatur.
 
+------
 Recap: 30'
-Minipython 2 address testing!
+Minipython 2, address testing!
 update MiniPython_II.ipynb
 Korrektur 
   Ein Ausdruck ist aufgebaut aus Variabeln, Intergern, Floats, ... und Operationen. Jeder Ausdruck kann wie folgt aufgebaut werden:
@@ -17,29 +22,41 @@ Nur Theorieteil, und aus Whileteil
 - Countdown, -> fuege print Anweisungen hinzu
 - Ueber String iterieren: Pattern: Variabeln initialisieren, Schleife, Ausgebe des Resultates
 - log 2. Code testen!
+---------------------
+
+1) Aufraeumen: erstelle Ordner L01. Verschiebe Intro, Unterhaltung, Befehl update,  Webrerssourcen dorthin, Minipython_I
+   Behalte: MiniPython_II/III Kontrollfragen
+
+2) Rebuild live Recap 5' Werte Plus Types_I 10': 20'
+3) Recap Teil und input: 40'
+
+Pause 10'
 
 
-
-Types_I 15'
-
---
-
-input   45'
---
 Loesungen Input 15'
 
 Kontrollfragen 1
 20
 Loese auf
+10'
+---
+Pause 10'
+----
+Zahlenratespiel, 
+live Code Programm: 10'
+Ratestrategie: Wieviele Versuhe mum Zahl zw. 1 und 1000 zu erraten?
 
+Divide and Conquor 30'
+1.Teil
 
-Zahlenratespiel, Divide and Conquor 30'
+Intermezzo Tuples
+Anwendung auf Tuples
 
 
 ---
 
 
-Minipython III: Was sind MiniPython Programme? Wie kann man das definieren?
+Minipython III: Was sind MiniPython Programme? Wie kann man das definieren? COmme in L03 ev. nochmals darauf zurueck
 
 6) erste Probleme in Minipython loesen
     Anzahl Stellen einer positiven ganzen Zahl bestimmen
