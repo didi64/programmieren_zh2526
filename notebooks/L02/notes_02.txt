@@ -1,12 +1,8 @@
 https://www.youtube.com/watch?v=X5EVykwXbeM
 Talk to Tobias Giger!
-Maerh TObias recording in 3 Lektion
+Maehr Tobias recording in 3 Lektion
 
-Erst in L03?
-- And_Or
-- all_distinct. nested while loops
-
-Der Dockercontainer ist eist eien virtuelle Maschine, welche nur via Browser mit der AUssenwelt kommunizieren kann.
+Der Dockercontainer ist ist eine virtuelle Maschine, welche nur via Browser mit der Aussenwelt kommunizieren kann.
 Der input Befehl wartet auf input von innerhalb des Containers.
 Container hat aber keine angeschlossene Tastatur.
 
@@ -24,27 +20,51 @@ Nur Theorieteil, und aus Whileteil
 - log 2. Code testen!
 ---------------------
 
-1) Aufraeumen: erstelle Ordner L01. Verschiebe Intro, Unterhaltung, Befehl update,  Webrerssourcen dorthin, Minipython_I
-   Behalte: MiniPython_II/III Kontrollfragen
+1) Aufraeumen: erstelle Ordner L01. Verschiebe Notebooks dorthin. Behalte
+   Behalte: MiniPython_II (Korrektur)?, Kontrollfragen
 
-2) Rebuild live Recap 5' Werte Plus Types_I 10': 20'
-3) Recap Teil und input: 40'
+2) Recap 20' 
+   Types_I mit Aufgaben 15' + Besprechung
 
-Pause 10'
+Pause ?
+Korrektur Minipython_II (omit)
+  Ein Ausdruck ist aufgebaut aus Variabeln, Intergern, Floats, ... und Operationen. Jeder Ausdruck kann wie   folgt aufgebaut werden:
+  - Jede Variable, Integer, Float, String und Wahrheitswert ist ein Ausdruck.
+
+
+3) Input: 40'
+
+Pause 15'
 
 
 Loesungen Input 15'
 
-Kontrollfragen 1
-20
-Loese auf
-10'
+Kontrollfragen 1: 20
+Loese auf: 10'
 ---
-Pause 10'
-----
+
 Zahlenratespiel, 
 live Code Programm: 10'
-Ratestrategie: Wieviele Versuhe mum Zahl zw. 1 und 1000 zu erraten?
+
+guess = int(input('Zahl?'))
+print(guess)
+
+secret = 42  # zu erratende Geheimzahl
+solved = False
+
+while not solved:
+    guess = int(input('Zahl?'))
+    if guess == secret:
+        solved = True
+        print('Gratuliere! Du hast die Zahl erraten')
+    if guess < secret:
+        print(guess, 'ist zu klein')
+    if guess > secret:
+        print(guess, 'ist zu gross')
+
+---
+Diskutiere Loesungsstrategien
+Wieviele Versuche um Zahl zw. 1 und 1000 zu erraten?
 
 Divide and Conquor 30'
 1.Teil
