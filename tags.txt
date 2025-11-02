@@ -11,4 +11,9 @@
 # Unterhaltung_mit_dem_Interpreter.ipynb: Interpreter, Compiler,
 # Web_Ressourcen.ipynb: Web Ressourcen,
 # 
-# @ L02
+@ L02
+Divide_and_Conquor_i.ipynb: Divide and Conquor, Suchalgorithmen, Zahl erraten,
+input.ipynb: input, 
+Loesungen_02.ipynb, Loesungen,
+Tuples_I.ipynb: Tuple, 
+Types_I.ipynb: Typen, cast, Typenumwandlung,
