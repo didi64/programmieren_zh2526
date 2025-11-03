@@ -52,7 +52,7 @@ def get_taginfo(root, comment_out=False):
             continue
         file, tags = line.split(':')
         file = file.strip()
-        tags = tuple(tag for tag in tags.split(',') if tag)
+        tags = tuple(tag.strip() for tag in tags.split(',') if tag)
         tag_info[file] = (section, tags)
 
     if comment_out:
