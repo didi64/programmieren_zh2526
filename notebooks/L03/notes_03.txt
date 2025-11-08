@@ -1,27 +1,4 @@
-Liebe Studierende,
 
-am Montag wuerde ich wieder vor Ort sein, falls einige von euch (mind. 3) anwesend sind.
-Bitte teilt mir bis Montag 13h mit (per Email oder Teams), falls ihr vor Ort sein werdet.
-
-
-Inhalt der Lektion 3:
-
-Nach einem kurzer Recap der Lektion 2 werden wir den Typ Tuple kennenlernen.
-In einem Tuple koennen wir viele Werte unterschiedlichen Typs speichern.
-Dann wenden wir und nochmals dem Zahlenratespiel zu, und
-wenden dann die gleiche Strategie an, um einen Namen in einer langen sortierten Liste von Namen zu finden.
-
-Damit eine Programmiersprache von praktischem Nutzen ist, muss es möglich sein, bestehenden und getesteten Programmcode einfach wiederverwenden zu können. Funktionen ermöglichen genau das. Funktionen ermöglichen es auch, eine komplexe Programmieraufgabe in kleine Teilaufgaben zu zerlegen.
-Wir schreiben viele kleine Funktionen, lernen und lernen, wie wir diese speichern und wiederverwenden koennen.
-
-Falls noch Zeit bleibt, lernen wir die allgemeine Form der if-Anweisung kennen.
-Diese erlaubt unter anderem zu sagen, welche Anweisungen ausgefuehrt werden sollen, falls
-der Ausdruck nach if falsch ist.
-
-Beste Gruesse und einen schoenen Sonntag,
-Dieter
-
----------------------
 
 Erste Sprachelemente, die das Leben vereinfachen:
 f-Strings
