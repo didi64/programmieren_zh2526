@@ -71,6 +71,8 @@ Wir schreiben viele kleine Funktionen, lernen und lernen, wie wir diese speicher
 
 # Mache Beispiel: erwaehne: Funktionen haben ihre eigenen Variabeln.
 
+Funktionen I: 30'
+
 # Funktion, die 2 Zahlen addiert
 x = 2
 y = 3
@@ -88,8 +90,8 @@ add(2, 2)  # klicken auf add und shift-tab zeigt Signatur und DocString
 
 x, y  # immer noch 2 und 3!
 
+- Spezielles: None, Funktionen haben ihre eigenen Variabeln
 
-Funktionen I: 30'
   Beispiel zeigen, wo Tuple zurueckgegeben wird.
 
 Funktionen schreiben 45':
