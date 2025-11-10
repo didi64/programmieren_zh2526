@@ -57,11 +57,17 @@ some_names
 Erste Sprachelemente, die das Leben vereinfachen:
 f-Strings 15' (erwaehne triple quotes Strings zeige).
 
+Bsp: Berechnete Werte und Text kombinieren.
+
 x = 2
 y = 3
 f'Die Summe von {x} und {y} ist {x+y}.'
 
 Textbox Beispiel mit '''-String, \ als Linecontinuation Charater
+----
+
+Pause
+--------
 
 Funktionen:
 Damit eine Programmiersprache von praktischem Nutzen ist, muss es möglich sein, bestehenden und getesteten Programmcode einfach wiederverwenden zu können. Funktionen ermöglichen genau das. Funktionen ermöglichen es auch, eine komplexe Programmieraufgabe in kleine Teilaufgaben zu zerlegen.
