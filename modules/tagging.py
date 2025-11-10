@@ -22,13 +22,15 @@ def add_tags(path_to_notebook, tags, append=False, overwrite=False):
     return data
 
 
-def get_tags(path_to_notebook):
+def get_tags(path_to_notebook, lower=True):
     '''path_to_notebook: path to .ipynb file (notebook)
        return: set[str] the tags of the notebook
     '''
     with open(path_to_notebook, 'r') as f:
         data = json.load(f)
-        tags = set(data['metadata'].setdefault('tags', []))
+    tags = set(data['metadata'].setdefault('tags', []))
+    if lower:
+        tags = {tag.lower() for tag in tags}
     return tags
 
 
@@ -80,11 +82,10 @@ def tagger(project_root):
 
 def tag_finder(project_root, tags):
     '''root: project_root
-             must have a file tags.txt with the tag information
-       tags: tuple[str]
+        tags: tuple[str]
     '''
     assert all(type(tag) is str for tag in tags), 'tags must be strings'
-    tags = set(tags)
+    tags = set(tag.lower() for tag in tags)
     results = []
     for nb_path in file_iter(project_root):
         if tags.issubset(get_tags(nb_path)):

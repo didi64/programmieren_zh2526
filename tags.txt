@@ -17,11 +17,11 @@
 # Loesungen_02.ipynb: Lösungen,
 # Tuples_I.ipynb: Tuple, 
 # Types_I.ipynb: Typen, cast, Typenumwandlung,
-@ L03
-f_Strings_I.ipynb: f-String,
-Funktionen_I.ipynb: Funktion
-Funktionen_schreiben.ipynb: Funktion, Modul,
-if_then_else.ipynb: if, elif, else,
-Loesungen_03.ipynb: Lösungen,
-Recap_02.ipynb: Recap,
-Triple_quoted_Strings.ipynb: DocString, triple quoted String,
+# @ L03
+# f_Strings_I.ipynb: f-String, fstring, f_String,
+# Funktionen_I.ipynb: Funktion, Funktionsdefinition, Funktionsaufruf,
+# Funktionen_schreiben.ipynb: Funktion, Modul,
+# if_then_else.ipynb: if, elif, else,
+# Loesungen_03.ipynb: Lösungen,
+# Recap_02.ipynb: Recap,
+# Triple_quoted_Strings.ipynb: DocString, triple quoted String,
