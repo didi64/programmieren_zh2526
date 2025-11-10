@@ -1,22 +1,26 @@
+Ziel fuer Heute: Funktionen!
+und, um uns das Leben bei der Ausgabe einfacher zu machen: sog. f-Strings.
+
+geaenderte Notebook:s Tuples_I, Loesungen_02: waehle bei diesen Notebooks overwrite.
+
+1. Recap_02 Indentierung korrigieren
+    zeige: Notebook, korrigiere ev. auch so, dass Code Sinn macht!
+    Leute beschaeftigen, bis alle Dockercontainer laufen und alle da sind.
 
 
-Erste Sprachelemente, die das Leben vereinfachen:
-f-Strings
-
-
-geaenderte Notebooks Tuples_I, Loesungen_02: 
-use: update -e
-
-1. Warm_up: Indentierung korrigieren
-            Leute beschaeftigen, bis alle Dockercontainer laufen und alle da sind.
+show how to solve: fuehere auch Code aus, um komischen Output zu erklaeren!
+Kommentiere 3 Block:
+   - fixe wie es Sinn macht.
+   
+15'
 
 2. Tuples: Tuples sind aehnlich wie Strings, koennen aber statt zeichen beliebige Werte speichern.
-   z.B. Liste von Namen, Zahlen, Koordinatenpaare, Adressen, ...
+   z.B. Namen, Zahlen, Koordinatenpaare, Adressen, ...
+   Betone: testet euren Code! Ungetester Code funktioniert nicht!
     
 30'
 
-Show live: 
-from examples import names
+Show live: from examples import names
 
 type(names)
 len(names)
