@@ -1,3 +1,42 @@
+class MyString(str):
+    def __new__(cls, s):
+        s = str.__new__(cls, s)
+        print(f'new String {s!r} at  {hex(id(s))}')
+        return s
+
+    def __del__(self):
+        print(f'String {self!r} at {hex(id(self))} got garbage collected')
+
+
+class MyList:
+    def __init__(self, items):
+        self.items = items
+        print(f'new list {self!r} at  {hex(id(self))}')
+
+    def __add__(self, other):
+        return type(self)(self.items + other)
+
+    def __iadd__(self, other):
+        self.items.extend(other)
+        print(f'list at {hex(id(self))} is modified to {self!r}')
+        return self
+
+    def __len__(self):
+        return len(self.items)
+
+    def __getitem__(self, slice):
+        return self.items.__getitem__(slice)
+
+    def __setitem__(self, slice, vals):
+        return self.items.__setitem__(slice, vals)
+
+    def __del__(self):
+        print(f'list {self!r} at {hex(id(self))} got garbage collected')
+
+    def __repr__(self):
+        return f'{self.items!r}'
+
+
 names = (
  'Aaliyah',
  'Aaron',

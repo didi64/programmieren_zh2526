@@ -1,0 +1,150 @@
+
+
+
+Lernen neue Sprachelemente kennen, die Vieles, was wir bis jetzt gelernt haben, vereinfachen.
+Mit Listen fuehren wir einen ersten modifizierbaren Datentyp ein.
+
+Insbesondere koennen Listenelemente vertauscht werden.
+Die ermoeglicht, einen Liste zu sortieren ohne neue Listen erstellen zu muessen.
+Wir lernen mit Bubblesort einen ersten einfachen Sortieralgorithmus kennen.
+
+Bubble Sort zur Uebung: Problem zerbrechen, kleine testbare Funktionen.
+starte mit [1, 2, 5, 4, 3]. 5 mit Swaps benachbarter Elemente auf seine richtige Position
+am Ende der Liste bringen.
+-----
+if-then-else 30'
+Listen (wie Tupel, aber modifizierbar)
+
+Recap_03 15'
+Module   15'
+if-then-else aus Lektion 03: 30'
+Variabeln Objekte Referenzen 30'
+Pause 15'
+Lists 30'
+Indexing and Slicing 30'
+Bubble-Sort 30'
+-----------------
+
+Starte mit Recap_03 
+15'
+-> modules/my_functions.py (fuege dort irgend eine Funktion hinzu) 
+module (-> Zufallstupel)
+20'
+
+if-then-else aus Lektion 03: 30'
+
+x = 10
+if x % 2 == 0:
+    print(f'{x} ist gerade')
+if x % 2 != 0:
+    print(f'{x} ist ungerade')
+
+
+neu:
+x = 10
+if x % 2 == 0:
+    print(f'{x} ist gerade')
+else:
+    print(f'{x} ist ungerade')
+
+Abhandeln von sich gegenseitig ausschliessenden Faellen!
+
+x = None
+
+if type(x) is float:
+    print(f'{x} ist Float')
+elif type(x) is int:
+    print(f'{x} ist Integer')
+elif type(x) is str:
+    print(f'{x} ist String')
+else:
+    print(f'{x} ist kein Float, Integer oder String')
+
+if-the_else: 20'
+
+--
+Listen: erster mutable, modifizierbarer Typ.
+Listen sind ansonsten wie Tuple, werden aber mit eckigen Klammern
+[1, 2, 3] erstellt.
+
+-> Variabeln Objekte Referenzen 30'
+
+Erreichbarkeit
++= bei Strings und Listen
+identische und gleiche Objekte
+Visualisierung mit Pythontutor
+Garbage Colletion
+
+
+Nebenbei:
+x = 'foo'
+y = 'foo'
+x is y
+
+x = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+y = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+x is y
+
+x = 'ein langer String'
+y = 'ein langer String'
+x is y
+
+
+Listen: 
+Alle Typen, int, float, str, bool, tuple, None, die wir bis jetzt kennengelernt haben sind
+immutable (nicht modifizierbar).
+
+Unpraktisch, teuer.
+
+
+def update_tuple(items, i, val):
+    '''items: tuple
+       i: int 
+       gibt ein tuple zurueck, wo items[i] = val
+    '''
+    res = ()  
+    j = 0
+    while j < len(items):
+        if i == j:
+            res = res + (val,)
+        else:
+            res = res + (items[j],)
+        j = j + 1
+    return res
+
+
+Demonstriere dies an einem Beispiel.
+Listenelement kann etwas zaehlen, oder Kontostaende speichern, der staendig andern,
+Punkte eines Bildes,
+
+Elemente selber koennen aendern, aber auch die Liste kann
+laenger oder kuerzer werden (mehr dazu spaeter, im Moment nur +=).
+
+
+Schon gesehen, dass es fuer Anwendungen wie suchen von grossem Vorteil ist,
+falls Liste sortiert.
+Listen kann man in place sortieren.
+Muss keine neue liste erstellen, nur Listenelemente tauschen.
+
+Werden ersten Sortieralgo anschauen, Bubble-Sort.
+
+
+
+---
+Notebook Listen: 
+
+Im wesentlichen schon Version von Bubble sort.
+Machen diese noch doppelt so schnell!
+
+Indexing and Slicing?
+30'
+
+Bubble sort
+20'
+
+
+Next time Listen, counting stuff
+Aufgaben:
+3. Schreibe eine Funktion `index_of_max(items)`, welche den Index/Position des grössten Elements der Liste `items` zurück gibt.
+4. Schreibe eine Funktion `most_frequent(digits)`,
+   welche ausgibt, welche Ziffer am häufigsten im Tupel `digits` vorkommt.
