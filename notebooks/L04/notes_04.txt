@@ -1,6 +1,3 @@
-
-
-
 Lernen neue Sprachelemente kennen, die Vieles, was wir bis jetzt gelernt haben, vereinfachen.
 Mit Listen fuehren wir einen ersten modifizierbaren Datentyp ein.
 
@@ -25,14 +22,19 @@ Indexing and Slicing 30'
 Bubble-Sort 30'
 -----------------
 
-Starte mit Recap_03 
+Recap_03: Tuples, f-Strings und '''-Strings und !Funktionen!
+  Erstelle File my_functions.py, zeige wie aus Loesungen_02.ipynb kopiere,
+  schreibe Funktion test, wenn funktioniert, fuege hinzu.
+
 15'
--> modules/my_functions.py (fuege dort irgend eine Funktion hinzu) 
-module (-> Zufallstupel)
+
+Module.ipynb: module (-> Zufallstupel)
+  - Vorteil von import foo: Autocompletion!
 20'
 
 if-then-else aus Lektion 03: 30'
 
+Zeige zuerst folgendes:
 x = 10
 if x % 2 == 0:
     print(f'{x} ist gerade')
@@ -60,34 +62,58 @@ elif type(x) is str:
 else:
     print(f'{x} ist kein Float, Integer oder String')
 
-if-the_else: 20'
+if-the_else: 30'
 
---
-Listen: erster mutable, modifizierbarer Typ.
-Listen sind ansonsten wie Tuple, werden aber mit eckigen Klammern
-[1, 2, 3] erstellt.
+
+Diskutiere Teststrategie!
+Bleibe in Schleife, solange noch Werte zum Testen, und solange Antwort richtig!
+
+values = ...
+i = 0
+while i < len(values) and values[i] == fizzbuzz(i+1):
+    i = i + 1
+
+
+====
+Pause 10' 
+====
+
+pre Listen: erster mutable (modifizierbarer) Typ.
+    Listen sind ansonsten wie Tuple, werden aber mit eckigen Klammern
+    [1, 2, 3] erstellt.
+
+xs = [2, 1, 'foo']
+xs
+
+xs[2] = 3
+xs
+
+# sortiere: muss die ersten beiden Elemente vertauschen!
+
+x0_old = xs[0]
+xs[0] = xs[1]
+xs
+
+xs[1] = x0_old
+xs
+
+!!!WICHTIG!!! werde fuer die nachsten 30 auf diesem Punkt herumhacken!
+
+ys = xs
+xs is ys
+
+ys[0] = 'new'
+xs
+
+xs is ys
 
 -> Variabeln Objekte Referenzen 30'
-
-Erreichbarkeit
-+= bei Strings und Listen
-identische und gleiche Objekte
-Visualisierung mit Pythontutor
-Garbage Colletion
-
-
-Nebenbei:
-x = 'foo'
-y = 'foo'
-x is y
-
-x = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-y = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-x is y
-
-x = 'ein langer String'
-y = 'ein langer String'
-x is y
+- Beginne mit Bild!
+- Dann, Objekte im speicher koennen unerreichbar werden
+- += bei Strings und Listen
+- identische und gleiche Objekte
+- Visualisierung mit Pythontutor
+- Garbage Colletion
 
 
 Listen: 
@@ -96,6 +122,188 @@ immutable (nicht modifizierbar).
 
 Unpraktisch, teuer.
 
+
+
+
+Beispiel:
+Listenelement kann etwas zaehlen, oder Kontostaende speichern, der staendig andern,
+Punkte eines Bildes,
+
+Elemente selber koennen aendern, aber auch die Liste selbst kann
+laenger (+=) oder kuerzer werden (mehr dazu spaeter, im Moment nur +=).
+
+
+Lasse Aufgaben 1 und 2 loesen. Bespreche dies
+
+Nun zu Indexing und Slicing!
+s = '0123456789'
+s[0]
+s[-1]
+
+# s[start:stop:step]
+
+s[:3]
+s[-3:]
+
+s[1:3]
+
+s[1:20]  # kein IndexError!
+
+s[20:0]
+s[20:0:-1]
+s[10:0]
+s[::-1]
+
+Indexing and Slicing. 20'
+ueberspringe updaten mit Slicing!
+
+Nun zu Bubble-Sort und Listen Aufgaben 3.
+
+Schon gesehen, dass es fuer Anwendungen wie suchen von grossem Vorteil ist,
+falls Liste sortiert.
+Listen kann man in place sortieren.
+Muss keine neue liste erstellen, nur Listenelemente tauschen.
+
+Werden ersten Sortieralgo anschauen, Bubble-Sort.
+
+Ziel: erste Version von Bubble-Sort,
+      schreiben dann eine Variante die doppelt so schnell ist.
+
+      Was sind die elementaren Schritte beim Sortierprozess? Swaps (nur Elemente vertauschen)
+
+Sell this as Bubble-Sort.
+[4, 3, 2, 1]
+[4, 3, 2, 1]
+[4, 3, 2, 1]
+[4, 3, 2, 1]
+
+[4, 3, 2, 1]
+[3, 4, 2, 1]
+[3, 2, 4, 1]
+[3, 2, 1, 4]
+
+[2, 3, 1, 4]
+[2, 1, 3, 4]
+
+
+[1, 2, 3, 4]
+
+
+Loese Listen Aufgaben 3:
+
+
+Bubble sort
+20'
+
+
+
+=======fun4.py=======
+
+from random import randint
+
+
+PI = 3.1415926535
+
+
+def test():
+    '''gibt PI aus'''
+    print(f'PI ist {PI}')
+
+
+def get_random_digits(n):
+    '''n: int
+       gibt ein Tuple mit n zufaelligen Ziffern zurueck
+    '''
+    digits = ()
+    i = 0
+    while i < n:
+        x = randint(0, 9)
+        digits = digits + (x,)
+        i = i + 1
+    return digits
+
+
+def get_random_numbers(n):
+    '''n: int
+       gibt eine Liste mit n Zufallszahlen zw. 1 und 10*n zurueck
+    '''
+    numbers = [0] * n
+    i = 0
+    while i < n:
+        numbers[i] = randint(1, 10*n)
+        i = i + 1
+    return numbers
+
+
+def swap_items(items, i, j):
+    '''items: list
+       vertauscht items[i] und items[j]
+    '''
+    tmp = items[i]
+    items[i] = items[j]
+    items[j] = tmp
+
+
+def bubble_at(items, i):
+    '''items: list (mit vergleichbaren Elementen)
+       i: int
+       vertausche items[i] und items[j], falls items[i] > items[j]
+    '''
+    if items[i] > items[i+1]:
+        swap_items(items, i, i+1)
+
+
+def bubble_up(items):
+    '''items: list (mit vergleichbaren Elementen)
+       vertausche von links nach rechts benachbarte Elemente,
+       falls das linke groesser ist als das rechte.
+    '''
+    n = len(items)
+    j = 0
+    while j < n-1:
+        bubble_at(items, j)
+        j = j + 1
+
+
+def bubble_sort(items):
+    '''items: list (mit vergleichbaren Elementen)
+       sortiert items aufsteigend
+    '''
+    n = len(items) - 1
+    i = 0
+    while i < n:
+        bubble_up(items, i)
+        i = i + 1
+
+
+def is_sorted(items):
+    '''items: list (mit vergleichbaren Elementen)
+       gibt True zurueck falls die items sortiert ist, sonst False
+    '''
+    n = len(items)
+    i = 0
+    while i < n-1:
+        if items[i] > items[i+1]:
+            return False
+        i = i + 1
+    return True
+
+
+def count_digits(digits):
+    '''digits: str
+       gibt eine Liste counts der Laenge 10 zurueck, wobei counts[i] angibt,
+       wie oft die Ziffer i im String digits vorkommt
+    '''
+    counts = [0] * 10
+    i = 0
+    while i < len(digits):
+        idx = int(digits[i])
+        counts[idx] = counts[idx] + 1
+        i = i + 1
+    return counts
+
+
+=========
 
 def update_tuple(items, i, val):
     '''items: tuple
@@ -111,40 +319,3 @@ def update_tuple(items, i, val):
             res = res + (items[j],)
         j = j + 1
     return res
-
-
-Demonstriere dies an einem Beispiel.
-Listenelement kann etwas zaehlen, oder Kontostaende speichern, der staendig andern,
-Punkte eines Bildes,
-
-Elemente selber koennen aendern, aber auch die Liste kann
-laenger oder kuerzer werden (mehr dazu spaeter, im Moment nur +=).
-
-
-Schon gesehen, dass es fuer Anwendungen wie suchen von grossem Vorteil ist,
-falls Liste sortiert.
-Listen kann man in place sortieren.
-Muss keine neue liste erstellen, nur Listenelemente tauschen.
-
-Werden ersten Sortieralgo anschauen, Bubble-Sort.
-
-
-
----
-Notebook Listen: 
-
-Im wesentlichen schon Version von Bubble sort.
-Machen diese noch doppelt so schnell!
-
-Indexing and Slicing?
-30'
-
-Bubble sort
-20'
-
-
-Next time Listen, counting stuff
-Aufgaben:
-3. Schreibe eine Funktion `index_of_max(items)`, welche den Index/Position des grössten Elements der Liste `items` zurück gibt.
-4. Schreibe eine Funktion `most_frequent(digits)`,
-   welche ausgibt, welche Ziffer am häufigsten im Tupel `digits` vorkommt.

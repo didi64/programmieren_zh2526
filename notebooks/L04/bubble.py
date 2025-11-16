@@ -1,6 +1,6 @@
 def bubble_at(items, i):
     '''items: list (mit vergleichbaren Elementen)
-       i: int (0 < i < len(items))
+       i: int
        vertausche items[i] und items[j] falls items[i] > items[j]
     '''
     if items[i] > items[i+1]:
@@ -11,8 +11,8 @@ def bubble_at(items, i):
 
 def bubble_up(items, i):
     '''items: list (mit vergleichbaren Elementen)
-       vertausche falls noetig, fuer  m=len(items)-i-1,
-       items[0] mit items[1], items[1] mit items[2], ..., items[m-1], items[m],
+       vertausche in items (bez. items[:-i] falls i>0) von links nach rechts benachbarte Elemente,
+       falls das linke groesser ist als das rechte.
     '''
     m = len(items) - i
     j = 0

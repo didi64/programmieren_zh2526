@@ -2,7 +2,7 @@
 1: Der_Befehl_update.ipynb Jupyterlab_Intro.ipynb Web_Ressourcen.ipynb MiniPython_III.ipynb MiniPython_II.ipynb MiniPython_I.ipynb Unterhaltung_mit_dem_Interpreter.ipynb Kontrollfragen_01.ipynb Kontrollfragen_01A.ipynb
 2: Recap_L01.ipynb Divide_and_Conquor_i.ipynb input.ipynb Loesungen_02.ipynb Tuples_I.ipynb Types_I.ipynb
 3: Tuples_I.ipynb Loesungen_02.ipynb f_Strings_I.ipynb Funktionen_I.ipynb Funktionen_schreiben.ipynb if_then_else.ipynb Loesungen_03.ipynb Recap_02.ipynb Triple_quoted_Strings.ipynb
-4: Recap_03.ipynb Module.ipynb Variabeln_Objekte_Referenzen.ipynb Listen.ipynb Indexing_und_Slicing_I.ipynb Bubble_Sort.ipynb
+4: Recap_03.ipynb Module.ipynb Variabeln_Objekte_Referenzen.ipynb Listen.ipynb Indexing_und_Slicing_I.ipynb Bubble_Sort.ipynb bubble.py fun4.py
 99:
 # update -e is update 999
 999: 
