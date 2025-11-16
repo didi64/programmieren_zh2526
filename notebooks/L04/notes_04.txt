@@ -1,10 +1,3 @@
-Lernen neue Sprachelemente kennen, die Vieles, was wir bis jetzt gelernt haben, vereinfachen.
-Mit Listen fuehren wir einen ersten modifizierbaren Datentyp ein.
-
-Insbesondere koennen Listenelemente vertauscht werden.
-Die ermoeglicht, einen Liste zu sortieren ohne neue Listen erstellen zu muessen.
-Wir lernen mit Bubblesort einen ersten einfachen Sortieralgorithmus kennen.
-
 Bubble Sort zur Uebung: Problem zerbrechen, kleine testbare Funktionen.
 starte mit [1, 2, 5, 4, 3]. 5 mit Swaps benachbarter Elemente auf seine richtige Position
 am Ende der Liste bringen.
