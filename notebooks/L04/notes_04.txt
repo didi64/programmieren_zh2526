@@ -1,10 +1,3 @@
-Bubble Sort zur Uebung: Problem zerbrechen, kleine testbare Funktionen.
-starte mit [1, 2, 5, 4, 3]. 5 mit Swaps benachbarter Elemente auf seine richtige Position
-am Ende der Liste bringen.
------
-if-then-else 30'
-Listen (wie Tupel, aber modifizierbar)
-
 Recap_03 15'
 Module   15'
 if-then-else aus Lektion 03: 30'
@@ -14,13 +7,20 @@ Lists 30'
 Indexing and Slicing 30'
 Bubble-Sort 30'
 -----------------
+Dinge, die Leben einfacher machen: if else, und Index und Slicenotaton.
+neu Listen: mutable (veraenderbarer Typ) (ansonst wie Tuple)
 
+Task: modules/my_functions.py mit test() und Funktionen aus Loesungen_03/Funktionen_schreiben.
 Recap_03: Tuples, f-Strings und '''-Strings und !Funktionen!
+  Tuples: recall, how with words, show it
   Erstelle File my_functions.py, zeige wie aus Loesungen_02.ipynb kopiere,
   schreibe Funktion test, wenn funktioniert, fuege hinzu.
 
 15'
 
+
+Task: fun4.py mit randint 
+add: from random import randint
 Module.ipynb: module (-> Zufallstupel)
   - Vorteil von import foo: Autocompletion!
 20'
@@ -42,9 +42,9 @@ if x % 2 == 0:
 else:
     print(f'{x} ist ungerade')
 
-Abhandeln von sich gegenseitig ausschliessenden Faellen!
+# Abhandeln von sich gegenseitig ausschliessenden Faellen
 
-x = None
+x = 'abc'
 
 if type(x) is float:
     print(f'{x} ist Float')
@@ -55,17 +55,19 @@ elif type(x) is str:
 else:
     print(f'{x} ist kein Float, Integer oder String')
 
-if-the_else: 30'
-
+Tasks: sign und fizzbuzz, fizzbuzz testen!
+if-the_else aus L03: 30'
+  fizzbuzz: teste 3 und 5 zuerst, dann if nur 3, if nur 5
 
 Diskutiere Teststrategie!
 Bleibe in Schleife, solange noch Werte zum Testen, und solange Antwort richtig!
 
 values = ...
-i = 0
-while i < len(values) and values[i] == fizzbuzz(i+1):
+i = 0 
+n = len(values)
+while i < n and fizzbuzz(i+1) == values[i]:
+    ...
     i = i + 1
-
 
 ====
 Pause 10' 
@@ -83,11 +85,11 @@ xs
 
 # sortiere: muss die ersten beiden Elemente vertauschen!
 
-x0_old = xs[0]
+tmp = xs[0]
 xs[0] = xs[1]
 xs
 
-xs[1] = x0_old
+xs[1] = tmp
 xs
 
 !!!WICHTIG!!! werde fuer die nachsten 30 auf diesem Punkt herumhacken!
@@ -100,6 +102,7 @@ xs
 
 xs is ys
 
+Tasks: Pythontutor.
 -> Variabeln Objekte Referenzen 30'
 - Beginne mit Bild!
 - Dann, Objekte im speicher koennen unerreichbar werden
@@ -109,24 +112,28 @@ xs is ys
 - Garbage Colletion
 
 
-Listen: 
+Listen: (mit Listen kann man noch viel mehr machen, als hier gezeigt.
+         wollen uns aber fuer den Moment auf das hier Eingefuehrte beschraenken)
+       
 Alle Typen, int, float, str, bool, tuple, None, die wir bis jetzt kennengelernt haben sind
 immutable (nicht modifizierbar).
 
 Unpraktisch, teuer.
 
-
+das Beispiel: etwas Zahlen!
 
 
 Beispiel:
-Listenelement kann etwas zaehlen, oder Kontostaende speichern, der staendig andern,
-Punkte eines Bildes,
+Listenelement kann etwas zaehlen, oder Kontostaende speichern, die staendig andern,
+Punkte eines Bildes oder Videos, ...
 
 Elemente selber koennen aendern, aber auch die Liste selbst kann
 laenger (+=) oder kuerzer werden (mehr dazu spaeter, im Moment nur +=).
 
 
-Lasse Aufgaben 1 und 2 loesen. Bespreche dies
+Aufgaben 1: very simple: +=, +, Listenelement Wert zuweisen
+Aufgaben2: Zufallszahlen zaehlen. get_rundom_numbers
+Bespreche dies, diskutiere unterschied zu get_random_digits. (dort jedesmal neues Tupel erzeugt)
 
 Nun zu Indexing und Slicing!
 s = '0123456789'
@@ -147,9 +154,14 @@ s[20:0:-1]
 s[10:0]
 s[::-1]
 
-Indexing and Slicing. 20'
-ueberspringe updaten mit Slicing!
+Task: 
+   Zeichen in String einfuegen bez loeschen!
+   Testen, ob Wort auf ung endet
 
+Indexing and Slicing. 20'
+ev. ueberspringe updaten mit Slicing!
+
+Listen Aufgaben 3.
 Nun zu Bubble-Sort und Listen Aufgaben 3.
 
 Schon gesehen, dass es fuer Anwendungen wie suchen von grossem Vorteil ist,
@@ -165,6 +177,12 @@ Ziel: erste Version von Bubble-Sort,
       Was sind die elementaren Schritte beim Sortierprozess? Swaps (nur Elemente vertauschen)
 
 Sell this as Bubble-Sort.
+Grundoperations zum Sortieren: 
+Swap (Listenelemente tauschen!)
+Diskuss how to Sort with Swaps.
+Tausche aufeinanderfolgende Elemente, falls linkes groesser als rechtes.
+Tun wir das fuer aller benachbarten Elemente, so wird das groesste Element ganz nach rechts gebracht.
+
 [4, 3, 2, 1]
 [4, 3, 2, 1]
 [4, 3, 2, 1]
@@ -181,9 +199,21 @@ Sell this as Bubble-Sort.
 
 [1, 2, 3, 4]
 
-
+Task: simple bubble sort in fun4
 Loese Listen Aufgaben 3:
+ is_sorted(items)
 
+sortiert, falls fuer alle 0<=i<len(items), items[i] <= items[i+1]
+unsortiert falls fuer ein i, items[i] > items[i+1]
+kann mit return aus While-Schleife ausbrechen.
+
+def f():
+    while True:
+        return 'done'
+
+
+Blick auf loesungen. Was koennte verbessert werden?
+Bubble up bubbled immer ganze Liste, obwohl nur fuer Anfangsabschnitt noetig!
 
 Bubble sort
 20'
