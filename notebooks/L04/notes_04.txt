@@ -9,6 +9,19 @@ Bubble-Sort 30'
 -----------------
 Dinge, die Leben einfacher machen: if else, und Index und Slicenotaton.
 neu Listen: mutable (veraenderbarer Typ) (ansonst wie Tuple)
+koennen z.B. Listenelemente vertauschen.
+Konnen so Listen sortieren (gesehen, das dies rasches auffinden eines Elementes ermoeglicht)
+Wollen liste sortieren, mit einfachem, aber ineffizientem Algorithmus,
+Bubble Sort.
+
+Wollen Sortierfunktion schreiben, und diese auch testen koennen
+mit langen Listen (1000 Elemente)
+
+Schreiben auch die dazu noetigen Hilfsfunktionen.
+- Liste mit 1000 Zufallszahlen erstellen
+- Testen, ob Liste sortiert.
+
+
 
 Task: modules/my_functions.py mit test() und Funktionen aus Loesungen_03/Funktionen_schreiben.
 Recap_03: Tuples, f-Strings und '''-Strings und !Funktionen!
@@ -212,7 +225,7 @@ def f():
         return 'done'
 
 
-Blick auf loesungen. Was koennte verbessert werden?
+Blick auf Loesungen. Was koennte verbessert werden?
 Bubble up bubbled immer ganze Liste, obwohl nur fuer Anfangsabschnitt noetig!
 
 Bubble sort
