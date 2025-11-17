@@ -25,10 +25,9 @@
 # Loesungen_03.ipynb: Lösungen,
 # Recap_02.ipynb: Recap,
 # Triple_quoted_Strings.ipynb: DocString, triple quoted String,
-@ L03
-Recap_03.ipynb:
-Module.ipynb:
-Variabeln_Objekte_Referenzen.ipynb:
-Listen.ipynb:
-Indexing_und_Slicing_I.ipynb:
-Bubble_Sort.ipynb:
+# @ L03
+# Module.ipynb: Modul, import, import from, from, sys.path,
+# Variabeln_Objekte_Referenzen.ipynb: Objekt, Referenz, Adresse, unerreichbar, garbage collection,
+# Listen.ipynb: list, Listen, is, 
+# Indexing_und_Slicing_I.ipynb: Index, Slice, 
+# Bubble_Sort.ipynb: sort, bubble, bubble-sort, rekursive,
