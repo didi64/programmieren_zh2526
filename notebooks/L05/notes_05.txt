@@ -1,74 +1,134 @@
-In Recap Listen
-Nebenbei:
-x = 'foo'
-y = 'foo'
-x is y
-
-x = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-y = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-x is y
-
-x = 'ein langer String'
-y = 'ein langer String'
-x is y
-
-### Aufgaben
-Bei einem Spiel habe man mehrere Haufen mit Steinen. Der Spielzustand sei als Liste `heaps = [2, 1, 4]` gespeichert. Ein Zug sei ein Tuple `(i, n)`, welches wir interpretieren als "entferne n Steine von Haufen i".
-
-
-1. Schreibe eine Funktion `update_heaps(heaps, move)`, welche
-den Spielzustand entsprechend anpasst. 
-Entfernt ein Zug mehr Steine als auf dem Haufen liegen, soll ein Haufen mit `0` Steinen &uuml;brigbleiben.
-
-    Ist z.B. `heaps = [2, 3, 4, 5]`, so soll die Liste `heaps` nach dem Aufruf von
-    `update_heaps(heaps, (1, 5))` so aussehen: `[2, 3, 0, 5]`.
-2. Schreibe eine Funktion `index_of_max(items)`, welche den Index/Position des grössten Elements der Liste zurück gibt.
-
-Ackermann
-def step(numbers):
-    if numbers[-2] == 0:
-        numbers[-2:] = [numbers[-1] + 1]
-    elif numbers[-1] == 0:
-        numbers[-2:] = [numbers[-2] - 1, 1]
-    else:
-        numbers[-2:] = [numbers[-2] - 1, numbers[-2], numbers[-1] - 1]
-
-Next time Listen, counting stuff
-Aufgaben:
-3. Schreibe eine Funktion `index_of_max(items)`, welche den Index/Position des grössten Elements der Liste `items` zurück gibt.
-4. Schreibe eine Funktion `most_frequent(digits)`,
-   welche ausgibt, welche Ziffer am häufigsten im Tupel `digits` vorkommt.
 
 
 
-
-NIM:
-beginne mit Hilfsfunktionen: 
-  show_heaps
-  ask_for_move, 
-
-
-nach Loesungen:
-beginne mit
-
-i = move[0]
-n = move[1]
-if heaps[i] > n:
-    heaps[i] = heaps[i] - n
-else:
-    heaps[i] = 0
+Tuple unpacking
+zeige Fehlermeldungen ValueError: 
+ - too many values to unpack (expected 3)
+ - ValueError: not enough values to unpack (expected 3, got 2)
 
 
-macht nun Funktion!
+name2 = names1[1:4]
+name2
 
-def update_heaps(heaps, move):
-    '''heaps: list[int]
-       move: tuple[int, int] i.e. (i, n)
-       entfernt n Steine von heaps[i]
+names2 = names1[4+1:]
+names2
+
+names2[1:]
+
+# Fix it:
+n = len(line)
+i = 0
+while i < n and line[i] != SEP:
+    ...
+
+als Funktion
+
+def get_idx(s, sep):
+    '''s: String
+       gibt den Index des Zeichen sep in s zurueck, oder len(s)
     '''
-    i = move[0]
-    n = move[1]
-    if heaps[i] > n:
-        heaps[i] = heaps[i] - n
-    else:
-        heaps[i] = 0
+    i = 0
+    n = len(s)
+    while i < n and s[i] != sep:
+        i = i + 1
+    return i
+
+# teste mit
+get_idx('Anna', ',')
+
+
+def get_start(s):
+    '''s: str
+       gib Index des 1. non-SPACE zeichen zurueck, oder len(s)
+    '''
+    SPACE = ' '
+    n = len(s)
+    i = 0
+    while i < n and s[i] == SPACE:
+        i = i + 1
+    return i
+
+line = '  Anna, Bob, Carl,'
+get_start(line)
+
+--alt--
+def get_start(s):
+    '''s: str
+       gib Index des 1. non-SPACE zeichen zurueck, oder len(s)
+    '''
+
+    SPACE = ' '
+    n = len(s)
+    if s == ' ' * len(s):
+        return n
+
+    i = 0
+    while s[i] == SPACE:
+        i = i + 1
+    return i
+
+------------
+
+start = get_start(line)
+stop = get_idx(line, SEP)
+
+name = line[start:stop]
+line = line[stop+1:]
+print(f'Name: {name}, new line: "{line}"')
+
+def get_head_tail(s, sep):
+    '''s: String
+       gibt ein Tuple (head, tail) zurueck
+       head: Teil vom ersten non-SPACE Zeichen bis zum Komma
+       tail: Teil nach dem Komma
+    '''
+    start = get_start(s)
+    stop = get_idx(s, sep)
+
+    head = s[start:stop]
+    tail = s[stop+1:]
+    return head, tail
+
+
+names = '  Anna, Bob, Carl'
+SEP = ','
+get_head_tail(names, SEP)
+
+def split(s, sep):
+    '''s: str (kommaseparierte Werte)
+       gibt ein Tupel mit den Werten zurueck
+    '''
+    values = ()
+    while s:
+        value, s = get_head_tail(s, sep)
+        values = values + (value,)
+    return values
+
+names = '  Anna, Bob, Carl'
+SEP = ','
+split(names, SEP)
+
+speichere alle Funktione in einem File split.py
+
+
+Anwendung:
+
+Aufgabe:
+
+wie testen, ob Email auf .net endet?
+wie die letzten 4 Zeichen der Email ausgeben?
+
+persons_net = ()
+n = len(persons)
+
+i = 0
+while i < n:
+    person = persons[i]
+    email = person[2]
+    if email[-4:] == '.net':
+        persons_net = persons_net + (person,)
+    i = i + 1
+
+persons_net
+
+

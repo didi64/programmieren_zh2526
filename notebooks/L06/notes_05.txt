@@ -1,0 +1,74 @@
+In Recap Listen
+Nebenbei:
+x = 'foo'
+y = 'foo'
+x is y
+
+x = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+y = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+x is y
+
+x = 'ein langer String'
+y = 'ein langer String'
+x is y
+
+### Aufgaben
+Bei einem Spiel habe man mehrere Haufen mit Steinen. Der Spielzustand sei als Liste `heaps = [2, 1, 4]` gespeichert. Ein Zug sei ein Tuple `(i, n)`, welches wir interpretieren als "entferne n Steine von Haufen i".
+
+
+1. Schreibe eine Funktion `update_heaps(heaps, move)`, welche
+den Spielzustand entsprechend anpasst. 
+Entfernt ein Zug mehr Steine als auf dem Haufen liegen, soll ein Haufen mit `0` Steinen &uuml;brigbleiben.
+
+    Ist z.B. `heaps = [2, 3, 4, 5]`, so soll die Liste `heaps` nach dem Aufruf von
+    `update_heaps(heaps, (1, 5))` so aussehen: `[2, 3, 0, 5]`.
+2. Schreibe eine Funktion `index_of_max(items)`, welche den Index/Position des grössten Elements der Liste zurück gibt.
+
+Ackermann
+def step(numbers):
+    if numbers[-2] == 0:
+        numbers[-2:] = [numbers[-1] + 1]
+    elif numbers[-1] == 0:
+        numbers[-2:] = [numbers[-2] - 1, 1]
+    else:
+        numbers[-2:] = [numbers[-2] - 1, numbers[-2], numbers[-1] - 1]
+
+Next time Listen, counting stuff
+Aufgaben:
+3. Schreibe eine Funktion `index_of_max(items)`, welche den Index/Position des grössten Elements der Liste `items` zurück gibt.
+4. Schreibe eine Funktion `most_frequent(digits)`,
+   welche ausgibt, welche Ziffer am häufigsten im Tupel `digits` vorkommt.
+
+
+
+
+NIM:
+beginne mit Hilfsfunktionen: 
+  show_heaps
+  ask_for_move, 
+
+
+nach Loesungen:
+beginne mit
+
+i = move[0]
+n = move[1]
+if heaps[i] > n:
+    heaps[i] = heaps[i] - n
+else:
+    heaps[i] = 0
+
+
+macht nun Funktion!
+
+def update_heaps(heaps, move):
+    '''heaps: list[int]
+       move: tuple[int, int] i.e. (i, n)
+       entfernt n Steine von heaps[i]
+    '''
+    i = move[0]
+    n = move[1]
+    if heaps[i] > n:
+        heaps[i] = heaps[i] - n
+    else:
+        heaps[i] = 0
