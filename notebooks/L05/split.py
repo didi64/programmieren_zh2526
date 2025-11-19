@@ -1,6 +1,6 @@
 def get_start(s):
     '''s: str
-       gib Index des 1. non-SPACE zeichen zurueck, oder len(s)
+       gib Index des 1. non-SPACE Zeichens zurueck, oder len(s)
     '''
     SPACE = ' '
     n = len(s)

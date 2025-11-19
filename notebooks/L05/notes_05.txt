@@ -16,11 +16,11 @@ names2
 names2[1:]
 
 # Fix it:
-n = len(line)
+n = len(text)
 i = 0
-while i < n and line[i] != SEP:
+while i < n and text[i] != SEP:
     ...
-
+print(f'Erstes Vorkommen von "{SEP}" oder Länge von {text}: {i}')
 als Funktion
 
 def get_idx(s, sep):
@@ -48,8 +48,8 @@ def get_start(s):
         i = i + 1
     return i
 
-line = '  Anna, Bob, Carl,'
-get_start(line)
+names = '  Anna, Bob, Carl,'
+get_start(names)
 
 --alt--
 def get_start(s):
@@ -69,12 +69,12 @@ def get_start(s):
 
 ------------
 
-start = get_start(line)
-stop = get_idx(line, SEP)
+start = get_start(names)
+stop = get_idx(names, SEP)
 
-name = line[start:stop]
-line = line[stop+1:]
-print(f'Name: {name}, new line: "{line}"')
+name = names[start:stop]
+line = names[stop+1:]
+print(f'Name: {name}, new names: "{names}"')
 
 def get_head_tail(s, sep):
     '''s: String
