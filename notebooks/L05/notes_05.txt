@@ -6,6 +6,13 @@ zeige Fehlermeldungen ValueError:
  - too many values to unpack (expected 3)
  - ValueError: not enough values to unpack (expected 3, got 2)
 
+Discuss:
+
+word = 'Vorbereitung'
+prefix = 'Vor'
+suffix = 'ung'
+word[:len(prefix)] == prefix
+word[-len(suffix):] == suffix
 
 name2 = names1[1:4]
 name2
@@ -110,6 +117,10 @@ split(names, SEP)
 
 speichere alle Funktione in einem File split.py
 
+---
+
+Intermezzo: Nochmals zu Index- und Slicenotation:
+            Lasse Aufgabe loesen.
 
 Anwendung:
 
