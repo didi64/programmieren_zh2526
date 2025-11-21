@@ -34,16 +34,3 @@ def update_heaps(heaps, move):
         heaps[i] = heaps[i] - n
     else:
         heaps[i] = 0
-
-
-def index_of_max(numbers):
-    '''numbers: list[int]
-       gibt den Index des groessten Zahl zurueck
-    '''
-    i_max = 0  # index of biggest number
-    i = 0
-    while i < len(numbers):
-        if numbers[i] > numbers[i_max]:
-            i_max = i
-        i = i + 1
-    return i_max

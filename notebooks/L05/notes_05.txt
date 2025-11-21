@@ -1,5 +1,17 @@
+def scalarproduct(v, w):
+    '''berechne das Skalarprodukt 2er 2-dim Vektoren'''
+    return v[0]*w[0] + v[1]*w[1]
 
 
+Liebe Studierende,
+
+wer ist am Montag vor Ort? Bitte benachrichtigt mich bis Montag 13h.
+
+
+Slicenotation, s[start:stop] den Teilstring vom Start-Index bis vor den Stop-Index.
+
+
+In Lektion 5 werden wir
 
 Tuple unpacking
 zeige Fehlermeldungen ValueError: 

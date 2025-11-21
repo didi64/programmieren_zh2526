@@ -1,3 +1,31 @@
+def biggest_heap(heaps):
+    i_max = 0  # index of biggest heap
+    for i in range(len(heaps)):
+        if heaps[i] > heaps[i_max]:
+            i_max = i
+    return i_max
+
+
+def index_of_max(numbers):
+    '''numbers: list[int]
+       gibt den Index des groessten Zahl zurueck
+    '''
+    i_max = 0  # index of biggest number
+    i = 0
+    while i < len(numbers):
+        if numbers[i] > numbers[i_max]:
+            i_max = i
+        i = i + 1
+    return i_max
+
+
+def get_legal_move(heaps):
+    '''heaps: list[int]
+       gibt ein Tuple (Haufen, Anzahl) zurueck
+    '''
+    return (biggest_heap(heaps), 1)
+
+
 def xor_sum(heaps):
     tot = 0
     for heap in heaps:
