@@ -3,15 +3,9 @@ def scalarproduct(v, w):
     return v[0]*w[0] + v[1]*w[1]
 
 
-Liebe Studierende,
+!Loesungen_04.ipynb! nochmals, Korrektur, for-Schleif statt While-Scheile
+bring in with extras: split_a_string_Loesung.ipynb split.py persons.txt 
 
-wer ist am Montag vor Ort? Bitte benachrichtigt mich bis Montag 13h.
-
-
-Slicenotation, s[start:stop] den Teilstring vom Start-Index bis vor den Stop-Index.
-
-
-In Lektion 5 werden wir
 
 Tuple unpacking
 zeige Fehlermeldungen ValueError: 
@@ -29,23 +23,37 @@ word[-len(suffix):] == suffix
 Uebung:
 s = '0123456789'
 
-i = 2
-n = 3
-t = s[:i] + s[i+n:]
-t
 
-s[:i] + '234' + s[i:]
+s[:2], s[2:]
+s[:2], s[2+1:]
+s[:2] + s[2+3:]
+
+
+
+s[:2] + '234' + s[2:]
 
 same mit Tuple 
 ====
-name2 = names1[1:4]
-name2
+s = tuple('0123456789')
+...
+=====
 
-names2 = names1[4+1:]
-names2
+def delete(s, i, n):
+    t = ...
+    return t
 
-names2[1:]
+def insert(s, i, t):
+    res = ...
+    return res
+    
+10' in Raeume.
 
+=======================================
+String splitten: allg. Vorgehen. Zuerst von Hand, dann mit Hilfsfunktionen.
+Zusammen: Greifen Namen heraus.
+
+Zeige Variante 1 (geht nicht nimmer!)
+Erstes Vorkommen von Komma finden.
 # Fix it:
 n = len(text)
 i = 0
@@ -54,6 +62,11 @@ while i < n and text[i] != SEP:
 print(f'Erstes Vorkommen von "{SEP}" oder Länge von {text}: {i}')
 als Funktion
 
+10' in Raeume.
+
+oder 
+text = text + SEP
+--
 def get_idx(s, sep):
     '''s: String
        gibt den Index des Zeichen sep in s zurueck, oder len(s)
@@ -66,6 +79,11 @@ def get_idx(s, sep):
 
 # teste mit
 get_idx('Anna', ',')
+
+
+Das selbe, nun Anfang von String finden:
+
+10' Raeume:
 
 
 def get_start(s):
@@ -99,6 +117,12 @@ def get_start(s):
     return i
 
 ------------
+
+Erklaere Idee:
+1. stelle benoetige Hilffunktionen bereit,
+   implementiere While-Schleife, die oben im Text beschrieben ist.
+
+Raeume 15'
 
 start = get_start(names)
 stop = get_idx(names, SEP)
@@ -141,12 +165,27 @@ split(names, SEP)
 
 speichere alle Funktione in einem File split.py
 
----
+==================
 
-Intermezzo: Nochmals zu Index- und Slicenotation:
+Intermezzo: Nochmals zu Index- und Slicenotation: (mit While, nicht For)
             Lasse Aufgabe loesen.
+word = 'Achtung'
+word[-3:]  # die letzten 3 Buchstaben von word
+word[-3:] == 'ung'  # endet word mit 'ung'
 
-Anwendung:
+def select(items, suffix):#  Upps, wir haben noch keine For-Schleifen!
+    n = len(suffix)
+    result = []
+    for item in items:
+        if item[-n:] == suffix:
+            result = result + [item]
+    return result
+
+
+================================
+
+Anwendung: update -e
+Note: got split_a_string_Loesung.ipynb, split.py and persons.txt (3 Files)
 
 Aufgabe:
 
@@ -166,4 +205,122 @@ while i < n:
 
 persons_net
 
+Vorbereitung get_items
+Ausgabe:
 
+s = '0123456789'
+indices = (2, 3, 6)
+
+
+n = len(indices)
+i = 0
+while i < n:
+    idx = indices[i]
+    print(s[idx])
+    i = i + 1
+
+In Tuple speichern:
+s = '0123456789'
+indices = (2, 3, 6)
+
+result = ()
+n = len(indices)
+i = 0
+while i < n:
+    idx = indices[i]
+    result = result + (s[idx],)
+    i = i + 1
+result
+
+Listen: Revisited
+pre Listen: erster mutable (modifizierbarer) Typ.
+    Listen sind ansonsten wie Tuple, werden aber mit eckigen Klammern
+    [1, 2, 3] erstellt.
+
+xs = [2, 1, 'foo']
+xs
+
+xs[2] = 3
+xs
+
+# sortiere: muss die ersten beiden Elemente vertauschen!
+
+tmp = xs[0]
+xs[0] = xs[1]
+xs
+
+xs[1] = tmp
+xs
+
+swap
+xs[0], xs[1] = xs[1], xs[0]
+
+Liste verlaengern.
+xs = [1, 2]
+xs+= [2,3]
+xs
+
+
+[0] * 5  # Liste mit 0 initialisieren
+
+Aufgabe 3 Listen: Typo in Aufgabe 3: 'mit' -> '>'
+
+xs = [6, 4, 3, 1, 2]xs = [6, 3, 5, 2, 1]
+
+xs[0], x[-1] = xs[-1], xs[0]  # erstes mit letztem vertauschen
+
+
+def swap(items, i, j):
+    items[i], items[j] = items[j], items[i]
+
+
+def bubble_at(items, i):
+    if items[i] > items[i+1]:
+        swap(items, i, i+1)
+
+
+def bubble_up(items):
+    i = 0
+    while i < len(items)-1:
+        bubble_at(items, i)
+        i = i + 1
+
+# beim i-ten Aufruf, muss nur noch items[:-i] sortieren.
+
+bubble_up(xs)
+xs
+
+def bubble_sort(items):
+    i = 0
+    while i < len(items)-1:
+        bubble_up(items)
+        i = i + 1
+
+
+xs = [6, 3, 5, 2, 1]
+
+bubble_sort(xs)
+xs
+====
+
+def is_sorted(items):
+    ...
+
+
+
+xs = [1, 3, 5, 4]
+
+n = len(xs)
+i = 0
+while i < n-1:
+    if xs[i] > xs[i+1]:
+        print(i, 'not sorted')
+    i = i + 1
+
+
+
+
+
+
+
+Stringmethoden.ipynb
