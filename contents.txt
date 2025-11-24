@@ -6,5 +6,4 @@
 5:split_a_string.ipynb split_Anwendung.ipynb Loesungen_04.ipynb
 99:
 # update -e is update 999
-999: 
-# split_a_string_Loesung.ipynb split.py persons.txt 
+999:split_a_string_Loesung.ipynb split.py persons.txt 
