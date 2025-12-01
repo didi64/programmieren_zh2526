@@ -10,7 +10,7 @@ tuple auspacken.
 
 
 get_sep -> find: explain
-split          : simplified 
+split          : simplified: Wert un Wert abspalten, mit Tail weiterarbeiten
 
 dann
 
