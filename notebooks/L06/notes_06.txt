@@ -1,15 +1,6 @@
-ÄÖÜöäü
-
-!in!
-
-str.  # Platziere den Cursor am nach str. und druecke tab
-str.split  # klicke auf split und druecke shift-tab
-help(str.split)  # zeigt Signatur und DocString der Funktion str.split an
-
-
 Recap:
 Index und Slicenotation
-Review Whileschleifencode, ausblick auf Stringmethoden.
+Review Whileschleifencode
 
 For-Schleifen und die range-Funktion, aus While-Schleifen ausbrechen.
 while Schleifen umschreiben.
