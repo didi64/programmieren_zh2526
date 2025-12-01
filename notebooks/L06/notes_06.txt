@@ -22,8 +22,14 @@ Review Whileschleifencode
 For-Schleifen und die range-Funktion, aus While-Schleifen ausbrechen.
 while Schleifen umschreiben.
 
+get_items: einfacher, find: Variante, Geschacksache, was einfacher.
+
+
 Nachtrag Funktionen, Signaturen, positionale Argumente und Keyword Argumente
-For-Schleifen und die range-Funktion.
+keine grosse od. komplizierte Sache.
+etwas kleines aber Nuetzliches
+
+
 
 Funktionen mit Default-Argumenten
 Bsp. Default-Argumente.
@@ -40,37 +46,15 @@ split Funktion, mit While-Schleifen,
 Strings von Hand gesplittet.
 Strings koennen sich selber in Tuple/Liste splitten
 
+Spiele mit Stringmethoden, probiere einige aus.
+Finde heraus, was sie tun!
 
-names = '  Alice, Bob, Carl, Dave'
-SEP = ','
-names.split(SEP)
-# Beachte SPACE vor den Namen (ausser dem 1.)
-
-'  Alice'.strip()
-
-names = []
-for name in names_with_spaces:
-    names.append(name.strip())
-names
-
-Nachtrag Funktionen, Signaturen, positionale Argumente und Keyword Argumente
-For-Schleifen und die range-Funktion.
-
-Stringmethoden
-
-def domain(method, ascii_only=True, max_len=100):
-    n = 0x10ffff + 1
-    if ascii_only:
-        n = 256
-    chars = ''
-    for code_point in range(n):
-        char = chr(code_point)
-        if method(char):
-            chars = chars + char
-    print(f'{len(chars)} characters found on which {method.__name__} returns True')
-    return chars[:max_len]
-
-- Wähle eine der unten aufgelisteten  Methoden und mache 2 Beispiele, die illustrieren was die Methode tut.   In welcher  Situation ist diese Methode n&uuml;tzlich?  
+Welche Zeichen sind isdigit?
+chars = ''
+for code_point in range(n):
+    char = chr(code_point)
+    if method(char):
+        chars = chars + char
 
 Listen und einige Listmethoden
 
