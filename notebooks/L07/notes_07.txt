@@ -1,0 +1,35 @@
+Share-Folder? 
+Gebe Aufgaben!
+
+
+Listcomprehension
+Enumerate und Zip
+
+cards play some simple game.
+Shuffle
+
+Files find alle Ortschaften mit 'von ?' im Namen
+
+Recap: range, For-Schleifen, Funktionen mit Default-Args, str und list-methoden.
+str:
+split, join, find
+list:
+append, pop, extend, clear, insert, sort
+
+# Slicenotation: [start:] ist [start:None]
+'012345'[2:None] == '012345'[2:]
+
+Recap: 1. Aufgabe: jeweils noch letters anzeigen!
+includes find_in_sorted
+list.index(value, start=0, stop=9223372036854775807, /)
+9223372036854775807 == 2^63 - 1
+
+30'
+
+Enumerate und zip
+20'
+
+Listcomprehension
+40'
+
+Files: Superleague und Ortschaften.

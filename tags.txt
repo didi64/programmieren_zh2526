@@ -34,3 +34,14 @@
 # @ L05
 # split_a_string_Loesung.ipynb: Slice Notation, split,
 # split_a_string_Loesung.ipynb: Tabelle,
+# @ L06
+# For_Schleifen_I.ipynb: for, break, continue,
+# Funktionen_DefaultArgs.ipynb: default argument, keyword argument,
+# DefaultArgs_Beispiele.ipynb: none, flags, 
+# Stringmethoden.ipynb: string, stringmethode, string method,
+# Listen_II.ipynb: list, listmethode, list method,
+# @ L07
+# Enumerate_und_zip.ipynb: enumerate, zip,
+# Listcomprehension.ipynb: comprehension, list comprehension, listcomprehension,
+# Files.ipynb: File, file, open, 
+# Ortschaften_CH.ipynb: file, comprehension, list comprehension, zip,
