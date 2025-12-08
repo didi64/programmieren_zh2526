@@ -1,14 +1,7 @@
-Share-Folder? 
-Gebe Aufgaben!
-
-
-Listcomprehension
+Beispiele Keyword_arg FUnktions noch nicht behandelt.
 Enumerate und Zip
-
-cards play some simple game.
-Shuffle
-
-Files find alle Ortschaften mit 'von ?' im Namen
+Listcomprehension
+Files
 
 Recap: range, For-Schleifen, Funktionen mit Default-Args, str und list-methoden.
 str:
@@ -16,20 +9,106 @@ split, join, find
 list:
 append, pop, extend, clear, insert, sort
 
-# Slicenotation: [start:] ist [start:None]
-'012345'[2:None] == '012345'[2:]
+Recap: 1.
+for x in xs:
+    ...
 
-Recap: 1. Aufgabe: jeweils noch letters anzeigen!
-includes find_in_sorted
-list.index(value, start=0, stop=9223372036854775807, /)
-9223372036854775807 == 2^63 - 1
+items = ['foo', 'bar', 'baz']
+n = len(items)
+i = 0
 
-30'
+while i < n:
+    print(i)
+    i = i + 1
 
-Enumerate und zip
+int not iterable! design choice!
+for i in 5:
+    print(i)
+
+find findet nicht nur Zeichen sonder Teilstrings (substrings)
+s = '0123456789'
+s.find('45')
+
+
+find
+
+Default-Argument: Der Punkt Argument mit Default Wert ist damit automatisch optional.
+Idee: Defaultwert None bedeutet, dass kein Wert uebergeben wurde.
+      Argument mit Defaultwert True oder Falsch, Verhalten, das man ein-bex ausschalten kann!
+
+Zeige f und speak Beispiel aus L06, DefaultArgs_Beispiele.
+
+index ist Langsam.
+find_in_sorted.
+
+Dann experimentieren mit Listen, hier Lisen von Karten, oder
+einer Hand voll Karten -> hand
+!Kommen darauf zurueck: vereinfachen Code mit List-Comprehension!
+
+45'
+
+
+--
+Recall: Copy past from Loesungen_For
+
+
+def find_v3(s, char):
+    '''s: String
+       gibt den Index des Zeichen char in s zurueck
+       oder -1 falls es nicht vorkommt
+    '''
+    n = len(s)
+    for i in range(n):
+        if s[i] == char:
+            return i
+
+    return -1
+
+def find_v4(s, char):
+    '''s: String
+       gibt den Index des Zeichen char in s zurueck
+       oder -1 falls es nicht vorkommt
+    '''
+    i = 0
+    for zeichen in s:
+        if zeichen == char:
+            return i
+        i = i + 1
+
+    return -1
+
+
+Enumerate und zip:
+Beispiele aus Loesungen_For L06, dann enumerate, dann techniches begruending wiese es funktioniert (auspacken)
 20'
 
 Listcomprehension
-40'
+45'
+direkt mit Beispiel einsteigen, Whitespace entfernen.
+Werden viele Beispiele sehen.
 
-Files: Superleague und Ortschaften.
+Files: Superleague und Ortschaften. 30-40'
+Erstelle Textfile in Jupyterlab, oeffne es dann mit
+
+with open('test.txt', mode='r') as f:
+    lines = [line.rstrip() for line in f]
+
+vgl. mit
+
+with open('test.txt', mode='r') as f:
+    lines = [line for line in f]
+
+f -> file odr x oder sonst was, ist einfach ein Variabelname!
+
+Bei Textfiles: Zeile soll mit '\n' enden!
+File Zeilenweise lesen, interpretieren!
+
+Bsp. Superleague.
+
+30'
+
+Ortchaften der Schweiz. 20-30'
+
+
+
+
