@@ -81,13 +81,15 @@ def find_v4(s, char):
 
 
 Enumerate und zip:
-Beispiele aus Loesungen_For L06, dann enumerate, dann techniches begruending wiese es funktioniert (auspacken)
+Beispiele aus Loesungen_For L06, dann enumerate, dann techniches begruending wieseo es funktioniert (auspacken)
 20'
 
 Listcomprehension
 45'
 direkt mit Beispiel einsteigen, Whitespace entfernen.
 Werden viele Beispiele sehen.
+
+
 
 Files: Superleague und Ortschaften. 30-40'
 Erstelle Textfile in Jupyterlab, oeffne es dann mit
@@ -100,7 +102,7 @@ vgl. mit
 with open('test.txt', mode='r') as f:
     lines = [line for line in f]
 
-f -> file odr x oder sonst was, ist einfach ein Variabelname!
+f -> file oder x oder sonst was, ist einfach ein Variabelname!
 
 Bei Textfiles: Zeile soll mit '\n' enden!
 File Zeilenweise lesen, interpretieren!
