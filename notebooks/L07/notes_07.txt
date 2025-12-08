@@ -13,6 +13,8 @@ Recap: 1.
 for x in xs:
     ...
 
+do not show:
+
 items = ['foo', 'bar', 'baz']
 n = len(items)
 i = 0
