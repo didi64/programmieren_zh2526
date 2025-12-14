@@ -6,6 +6,7 @@
 5:split_a_string.ipynb split_Anwendung.ipynb Loesungen_04.ipynb split_a_string_Loesung.ipynb
 6:Recap_05.ipynb For_Schleifen_I.ipynb Funktionen_DefaultArgs.ipynb DefaultArgs_Beispiele.ipynb Stringmethoden.ipynb Listen_II.ipynb Loesungen_For.ipynb Loesungen_str_list.ipynb
 7:Recap_06.ipynb Enumerate_und_zip.ipynb Listcomprehension.ipynb Files.ipynb Ortschaften_CH.ipynb Loesungen_07.ipynb PLZO_CSV_LV95.txt superleague21_22.txt
+8: Anwendungen_Dict_I.ipynb Cheatsheet.ipynb Dicts.ipynb Loesungen_08.ipynb Mengen.ipynb notebookfinder.ipynb Recap_07_II.ipynb recap_07_II.py Recap_07_I.ipynb Sortieren_mit_Lambdaausdruecken.ipynb
 99:
 # update -e is update 999
-999:split.py persons.txt 
+999:Loesungen_07.ipynb
