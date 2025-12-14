@@ -1,0 +1,23 @@
+notebookfinder
+Uebungen
+
+
+steige mit Ortschaften ein.
+Problemloesungsorientierter Approach:
+
+Rcap 1
+Recap 2 bis vor Dicts
+
+set()
+Sack mit Elementen (aber jedes nur einmal)
+nicht so klar wie zu implementieren, tricky
+
+Reihenfole behlaten: z.B. 
+mehrfache Anmeldungen, Bestellungen, ... Reihenfolge darf nicht aendern.
+
+Dictionaries
+
+
+
+
+
