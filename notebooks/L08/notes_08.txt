@@ -1,23 +1,82 @@
 notebookfinder
 Uebungen
 
+update -e
+neu:Loesungen_07.ipynb
 
-steige mit Ortschaften ein.
-Problemloesungsorientierter Approach:
+update 8: 
 
-Rcap 1
-Recap 2 bis vor Dicts
+kurzer Blick auf Cheatsheat und Uebungen.
+kurzer Blick auf Notebookfinder.
 
-set()
-Sack mit Elementen (aber jedes nur einmal)
-nicht so klar wie zu implementieren, tricky
+Recap 1: enumerate und zip, List-Komprehension, Files
 
-Reihenfole behlaten: z.B. 
-mehrfache Anmeldungen, Bestellungen, ... Reihenfolge darf nicht aendern.
+sort,
+Sortieren mit lambda-Ausdruecken, starte mit Beispiel.
+
+names = [('Anna', 'Zaugg', 1),
+         ('David',  'Zaugg', 4),
+         ('David', 'Pfister', 2),
+         ('Anna', 'Pfister', 3),
+         ]
+
+names.sort()
+
+sorted(names)
+
+# sortieren nach name[1] (name ist Tuple aus names)
+sorted(names, key=x[1])
+
+
+Mengen: Jedes Element nur einmal. Elemente ungeordnet.
+        Kann rasch testen, ob Element in der Liste. Vorteil gegenueber Liste.
+        Nachteil: Elemente sind ungeordnet. 
+                  Kann mit For-Loop ueber Elemente iterieren, Reihenfolge ist zufaellig.
+
+        Kann Mengen vereinen, schneiden und Differenz bilden.
+
+numbers = set()
+numbers
+
+numbers.add(1)
+numbers.add(2)
+numbers.add(3)
+numbers
+
+for n in numbers:
+    print(n)
+
+numbers.remove(1)
+
+n = numbers.pop()
+n
+
+
+
+numbers = set()
+while len(numbers) < 7:
+    n = randint(1, 9)
+    numbers.add(n)
+
+Schnitt: xs & ys
+xs = {1, 2, 3}
+ys = {2, 3, 4}
+set(x for x in xs if x in ys)  # in x in xs und ys
+=======
 
 Dictionaries
 
+Nachteil von Listen: um bestimmtes Element herausgreifen zu koennen, muss man den Index kennen.
+Index finden kostet Zeit!
+
+Anwendungen Dict
 
 
+
+Recap 2: Nicht nur Recap: Aufgenommen, was im Notebook Ortschaften der Lektion 7 begonnen.
+        Beispiele fuer Listencomprehension in Action.
+        Praktisches Arbeiten mit einem Datensatz.
+        Ein nicht praezisse formuliertes Problem loesen.
+        So gut das eben moeglich ist.
 
 
