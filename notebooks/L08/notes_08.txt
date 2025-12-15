@@ -1,13 +1,15 @@
-notebookfinder
-Uebungen
-
 update -e
 neu:Loesungen_07.ipynb
 
-update 8: 
+update 8:
+
+notebookfinder
+Uebungen
+
 
 kurzer Blick auf Cheatsheat und Uebungen.
 kurzer Blick auf Notebookfinder.
+20'
 
 Recap 1: enumerate und zip, List-Komprehension, Files
 
@@ -26,7 +28,7 @@ sorted(names)
 
 # sortieren nach name[1] (name ist Tuple aus names)
 sorted(names, key=x[1])
-
+20'
 
 Mengen: Jedes Element nur einmal. Elemente ungeordnet.
         Kann rasch testen, ob Element in der Liste. Vorteil gegenueber Liste.
@@ -63,13 +65,25 @@ xs = {1, 2, 3}
 ys = {2, 3, 4}
 set(x for x in xs if x in ys)  # in x in xs und ys
 =======
+45'
 
 Dictionaries
 
 Nachteil von Listen: um bestimmtes Element herausgreifen zu koennen, muss man den Index kennen.
 Index finden kostet Zeit!
 
+speichere peek in modules/dict_tools.py
+20'
+
 Anwendungen Dict
+Uebersetzen
+Fallunterscheidung
+count_dict erstellen, oft nuetzlich zu wissen, und rasch abfragen zu koennen, wie oft ein Element vorkommt.
+Wurfbild feststellen.
+
+3 in count_dict.values() and 1 in count_dict.values()
+values = list(count_dict.values())
+3 in values and 1 in values
 
 def is_triple(wurf):
     count_dict = make_count_dict(wurf)
@@ -81,10 +95,13 @@ def is_two_pairs(wurf):
     values = list(count_dict.values())
     return len(wurf) == 5 and values.count(2) == 2
 
+
+45'
+
 Recap 2: Nicht nur Recap: Aufgenommen, was im Notebook Ortschaften der Lektion 7 begonnen.
         Beispiele fuer Listencomprehension in Action.
         Praktisches Arbeiten mit einem Datensatz.
         Ein nicht praezise formuliertes Problem loesen.
         So gut das eben moeglich ist.
 
-
+20'

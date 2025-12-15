@@ -7,8 +7,8 @@ def show(heaps):
        3) ****
     '''
     i = 0
-    for n in heaps:
-        stars = '*' * n
+    while i < len(heaps):
+        stars = '*' * heaps[i]
         print(f'{i+1}) {stars}')
         i = i + 1
 
@@ -30,5 +30,7 @@ def update_heaps(heaps, move):
     '''
     i = move[0]
     n = move[1]
-    n_new = heaps[i] - n
-    heaps[i] = max(0, n_new)
+    if heaps[i] > n:
+        heaps[i] = heaps[i] - n
+    else:
+        heaps[i] = 0

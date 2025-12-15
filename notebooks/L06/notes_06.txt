@@ -1,7 +1,7 @@
 Recap:
 Index und Slicenotation:
 Mit while Schleifen, machen Fkt einfacher mit FOr-Schleifen.
-In String suchen und String spliten, kann der Strng selber,
+In String suchen und String spliten, kann der String selber,
 Gibt sogenante Stringmethoden fuer diesen Zweck!
 
 2 Tricks, die wir kennengelernt haben und oft gebraucht werden:
@@ -22,7 +22,6 @@ Review Whileschleifencode
 For-Schleifen und die range-Funktion, aus While-Schleifen ausbrechen.
 while Schleifen umschreiben.
 
-get_items: einfacher, find: Variante, Geschacksache, was einfacher.
 
 
 Nachtrag Funktionen, Signaturen, positionale Argumente und Keyword Argumente

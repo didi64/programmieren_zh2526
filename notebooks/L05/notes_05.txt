@@ -4,7 +4,7 @@ def scalarproduct(v, w):
 
 
 !Loesungen_04.ipynb! nochmals, Korrektur, for-Schleif statt While-Scheile
-bring in with extras: split_a_string_Loesung.ipynb split.py persons.txt 
+bring in with extras: split.py persons.txt 
 
 
 Tuple unpacking
@@ -47,6 +47,13 @@ def insert(s, i, t):
     return res
     
 10' in Raeume.
+show
+def delete(s, i, n):
+    return s[:i] + s[i+n:]
+
+
+def insert(s, i, t):
+    return s[:i] + t + s[i:]
 
 =======================================
 String splitten: allg. Vorgehen. Zuerst von Hand, dann mit Hilfsfunktionen.
@@ -117,7 +124,7 @@ def get_start(s):
     return i
 
 ------------
-
+Head-Tail und split
 Erklaere Idee:
 1. stelle benoetige Hilffunktionen bereit,
    implementiere While-Schleife, die oben im Text beschrieben ist.

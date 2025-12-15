@@ -45,3 +45,9 @@
 # Listcomprehension.ipynb: comprehension, list comprehension, listcomprehension,
 # Files.ipynb: File, file, open, 
 # Ortschaften_CH.ipynb: file, comprehension, list comprehension, zip,
+# @ L08
+# Anwendungen_Dict_I.ipynb: dict, 
+# Cheatsheet.ipynb: cheatsheet, 
+# Dicts.ipynb: dict,
+# Mengen.ipynb: set,
+# Sortieren_mit_Lambdaausdruecken.ipynb: sorted, lambda,
