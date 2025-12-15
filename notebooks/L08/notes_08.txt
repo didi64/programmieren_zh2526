@@ -71,12 +71,20 @@ Index finden kostet Zeit!
 
 Anwendungen Dict
 
+def is_triple(wurf):
+    count_dict = make_count_dict(wurf)
+    values = list(count_dict.values())
+    return len(wurf) == 5 and 3 in values and 1 in values
 
+def is_two_pairs(wurf):
+    count_dict = make_count_dict(wurf)
+    values = list(count_dict.values())
+    return len(wurf) == 5 and values.count(2) == 2
 
 Recap 2: Nicht nur Recap: Aufgenommen, was im Notebook Ortschaften der Lektion 7 begonnen.
         Beispiele fuer Listencomprehension in Action.
         Praktisches Arbeiten mit einem Datensatz.
-        Ein nicht praezisse formuliertes Problem loesen.
+        Ein nicht praezise formuliertes Problem loesen.
         So gut das eben moeglich ist.
 
 
