@@ -1,0 +1,22 @@
+TMUX
+https://www.youtube.com/watch?v=nTqu6w2wc68
+Was an der Pruefung kommt.
+
+Sharefolde: pin=2710
+spaeter
+Dict plus einige tyipsche Probleme, die man mit dicts loest
+
+Pruefungsaufgaben, Beispiele.
+Wie loesen.
+
+File oeffnen: Einkaeufe
+
+
+Einfache Funktionen,
+
+count dict mit Zufallsexperimente.
+
+Redo Dicts:
+cipher mit codecracker
+
+
