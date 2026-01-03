@@ -217,6 +217,11 @@ cid = int(fields[0])
 pids = tuple(int(n) for n in fields[1:])
 cid, pids
 
+# 3 cont.
+products = [pid_prodPrice[pid][0] for pid in set(pids)]
+products.sort()
+products
+
 # 4
 cid_pids = {}
 for line in lines[1:]:
@@ -272,11 +277,11 @@ while len(hand) < 5:
 tuple(hand)
 
 
-def get_hand(n=5):
+def get_hand(ncards=5):
     hand = set()
     n = len(deck)
 
-    while len(hand) < 5:
+    while len(hand) < ncards:
         i = randint(1, n)
         card = deck[i-1]
         hand.add(card)
