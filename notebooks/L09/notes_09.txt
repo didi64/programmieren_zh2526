@@ -2,21 +2,126 @@ TMUX
 https://www.youtube.com/watch?v=nTqu6w2wc68
 Was an der Pruefung kommt.
 
-Sharefolde: pin=2710
-spaeter
-Dict plus einige tyipsche Probleme, die man mit dicts loest
+Sharefolder einrichten: pin=2710
+Werden Sharefolder aur Pruefungsabgabe nutzen!
 
-Pruefungsaufgaben, Beispiele.
-Wie loesen.
+Pruefungstoff: was auf dem Cheatsheet der Lektion 8 zusammengefasst ist.
+Und insbesondere Aufgaben, die wir heute anschauen.
 
-File oeffnen: Einkaeufe
+Sortieren von Listen und Dicts:
+
+# 1
+sorted(words)
+
+# 2
+sorted(words, key=lambda x: x.upper())
+
+# 3
+sorted(words, key=lambda x: (x.upper(), x))
+
+# 4
+sorted(words, key=lambda x: (len(x), x.upper(), x))
+
+# 5 Hilfsfunktion
+def distance(v, w):
+    dist = ((w[0]-v[0])**2 + (w[1] - v[1])**2)**(1/2)
+    return dist
+
+# 5 Hilfsfunktion testen
+ursprung = (0, 0)
+for pt in points:
+    print(f'Abstand vom Ursprung: {distance(ursprung, pt)}')
+
+# 5
+[round(distance(ursprung, pt), 2) for pt in points]
+
+# 6
+ursprung = (0, 0)
+sorted(points, key=lambda pt: distance(ursprung, pt))
+
+# 7
+d = dict(zip(words, words_en))
+d
+
+# 8
+kv_pairs = sorted(d.items(), key=lambda x: x[1])
+dict(kv_pairs)
+
+# 9
+kv_pairs = sorted(d.items(), key=lambda x: (x[0].upper(), x))
+dict(kv_pairs)
+--------------------------------------------------
+
+File oeffnen, Dicts: Einkaeufe
+
+# 1a
+for pid, (product, price) in pid_prodPrice.items():
+    print(f'Produkt-ID: {pid}, Produktname: {product}, Preis: {price}')
+
+# 2
+filename = 'Einkaeufe.txt'
+with open(filename, mode='r') as f:
+    lines = [line.rstrip() for line in f]
+
+lines
+
+# 3
+line = lines[1]
+fields = line.split(',')
+fields
+
+# 3 cont.
+cid = int(fields[0])
+pids = tuple(int(n) for n in fields[1:])
+cid, pids
+
+# 4
+cid_pids = {}
+for line in lines[1:]:
+    fields = line.split(',')
+    cid = int(fields[0])
+    pids = tuple(int(n) for n in fields[1:])
+    cid_pids[cid] = pids
+
+cid_pids
+
+# 5
+cid_products = {}
+for cid, orders in cid_pids.items():
+    products = set(pid_prodPrice[n][0] for n in orders)
+    cid_products[cid] = sorted(products)
+
+cid_products
+
+# 6 cid_SummeDerPreise
+cid_total = {}
+for cid, pids in cid_pids.items():
+    prices = [pid_prodPrice[pid][1] for pid in pids]
+    total = sum(prices)
+    cid_total[cid] = total
+
+cid_total
+
+# 6 dict sortieren
+dict(sorted(cid_total.items(), key=lambda x: x[1], reverse=True))
 
 
-Einfache Funktionen,
+Loops
 
-count dict mit Zufallsexperimente.
-
-Redo Dicts:
-cipher mit codecracker
-
+1.  ```python
+    xs = [2, 6, 1, 4, 5]
+    minimum(xs)  # 1
+    ```
+1.  ```python
+    words = ['Sugus', 'rotor', 'foo']
+    find_palindroms(words)  # ['Sugus', 'rotor']
+    ```
+1.  ```python
+    s = ' foo  bar   baz  '
+    one_space_breaks(s)  # 'foo bar baz'
+    ```
+1.  ```python
+    xs = [2, 5, 10]
+    product(xs)  # 100
+    ```       
 
