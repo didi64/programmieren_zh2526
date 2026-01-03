@@ -8,6 +8,56 @@ Werden Sharefolder aur Pruefungsabgabe nutzen!
 Pruefungstoff: was auf dem Cheatsheet der Lektion 8 zusammengefasst ist.
 Und insbesondere Aufgaben, die wir heute anschauen.
 
+
+Stringmanipulationen:
+
+# 1
+s = 'halxlo'
+i = s.index('x')
+s[:i] + s[i+1:]
+
+
+# 2
+s = 'abcdefgh'
+s[::-1]
+
+# 3
+s = 'abcdefgh'
+i = 3
+
+sx = s[:i] + 'x' + s[i:]
+print(sx, sx[3])
+
+# 4a
+words = ['foo', 'bar', 'baz']
+', '.join(words)
+
+# 4b
+words = ['foo', 'bar', 'baz']
+
+s = ''
+for word in words:
+    s = s + word + ', '
+
+s[:-2]
+
+
+def find_palindroms(words):
+    '''gib eine Liste mit den Woertern in words
+       zurueck, die Palindrome sind.
+       Unterscheide nicht zw. Gross- und Kleinbuchstaben
+    '''
+    return [w for w in words if w.lower() == w.lower()[::-1]]
+
+
+def one_space_breaks(s):
+    '''entferne Whitespace am Anfang und Ende und
+       reduziere Whitespace zw. Woertern zu ' '
+    '''
+    parts = s.split()
+    return ' '.join(parts)
+
+
 Sortieren von Listen und Dicts:
 
 # 1
