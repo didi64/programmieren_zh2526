@@ -52,6 +52,98 @@ kv_pairs = sorted(d.items(), key=lambda x: (x[0].upper(), x))
 dict(kv_pairs)
 --------------------------------------------------
 
+For-Schleifen:
+
+def minimum(xs):
+    '''gib die kleinste Zahl der Liste xs zurueck
+       ohne die Funktion min zu benutzen.
+    '''
+    m = xs[0]
+    for x in xs[1:]:
+        if x < m:
+            m = x
+    return m
+
+def product(xs):
+    '''berechne das Produkt aller Zahlen in der Liste xs'''
+    product = 1
+    for x in xs:
+        product = product * x
+    return product
+
+While-Schleifen:
+
+# Menge
+numbers = set()
+
+while len(numbers) < 5:
+    number = randint(0, 9)
+    numbers.add(number)
+
+numbers
+
+# Liste
+numbers = []
+
+while len(numbers) < 5:
+    number = randint(1, 9)
+    if number not in numbers:
+        numbers.append(number)
+
+numbers
+
+# Tuple
+numbers = ()
+
+while len(numbers) < 5:
+    number = randint(1, 9)
+    if number not in numbers:
+        numbers = numbers + (number,)
+
+numbers
+
+---------------------
+
+Count-dict
+
+# 1
+d = {}
+ziffern = '0123456789'
+
+while 3 not in d.values():
+    answer = input('Ziffer:')
+    if len(answer) == 1 and answer in ziffern:
+        d[answer] = d.get(answer, 0) + 1
+
+d
+
+
+# 2
+for k, v in d.items():
+    if v == 3:
+        print(f'Die Ziffer {k} wurde 3 Mal eingegeben.')
+        break
+
+# 3
+sum(d.values())
+
+# 4
+total = 0
+for v in d.values():
+    total = total + v
+
+total
+
+# 5
+total = 0
+for k, v in d.items():
+    total = total + int(k)*v
+
+print('Durchschnitt:', total/len(d))
+
+-------------------------------------
+
+
 File oeffnen, Dicts: Einkaeufe
 
 # 1a
