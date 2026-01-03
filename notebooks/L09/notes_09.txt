@@ -250,5 +250,62 @@ dict(sorted(cid_total.items(), key=lambda x: x[1], reverse=True))
 
 Pokerhaende
 
+# Deck mit allen 52 Karten
+deck = [rank+suit for suit in SUITS for rank in RANKS]
+deck[:3] + deck[-3:]
+
+# zufaellige Karte
+n = len(deck)
+i = randint(0, n-1)
+card = deck[i]
+card
+
+# zufaellige Hand
+hand = set()
+n = len(deck)
+
+while len(hand) < 5:
+    i = randint(0, n-1)
+    card = deck[i]
+    hand.add(card)
+
+tuple(hand)
 
 
+def get_hand(n=5):
+    hand = set()
+    n = len(deck)
+
+    while len(hand) < 5:
+        i = randint(1, n)
+        card = deck[i-1]
+        hand.add(card)
+
+    return tuple(hand)
+
+# Ranks
+hand = ('J♥', 'Q♣', '7♠', '6♣', 'Q♦')
+ranks = [card[0] for card in hand]
+ranks
+
+# RANK_IDX dict
+RANK_IDX = {rank: i for i, rank in enumerate(RANKS)}
+RANK_IDX
+
+ranks_sorted = sorted(ranks, key=lambda x: RANK_IDX[x])
+ranks_sorted
+
+# als String
+''.join(ranks_sorted)
+
+
+def get_ranks_sorted(hand):
+    ranks = [card[0] for card in hand]
+    ranks_sorted = sorted(ranks, key=lambda x: RANK_IDX[x])
+    return ''.join(ranks_sorted)
+
+hand = ('K♦', '6♦', 'A♦', '8♥', 'Q♠')
+ranks = get_ranks_sorted(hand)
+# suits = ''.join(card[1] for card in hand)
+# print(f'hand {hand}, ranks: {ranks}, suits: {suits}')
+print(f'hand {hand}, ranks: {ranks}')
