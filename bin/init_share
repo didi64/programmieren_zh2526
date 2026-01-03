@@ -30,5 +30,5 @@ git -C ${share_dir}/.response config --local pull.rebase false
 
 mkdir -p ${share_dir}/response
 
-echo "Hast du diese Test-Nachricht bekommen\nLiebe Gruesse ${fname}" > ${share_dir}/q.txt
-sync_share
+# echo "Hast du diese Test-Nachricht bekommen\nLiebe Gruesse ${fname}" > ${share_dir}/q.txt
+# sync_share
