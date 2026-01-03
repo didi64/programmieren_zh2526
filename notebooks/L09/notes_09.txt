@@ -309,3 +309,75 @@ ranks = get_ranks_sorted(hand)
 # suits = ''.join(card[1] for card in hand)
 # print(f'hand {hand}, ranks: {ranks}, suits: {suits}')
 print(f'hand {hand}, ranks: {ranks}')
+
+
+# 1
+def is_flush(hand):
+    suits = set(card[1] for card in hand)
+    return len(suits) == 1
+
+
+def is_straight(hand):
+    ranks = get_ranks_sorted(hand)
+    return ranks == '2345A' or ranks in RANKS
+
+hands = [('A♠', '2♣', '3♦', '4♥', '5♦'),
+         ('6♥', '7♥', '8♦', '9♣', 'T♣'),
+         ('T♥', '7♥', '3♥', 'A♥', 'Q♥'),
+         ('T♥', 'J♥', 'J♣', 'T♦', 'J♠'),
+         ('K♦', '6♦', 'A♦', '8♥', 'Q♠'),
+         ]
+
+for hand in hands:
+    print(f'Hand: {hand}, Flush: {is_flush(hand)}, Straight: {is_straight(hand)}')
+
+
+def make_count_dict(items):
+    d = {}
+    for item in items:
+        d[item] = d.get(item, 0) + 1
+    return d
+
+
+# 2
+def is_fullhouse(hand):
+    ranks = get_ranks_sorted(hand)
+    d = make_count_dict(ranks)
+    return len(d) == 2 and 3 in d.values()
+
+
+for hand in hands:
+    print(f'Hand: {hand}, Fullhouse: {is_fullhouse(hand)}')
+
+# 3
+hand_name = {}
+for hand in hands:
+    if is_flush(hand):
+        hand_name[hand] = 'flush'
+    elif is_straight(hand):
+        hand_name[hand] = 'straight'
+    elif is_fullhouse(hand):
+        hand_name[hand] = 'fullhouse'
+    else:
+        hand_name[hand] = 'nothing'
+
+hand_name
+
+# 4
+N = 10_000
+
+n_straight = 0
+n_flush = 0
+n_fullhouse = 0
+
+for _ in range(N):
+    hand = get_hand()
+
+    if is_straight(hand):
+        n_straight = n_straight + 1
+    if is_flush(hand):
+        n_flush = n_flush + 1
+    if is_fullhouse(hand):
+        n_fullhouse = n_fullhouse + 1
+
+print(f'straights: {n_straight}, flushes: {n_flush}, fullhouses: {n_fullhouse}')
