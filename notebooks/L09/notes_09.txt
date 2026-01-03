@@ -248,22 +248,7 @@ cid_total
 dict(sorted(cid_total.items(), key=lambda x: x[1], reverse=True))
 
 
-Loops
+Pokerhaende
 
-1.  ```python
-    xs = [2, 6, 1, 4, 5]
-    minimum(xs)  # 1
-    ```
-1.  ```python
-    words = ['Sugus', 'rotor', 'foo']
-    find_palindroms(words)  # ['Sugus', 'rotor']
-    ```
-1.  ```python
-    s = ' foo  bar   baz  '
-    one_space_breaks(s)  # 'foo bar baz'
-    ```
-1.  ```python
-    xs = [2, 5, 10]
-    product(xs)  # 100
-    ```       
+
 
