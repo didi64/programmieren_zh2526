@@ -6,21 +6,28 @@ owner='dpro-prog2425zh'
 root="${HOME}/work"
 share_dir="${root}/share"
 
+
+root="/home/probst/Projects/JupyterNotebooks/programmieren_zh2526"
+share_dir="${root}/share"
+exceptions="${root}/data/doppelte_vornamen.txt"
+
 token=$(cat "$root/.token_share")
 user=$(cat "$root/.user")
 name=(${user//./ })
 fname=${name[0]}
 lname=${name[1]}
-# initials=$(printf %.1s "$fname")$(printf %.1s "$lname")
 
 if [[ -d "$share_dir" ]]; then
     echo "share folder already exists"
     exit 1
 fi
 
-#repo="${initials}_share" 
-repo="${fname}_share"
-
+if grep -q -F "$name" "$exceptions"; then
+    Lname=${lname^}
+    repo="${fname}${Lname:0:1}"_share
+else
+    repo="${fname}_share"
+fi
 
 git -C "$root" clone --recurse-submodules "https://${owner}:${token}@github.com/${owner}/${repo}.git" share
 git -C ${share_dir} config --local user.email "${user}@edu.teko.ch"
@@ -29,6 +36,3 @@ git -C ${share_dir}/.response switch main
 git -C ${share_dir}/.response config --local pull.rebase false
 
 mkdir -p ${share_dir}/response
-
-# echo "Hast du diese Test-Nachricht bekommen\nLiebe Gruesse ${fname}" > ${share_dir}/q.txt
-# sync_share
