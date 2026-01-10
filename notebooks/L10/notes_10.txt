@@ -1,0 +1,21 @@
+Teste Sharefolder pin=2710
+
+Sharefolder nochmals:
+Tobiase, Eialse und
+Alisir, Luxhan, Meriton, Partick, Russel
+
+Variadic Funktion
+-> print, betrachte Docstring!
+
+moves = [(2, 1), (0, 1), (0, 2), (2, 1), (1, 0), (2, 0), (2, 1),
+         (0, 1), (0, 2), (1, 2), (1, 0), (0, 2), (2, 1), (0, 1), (0, 2)]
+
+canvas.canvas.on_mouse_down(lambda x, y: moves_rev and move_disk(*moves_rev.pop()))
+
+
+def move_disk(src, dst):
+    # falls stacks[src] leer oder stacks[dst] leer oder Scheibenbed. verletzt, mache nichts
+    if not stacks[src] or (stacks[dst] and stacks[dst][-1] < stacks[src][-1]):
+        return
+    disk = stacks[src].pop()
+    stacks[dst].append(disk)
