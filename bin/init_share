@@ -5,11 +5,7 @@ set -euo pipefail
 owner='dpro-prog2425zh'
 root="${HOME}/work"
 share_dir="${root}/share"
-
-
-root="/home/probst/Projects/JupyterNotebooks/programmieren_zh2526"
-share_dir="${root}/share"
-exceptions="${root}/data/doppelte_vornamen.txt"
+exceptions="${root}/.src/data/doppelte_vornamen.txt"
 
 token=$(cat "$root/.token_share")
 user=$(cat "$root/.user")
