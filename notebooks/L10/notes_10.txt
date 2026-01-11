@@ -1,17 +1,25 @@
 Teste Sharefolder pin=2710
 
 Sharefolder nochmals:
-Tobiase, Eialse und
+Tobias, Eialse und
 Alisir, Luxhan, Meriton, Partick, Russel
+
+for name in $(cat repo_name_list.txt); do cp test.txt "${name}_response/."; done
+
+while read name; do cp test.txt "${name}_response/."; done < repo_name_list.txt
+
+cd extras
+.push_responses repo_name_list.txt
 
 Variadic Funktion
 -> print, betrachte Docstring!
 
+
 moves = [(2, 1), (0, 1), (0, 2), (2, 1), (1, 0), (2, 0), (2, 1),
          (0, 1), (0, 2), (1, 2), (1, 0), (0, 2), (2, 1), (0, 1), (0, 2)]
 
-canvas.canvas.on_mouse_down(lambda x, y: moves_rev and move_disk(*moves_rev.pop()))
-
+if not db.canvas._mouse_down_callbacks.callbacks:
+    db.canvas.on_mouse_down(lambda x, y: moves and move_disk(*moves.pop()))
 
 def move_disk(src, dst):
     # falls stacks[src] leer oder stacks[dst] leer oder Scheibenbed. verletzt, mache nichts
@@ -19,3 +27,59 @@ def move_disk(src, dst):
         return
     disk = stacks[src].pop()
     stacks[dst].append(disk)
+
+minus = 'l12;sblue;g100,100;dg200,100;'
+T = minus + 'uG-50,0;dG0,75;'
+div_sign = minus + 'fblue;ug150,125;C10;g150,75;C10;'
+
+colors = ['red', 'blue', 'yellow', 'teal', 'orange', 'pink']
+cmd = ''
+for color in colors:
+    cmd = cmd + f'f{color};R25,25;G{25}{0};'
+
+cmd
+
+# Deutschland
+width = 250
+height = 3/5*width
+
+x0 = (WIDTH-width)/2
+y0 = (HEIGHT-height)/2
+
+bar = f'R{width},{height/3};G0,{height/3};'
+read(f'g{x0},{y0};fblack;' + bar + 'fred;' + bar + 'fgold;' + bar)
+
+# Belgien
+width = 210
+height = 13/15*210
+
+x0 = (WIDTH-width)/2
+y0 = (HEIGHT-height)/2
+bar = f'R{width/3},{height};G{width/3},0;'
+read(f'g{x0},{y0};fblack;' + bar + 'fred;' + bar + 'fgold;' + bar)
+
+
+# Japan
+width = 250
+height = 3/5*width
+radius = 3/10*height
+
+x0 = (WIDTH-width)/2
+y0 = (HEIGHT-height)/2
+read(f'l2;g{x0},{y0};r{width},{height};fred;G{width/2},{height/2};C{radius};')
+
+
+# Schweiz
+size = 150
+x0 = (WIDTH-size)/2
+y0 = (HEIGHT-size)/2
+
+
+bw = 1/5*size  # bar width
+bh = 2/3*size
+
+rect = f'g{x0},{y0};R{size},{size};'
+h_bar = f'g{x0+(size-bw)/2},{y0+(size-bh)/2};R{bw},{bh};'
+v_bar = f'g{x0+(size-bh)/2},{y0+(size-bw)/2};R{bh},{bw};'
+
+read('fred;' + rect + 'fwhite;' + h_bar + v_bar)
