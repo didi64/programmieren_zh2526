@@ -1,19 +1,74 @@
-Teste Sharefolder pin=2710
+Falls update fails: $ get_src
 
-Sharefolder nochmals:
+Sharefolder pin=2710
+
 Tobias, Eialse und
 Alisir, Luxhan, Meriton, Partick, Russel
 
 for name in $(cat repo_name_list.txt); do cp test.txt "${name}_response/."; done
-
 while read name; do cp test.txt "${name}_response/."; done < repo_name_list.txt
 
 cd extras
 .push_responses repo_name_list.txt
 
 Variadic Funktion
--> print, betrachte Docstring!
+Bsp.: print, mache Beispiele
+betrachte Docstring! Liefert Hinweis, wie man solche Funktionen definieren kann!
 
+Werden heute noch Anwendungsbeispiele sehen.
+Wenn viele Argumente uebergeben werden muessen,
+kann man diese mit Hilfe eines dicts uebergeben.
+----------------
+30'
+
+
+Automaten: 
+Da klinkt mit Automatisierung.
+Automat: wird verwendet zur steuerung eines Geraetes.
+z.B 3d Drucker wird gesteuert mit g-Codes. Kann Duese platzieren, Filament heizen, ...
+
+Automat: nimmt Befehl entgegen, und gibt diesen an Geraet weiter.
+
+Statt 3d Drucker, ein simuliertes Zeichnungsgeraet steuern.
+Auf aehnliche Weise werden wird spaeter graphischen Output erzeugen.
+Ohne den expliziten Gebrauch eines Automaten.
+Werden direkt mit dem Leinwand (dem Zeichnugsgeraet kommunizieren).
+
+-> Oeffne Notebook.
+
+Dann Zeichnugsgeraet I
+
+Deuschland und Japan gemeinsam?
+
+# Deuschland
+width = 250
+height = 3/5*width
+
+x0 = (WIDTH-width)/2
+y0 = (HEIGHT-height)/2
+
+bar = f'R{width},{height/3};G0,{height/3};'
+flagge_de = f'g{x0},{y0};fblack;' + bar + 'fred;' + bar + 'fgold;' + bar
+flagge_de
+
+db = read(flagge_de)
+db 
+
+# Japan
+width = 250
+height = 3/5*width
+radius = 3/10*height
+
+x0 = (WIDTH-width)/2
+y0 = (HEIGHT-height)/2
+
+japan = f'l2;g{x0},{y0};r{width},{height};fred;G{width/2},{height/2};C{radius};'
+japan 
+
+read(japan)
+
+
+---
 
 moves = [(2, 1), (0, 1), (0, 2), (2, 1), (1, 0), (2, 0), (2, 1),
          (0, 1), (0, 2), (1, 2), (1, 0), (0, 2), (2, 1), (0, 1), (0, 2)]
