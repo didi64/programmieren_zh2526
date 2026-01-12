@@ -35,15 +35,16 @@ Automat: nimmt Befehl entgegen, und gibt diesen an Geraet weiter.
 Statt 3d Drucker, ein simuliertes Zeichnungsgeraet steuern.
 Auf aehnliche Weise werden wird spaeter graphischen Output erzeugen.
 Ohne den expliziten Gebrauch eines Automaten.
-Werden direkt mit dem Leinwand (dem Zeichnugsgeraet kommunizieren).
+Werden direkt mit dem Leinwand (dem Zeichnungsgeraet kommunizieren).
 
 -> Oeffne Notebook.
 
-Dann Zeichnugsgeraet I
+
+Dann Zeichnungsgeraet I
 
 Deuschland und Japan gemeinsam?
 
-# Deuschland
+# Deutschland
 width = 250
 height = 3/5*width
 
@@ -69,6 +70,32 @@ japan = f'l2;g{x0},{y0};r{width},{height};fred;G{width/2},{height/2};C{radius};'
 japan 
 
 read(japan)
+---
+Zeichnungsgeraet 2
+# Aufgaben die mir gemeinsam loesen.
+1. Schachbrett zeichnen, (mit conifg)
+2. Stein setzen (Kreis zeichnen)
+3. loeschen (Feld ueberschreiben, Rechteck zeichnen)
+
+
+Aufgaben zum selber loesen.
+Schachbrett -> Gitter
+Stein setzen (Kreis zeichnen)
+Feld ueberschreiben -> Rechteck loeschen 
+  (beachte Linienbreite
+   linke obere Ecke (x und y Koord: subtrahiere halbe Linienbreite)
+                     Rechteck dx-Linienbreite, dy-Linienbreite
+
+
+
+Hanoi:
+
+Scheibenstapel zeichen (Scheibe -> Rechteck)
+
+----
+Canvas Intro:
+
+
 
 
 ---
@@ -85,6 +112,10 @@ def move_disk(src, dst):
         return
     disk = stacks[src].pop()
     stacks[dst].append(disk)
+
+
+-----
+
 
 minus = 'l12;sblue;g100,100;dg200,100;'
 T = minus + 'uG-50,0;dG0,75;'
@@ -141,3 +172,19 @@ h_bar = f'g{x0+(size-bw)/2},{y0+(size-bh)/2};R{bw},{bh};'
 v_bar = f'g{x0+(size-bh)/2},{y0+(size-bw)/2};R{bh},{bw};'
 
 read('fred;' + rect + 'fwhite;' + h_bar + v_bar)
+
+
+----------------
+def get_color(col, row, colors):
+    idx = (row+col) % 2
+    return colors[idx]
+
+
+def make_chessboard_cmd(position, width, height, n, colors):
+    x0, y0 = position
+    dx, dy = width/n, height/n
+    for row in range(n):
+        for col in range(n):
+            color = get_color(col, row, colors)
+            canvas.fill_style = color
+            canvas.fill_rect(x0+col*dx, y0+row*dy, dx, dy)
