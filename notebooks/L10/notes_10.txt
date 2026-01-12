@@ -1,3 +1,6 @@
+update Cheatsheet.ipynb?
+Canvas_Intro.ipynb mit update -e
+
 Falls update fails: $ get_src
 
 Sharefolder pin=2710
