@@ -5,7 +5,7 @@ Falls update fails: $ get_src
 
 Sharefolder pin=2710
 
-Tobias, Eialse und
+Tobias, Elias und
 Alisir, Luxhan, Meriton, Partick, Russel
 
 for name in $(cat repo_name_list.txt); do cp test.txt "${name}_response/."; done
@@ -13,6 +13,15 @@ while read name; do cp test.txt "${name}_response/."; done < repo_name_list.txt
 
 cd extras
 .push_responses repo_name_list.txt
+
+Intro + Variadic Funktion: 30', Automat 20', ZG I: 15' plus 30 Min for Flaggen
+Pause
+ZG 2 20'
+ZG_AUfgaben 30'
+Hanoi 15'
+
+------------------------------
+
 
 Variadic Funktion
 Bsp.: print, mache Beispiele
