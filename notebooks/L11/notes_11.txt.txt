@@ -1,0 +1,7 @@
+Pruefung:
+update -e
+Erklaere Abgabe, und import loesungen
+
+Dann:
+update 11
+Wiederhole Canvas_Intro.ipynb
