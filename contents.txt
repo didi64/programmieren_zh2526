@@ -9,7 +9,7 @@
 8:Anwendungen_Dict_I.ipynb Cheatsheet.ipynb Dicts.ipynb Loesungen_08.ipynb Mengen.ipynb notebookfinder.ipynb Recap_07_II.ipynb recap_07_II.py Recap_07_I.ipynb Sortieren_mit_Lambdaausdruecken.ipynb Uebungen
 9:Count_dict.ipynb Einkaeufe.txt Einkaeufe.ipynb Loesungen_09 Schleifen.ipynb ShareFolder.ipynb Sortieren.ipynb Stringmanipulationen.ipynb Pruefung_Info.ipynb
 10:Variadische_Funktionen.ipynb Automaten.ipynb Zeichnungsgeraet_I.ipynb Zeichnungsgeraet_II.ipynb Zeichnungsgeraet_Aufgaben.ipynb Tuerme_von_Hanoi.ipynb Loesungen_10
-11:Canvas_Intro.ipynb Canvas_Intro_A.ipynb
+11:Canvas_Intro.ipynb Canvas_Events.ipynb Output_Widget.ipynb Drawing_App.ipynb Loesungen_11  
 #
 99:
 # update -e is update 999

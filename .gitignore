@@ -8,5 +8,5 @@ __pycache__/
 .*
 !.gitignore
 !.keep
-!./modules/loesungen.pyc
+!modules/loesungen.pyc
 

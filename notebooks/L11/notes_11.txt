@@ -1,0 +1,89 @@
+Pruefung:
+update -e
+Erklaere Abgabe, und import loesungen
+
+Dann:
+update 11
+Wiederhole Canvas_Intro.ipynb
+
+gemeinsam durch Canvas_Intro_A.ipynb
+
+# Leinwand erstellen
+canvas = Canvas(width=200, height=200, layout={'border': '1px solid black'})
+canvas
+
+# Schachbrett zeichnen
+colors = ('blue', 'grey')
+n = 8
+dx, dy = canvas.width / 8, canvas.height / 8
+
+for col in range(n):
+    for row in range(n):
+        color_idx = (col + row) % 2
+        color = colors[color_idx]
+        canvas.fill_style = color
+        canvas.fill_rect(col*dx, row*dy, dx, dy)
+
+
+# als Funktion
+def get_color(col, row, colors):
+    idx = (row+col) % 2
+    return colors[idx]
+
+
+def draw_chessboard_1(canvas, colors):
+    canvas.clear()
+    dx, dy = canvas.width / 8, canvas.height / 8
+    for col in range(8):
+        for row in range(8):
+            color = get_color(col, row, colors)
+            canvas.fill_style = color
+            canvas.fill_rect(col*dx, row*dy, dx, dy)
+
+
+def draw_chessboard(canvas, position, width, height, n, colors):
+    x0, y0 = position
+    dx, dy = width/n, height/n
+    for row in range(n):
+        for col in range(n):
+            color = get_color(col, row, colors)
+            canvas.fill_style = color
+            canvas.fill_rect(x0+col*dx, y0+row*dy, dx, dy)
+
+-show: place a stone
+x0, y0 = 20, 20
+dx, dy = 20, 20
+col, row = 3, 5
+canvas.fill_style = 'black'
+canvas.fill_circle(x0+(col+0.5)*dx, y0+(row+0.5)*dy, 5)
+
+- clear rect
+canvas.clear_rect(x0+col*dx, y0+row*dy, 20, 20)
+
+-remove stone
+
+canvas.fill_style = 'grey'
+canvas.fill_rect(x0+col*dx, y0+row*dy, 20, 20)
+-> siehe Loesungen
+===============
+
+Output-Widget: Fester fuer Text-Output
+-> Notebook + Aufgaben
+
+Canvas-Events: demonstriere, dass nur mit print gemachte Ausgaben der Callbacks nicht auf dem Bildschirm erscheinen.
+
+
+@out.capture()
+def on_key_down(key, *flags):
+    # print('Event: on_key_down, args:', key, *flags)
+
+    if key == 'c':
+        canvas.clear()
+    elif key in colors:
+        canvas.stroke_style = colors[key]
+    elif key in '123456789':
+        canvas.line_width = int(key)
+
+    font_size = get_fontsize(canvas)
+    canvas.clear_rect(0, 0, canvas.width, 1.5*font_size)
+    canvas.fill_text(key, 20, font_size)
