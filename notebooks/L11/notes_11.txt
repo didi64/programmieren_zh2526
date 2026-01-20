@@ -17,6 +17,10 @@ Wiederhole Canvas_Intro.ipynb
 
 gemeinsam durch Canvas_Intro_A.ipynb
 
+Loesung Permutation-Puzzle
+# rurrru rurrru r  (r: ArrowRight, u: ArrowUp)
+
+
 # Leinwand erstellen
 canvas = Canvas(width=200, height=200, layout={'border': '1px solid black'})
 canvas
