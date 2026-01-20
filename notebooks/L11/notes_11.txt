@@ -1,14 +1,11 @@
-token=$(cat ".token_musculus?")
-repo='JupyterNotebooks/Programmieren_2526'
-url="https://${didi64}:${token}@github.com/didi64/${repo}.git"
+token=$(cat ".token_musculus")
+repo='JupyterNotebooks'
+url="https://didi64:${token}@github.com/didi64/${repo}.git"
 git clone "https://${didi64}:${token}@github.com/didi64/${repo}.git" p26
 
-cp p26/notebooks/L11/*.ipynb *.txt ./src/notebooks/Pruefung_2026/.
+cp p26/Programmieren_2526/notebooks/L11/*.ipynb *.txt ./src/notebooks/Pruefung_2026/.
 
-cd .src
-git add Pruefung_2026
-git commit -m '.'
-git push
+extras/push
 
 Pruefung:
 update -e
