@@ -9,8 +9,8 @@
 8:Anwendungen_Dict_I.ipynb Cheatsheet.ipynb Dicts.ipynb Loesungen_08.ipynb Mengen.ipynb notebookfinder.ipynb Recap_07_II.ipynb recap_07_II.py Recap_07_I.ipynb Sortieren_mit_Lambdaausdruecken.ipynb Uebungen
 9:Count_dict.ipynb Einkaeufe.txt Einkaeufe.ipynb Loesungen_09 Schleifen.ipynb ShareFolder.ipynb Sortieren.ipynb Stringmanipulationen.ipynb Pruefung_Info.ipynb
 10:Variadische_Funktionen.ipynb Automaten.ipynb Zeichnungsgeraet_I.ipynb Zeichnungsgeraet_II.ipynb Zeichnungsgeraet_Aufgaben.ipynb Tuerme_von_Hanoi.ipynb Loesungen_10
-11:Canvas_Intro.ipynb Canvas_Events.ipynb Output_Widget.ipynb Loesungen_11  
+12:Pruefung_2026_A Canvas_Events_II.ipynb Canvas_Events_I.ipynb Canvas_Intro.ipynb canvas_tools.py Info_Projektarbeit.ipynb Loesungen_12 MultiCanvas.ipynb Output_Widget.ipynb Schiebespiel
 #
 99:
 # update -e is update 999
-999:Pruefung_2026
+999:

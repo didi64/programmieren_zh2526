@@ -1,4 +1,5 @@
-state = [1, 2, 3, 4, 5]
+SCRAMBLE = [2, 1, 3, 4, 5]
+state = []
 
 
 def update(event, data):
@@ -16,6 +17,6 @@ def rotate():
     update('rotate', state)
 
 
-def new_game(scramble=(2, 1, 3, 4, 5)):
-    state[:] = scramble
+def new_game():
+    state[:] = SCRAMBLE
     update('new_game', state)

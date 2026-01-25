@@ -1,0 +1,31 @@
+for f in $(ls); do cp ${f} ${f%.*}_copy.${f#*.}; done
+
+========================
+Info Projektarbeit:
+
+Pruefung: Was tun??
+
+Wie koennen wir auf Mausklicks und Tastendruecke hoeren und darauf reagieren?
+
+
+Canvas_Intro kurz 10'
+Multi-Canvas kurz 10'
+
+Klicken auf Leinwand. Wollen Etwas ausgeben. Wohin soll der Output gehen?
+In ein Output-Widget!
+
+Output Widget: 15'
+Auch Fehlermeldungen werden dorthin umgeleitet.
+Unumgaenglich zum Debuggen!
+
+Canvas-Events I  15'
+Canvas-Events II 15'
+
+=========
+Pause
+=========
+Schiebespiel: Spiellogik
+Schiebespiel_v1: Prototyp
+Schiebespiel_helpers: Wie Darstellung uns Steuerung unabhaenig von der Spiellogik entwickeln
+Schiebespiel_v2: Mit Darstellung und Tastensteuerung
+Schiebespiel_v3: Mit Maussteuerung
