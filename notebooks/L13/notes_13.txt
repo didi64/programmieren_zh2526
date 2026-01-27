@@ -1,0 +1,13 @@
+Lieber Patrick, lieber Tobias,
+
+ich habe euch wie besprochen noch eine Aufgabe geschreiben, die ihr mit
+
+$ update Aufgabe_Umfrage.ipynb
+
+im Jupyterlab Terminal herunterladen koennt.
+
+Eure Loesungen koennt ihr wir via share-Ordner zukommen lassen,
+bitte bis spaetestens am 13. 2.
+
+Beste Gruesse,
+Dieter
