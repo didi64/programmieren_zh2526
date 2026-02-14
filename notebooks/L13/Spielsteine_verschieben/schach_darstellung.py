@@ -18,9 +18,9 @@ def place_pieces(canvas, pps):
         canvas.fill_text(piece, x0+(col+0.5)*dx, y0+(row+1)*dy)
 
 
-def update(canvas, event, data):
+def update(canvas, event, **kwargs):
     if event == 'new_game':
         canvas.clear()
-        place_pieces(canvas, data)
+        place_pieces(canvas, kwargs['pieces'])
     if event == 'move':
-        place_pieces(canvas, data)
+        place_pieces(canvas, kwargs['pieces'])

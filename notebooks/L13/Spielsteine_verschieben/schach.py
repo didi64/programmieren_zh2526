@@ -1,9 +1,10 @@
 SPACE = ' '
 board = [[' ' for _ in range(8)] for _ in range(8)]
+state = {'ptm': 0}  # player to move
 
 
-def update(event, data):
-    print(f'event: {event}, data: {data}')
+def update(event, **kwargs):
+    print(f'event: {event}, kwargs: {kwargs}')
 
 
 def set_startpos():
@@ -25,24 +26,56 @@ def get_pieces():
     return pieces
 
 
-def get_cr(notation):
+def get_field(col, row):
+    return board[row][col]
+
+
+def set_field(col, row, value):
+    board[row][col] = value
+
+
+def ld2cr(notation):
+    '''Letter+Digit to (col, row)
+       e.g. 'a1' -> (0, 7)
+    '''
     c, n = notation
     row = 8 - int(n)
     col = ord(c) - 97
     return col, row
 
 
+def is_legal(src, target):
+    '''Zug ist legal, falls
+       - Figur auf Startfeld
+       - Spieler am Zug (Figursymbol ist klein fuer SPieler 1)
+       - keine eigene Figur wird geschlagen
+    '''
+    char_0 = get_field(*src)
+    char_1 = get_field(*target)
+    if char_0 == SPACE:
+        return False
+    if char_0.isupper() == state['ptm']:
+        return False
+    return char_1 == SPACE or char_1.islower() != char_0.islower()
+
+
 def move(src, target):
-    c0, r0 = get_cr(src)
-    c1, r1 = get_cr(target)
-    if board[r0][c0] == SPACE:
+    if not is_legal(src, target):
         return
-    piece = board[r0][c0]
-    board[r1][c1] = piece
-    board[r0][c0] = SPACE
-    update('move', ((SPACE, c0, r0), (piece, c1, r1)))
+    char = get_field(*src)
+    set_field(*target, char)
+    set_field(*src, SPACE)
+
+    ptm = 1 - state['ptm']
+    state['ptm'] = ptm  # Zugrecht weitergeben
+    update('move', pieces=((SPACE, *src), (char, *target)), ptm=ptm)
+
+
+def hmove(src, target):
+    move(ld2cr(src), ld2cr(target))
 
 
 def new_game():
     set_startpos()
-    update('new_game', get_pieces())
+    state['ptm'] = 0
+    update('new_game', pieces=get_pieces(), ptm=0)

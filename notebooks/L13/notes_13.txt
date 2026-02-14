@@ -87,3 +87,10 @@ Aufgabe der Controller-Komponente ist es,
 Benutzerinput (Mausklicks und Tastendrücke) entgegenzunehmen, diese zu interpretieren und dann die passenden Funktionen der Game-Komponente aufzurufen.
 
 
+def cr2ld(col, row):
+    '''(col, row) to letter+digit
+       e.g. (0, 7) -> 'a1'
+    '''
+    n = 8 - int(row)
+    c = chr(97+col)
+    return f'{c}{n}'

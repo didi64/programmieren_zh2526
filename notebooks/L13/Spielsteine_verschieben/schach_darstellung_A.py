@@ -2,6 +2,9 @@ import helpers as H
 
 
 BOARD_SPEC = (20, 20, 20, 20, 8, 8)
+MOVE_INDICASTOR = (190, 100, 6)
+color_player = {0: 'white', 1: 'black'}
+
 
 piece_sybmol = {
     'K': '♔',
@@ -34,9 +37,19 @@ def place_pieces(canvas, pps):
         canvas.fill_text(symbol, x0+(col+0.5)*dx, y0+(row+1)*dy)
 
 
-def update(canvas, event, data):
+def show_ptm(canvas, ptm):
+    canvas.fill_style = color_player[ptm]
+    x, y, r = MOVE_INDICASTOR
+    canvas.stroke_circle(x, y, r)
+    canvas.fill_circle(x, y, r-1)
+    canvas.fill_style = 'black'
+
+
+def update(canvas, event, **kwargs):
     if event == 'new_game':
         canvas.clear()
-        place_pieces(canvas, data)
+        place_pieces(canvas, kwargs['pieces'])
+        show_ptm(canvas, kwargs['ptm'])
     if event == 'move':
-        place_pieces(canvas, data)
+        place_pieces(canvas, kwargs['pieces'])
+        show_ptm(canvas, kwargs['ptm'])
