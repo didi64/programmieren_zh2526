@@ -1,13 +1,89 @@
-Lieber Patrick, lieber Tobias,
+Pruefung zurueckgeben.
+Enes Formatierung ging verloren!
 
-ich habe euch wie besprochen noch eine Aufgabe geschreiben, die ihr mit
+Canvaswidgets, Callacks fuer Mausevents, Widgets
 
-$ update Aufgabe_Umfrage.ipynb
 
-im Jupyterlab Terminal herunterladen koennt.
+Einige_Widgets: letztes Mal mit update -e geholt, nun in L12.
 
-Eure Loesungen koennt ihr wir via share-Ordner zukommen lassen,
-bitte bis spaetestens am 13. 2.
+Drawing App mit Aufgaben:
+Betone: Punkte A und B. wo Maustaste gedrueckt bez. losgelassen wird.
 
-Beste Gruesse,
-Dieter
+Aufgaben
+1)
+  elif state['key_pressed'] == 'e':
+        bg.clear_rect(x0, y0, width, height)
+2)
+@out.capture()
+def on_mouse_move(x, y):
+    if state['mouse_down'] is None:
+        return
+
+    fg.clear()
+    x0, y0, width, height, radius = get_rect_and_circ(x, y)
+    fg.stroke_rect(x0, y0, width, height)
+    fg.stroke_circle(x0, y0, radius)
+    fg.stroke_lines([(x0, y0), (x, y)])
+
+mcanvas.on_mouse_move(on_mouse_move)
+3) 
+@out.capture()
+def on_mouse_out(x, y):
+    fg.clear()
+    state['mouse_down'] = None
+    state['key_down'] = None
+    print('values of state set to None')
+
+mcanvas.on_mouse_out(on_mouse_out)
+
+4)
+from ipywidgets import Output, Text
+
+state = {'mouse_down': None,
+         'key_pressed': None,
+         }
+
+
+out = ...
+eingabefeld = Text()
+
+display(mcanvas, eingabefeld, out)
+
+5)
+bg, fg = mcanvas
+bg.text_align = 'center'
+bg.text_baseline = 'middle'
+
+    elif state['key_pressed'] == 't' and eingabefeld.value:
+            bg.font = f'{abs(height)}px sans-serif'
+            bg.fill_text(eingabefeld.value, x0+width/2, y0+height/2, max_width=abs(width))
+            eingabefeld.value = ''
+    
+       
+========================
+1h
+
+Weise darauf hin, zeige kurz
+Text_alignment linecaps
+Bilder auf der Leinwand platzieren
+
+15'
+
+
+Schiebespiel:
+Repetition mit kleinen Verbesserungen.
+game update ueberschreiben, so dass sich game selber updatet.
+elaborate
+
+Spielsteine mit Maus greifen und verschieben
+
+'Strings werden'   ' automatisch zusammengefuegt'
+
+a) steine auf schachprett
+b) steine an festen Punkten
+
+### View und Controller (simple)
+Aufgabe der Controller-Komponente ist es,
+Benutzerinput (Mausklicks und Tastendrücke) entgegenzunehmen, diese zu interpretieren und dann die passenden Funktionen der Game-Komponente aufzurufen.
+
+
