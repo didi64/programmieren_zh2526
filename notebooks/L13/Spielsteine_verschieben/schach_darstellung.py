@@ -23,4 +23,4 @@ def update(canvas, event, **kwargs):
         canvas.clear()
         place_pieces(canvas, kwargs['pieces'])
     if event == 'move':
-        place_pieces(canvas, kwargs['pieces'])
+        place_pieces(canvas, kwargs['changes'])

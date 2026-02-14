@@ -94,3 +94,20 @@ def cr2ld(col, row):
     n = 8 - int(row)
     c = chr(97+col)
     return f'{c}{n}'
+
+
+# schach.update = lambda event, **kwargs: D.update(fg, event, **kwargs)
+piece_sybmol = {
+    'K': '♔',
+    'D': '♕',
+    'T': '♖',
+    'L': '♗',
+    'S': '♘',
+    'B': '♙',
+    'k': '♚',
+    'd': '♛',
+    't': '♜',
+    'l': '♝',
+    's': '♞',
+    'b': '♟',
+}

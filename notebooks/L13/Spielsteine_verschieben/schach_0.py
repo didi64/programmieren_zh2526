@@ -1,10 +1,5 @@
 SPACE = ' '
 board = [[' ' for _ in range(8)] for _ in range(8)]
-state = {'ptm': 0}  # player to move
-
-
-def update(event, **kwargs):
-    print(f'event: {event}, kwargs: {kwargs}')
 
 
 def set_startpos():
@@ -44,41 +39,18 @@ def ld2cr(notation):
     return col, row
 
 
-def is_legal(src, target):
-    '''Zug ist legal, falls
-       - Figur auf Startfeld
-       - Spieler am Zug (Figursymbol ist klein fuer SPieler 1)
-       - keine eigene Figur wird geschlagen
-    '''
-    char_0 = get_field(*src)
-    char_1 = get_field(*target)
-    if char_0 == SPACE:
-        return False
-    if char_0.isupper() == state['ptm']:
-        return False
-    return char_1 == SPACE or char_1.islower() != char_0.islower()
-
-
 def move(src, target):
-    if not is_legal(src, target):
-        return
     char = get_field(*src)
     set_field(*target, char)
     set_field(*src, SPACE)
 
-    ptm = 1 - state['ptm']
-    state['ptm'] = ptm  # Zugrecht weitergeben
-
-    pieces = ((SPACE, *src), (char, *target))
-    update('move', pieces=pieces, ptm=ptm)
-    return pieces
+    changes = ((SPACE, *src), (char, *target))
+    return changes
 
 
 def hmove(src, target):
-    move(ld2cr(src), ld2cr(target))
+    return move(ld2cr(src), ld2cr(target))
 
 
 def new_game():
     set_startpos()
-    state['ptm'] = 0
-    update('new_game', pieces=get_pieces(), ptm=0)
