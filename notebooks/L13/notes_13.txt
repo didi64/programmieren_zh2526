@@ -115,3 +115,6 @@ piece_sybmol = {
     's': '♞',
     'b': '♟',
 }
+
+Fixing schiebespiel:
+

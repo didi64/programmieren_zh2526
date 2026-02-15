@@ -9,7 +9,6 @@ def get_centers(x, y, r):
 
 
 def draw_bg(canvas, x, y, r):
-    canvas.clear()
     canvas.fill_text('Schiebespiel', 20, 20)
     canvas.stroke_style = 'blue'
     canvas.stroke_circle(x, y, r)
@@ -26,7 +25,7 @@ def draw_bg(canvas, x, y, r):
         canvas.stroke_circle(x, y, r1)
 
 
-def update_scramble(canvas, state, pts):
+def update(canvas, state, pts):
     canvas.clear()
     for i, n in enumerate(state):
         x, y = pts[i]
