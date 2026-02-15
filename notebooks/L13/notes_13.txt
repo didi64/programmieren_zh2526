@@ -70,6 +70,10 @@ Bilder auf der Leinwand platzieren
 15'
 
 
+schach_0 und schach_1 mit SChach_I:
+Konzept der Observables!
+
+
 Schiebespiel:
 Repetition mit kleinen Verbesserungen.
 game update ueberschreiben, so dass sich game selber updatet.
