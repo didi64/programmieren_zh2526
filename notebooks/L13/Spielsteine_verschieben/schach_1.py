@@ -15,6 +15,23 @@ def set_startpos():
     board[-1][:] = list('TSLDKLST')
 
 
+def get_field(col, row):
+    return board[row][col]
+
+
+def set_field(col, row, value):
+    board[row][col] = value
+
+
+def move(src, target):
+    char = get_field(*src)
+    set_field(*target, char)
+    set_field(*src, SPACE)
+
+    changes = ((SPACE, *src), (char, *target))
+    update('move', changes=changes)
+
+
 def get_pieces():
     pieces = []
     for row in range(8):
@@ -25,12 +42,7 @@ def get_pieces():
     return pieces
 
 
-def get_field(col, row):
-    return board[row][col]
 
-
-def set_field(col, row, value):
-    board[row][col] = value
 
 
 def ld2cr(notation):
@@ -43,13 +55,6 @@ def ld2cr(notation):
     return col, row
 
 
-def move(src, target):
-    char = get_field(*src)
-    set_field(*target, char)
-    set_field(*src, SPACE)
-
-    changes = ((SPACE, *src), (char, *target))
-    update('move', changes=changes)
 
 
 def hmove(src, target):
