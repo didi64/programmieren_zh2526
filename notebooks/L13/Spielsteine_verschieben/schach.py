@@ -16,32 +16,12 @@ def set_startpos():
     board[-1][:] = list('TSLDKLST')
 
 
-def get_pieces():
-    pieces = []
-    for row in range(8):
-        for col in range(8):
-            p = board[row][col]
-            if p != SPACE:
-                pieces.append((p, col, row))
-    return pieces
-
-
 def get_field(col, row):
     return board[row][col]
 
 
 def set_field(col, row, value):
     board[row][col] = value
-
-
-def ld2cr(notation):
-    '''Letter+Digit to (col, row)
-       e.g. 'a1' -> (0, 7)
-    '''
-    c, n = notation
-    row = 8 - int(n)
-    col = ord(c) - 97
-    return col, row
 
 
 def is_legal(src, target):
@@ -69,16 +49,36 @@ def move(src, target):
     ptm = 1 - state['ptm']
     state['ptm'] = ptm  # Zugrecht weitergeben
 
-    pieces = ((SPACE, *src), (char, *target))
-    update('move', pieces=pieces, ptm=ptm)
-    return pieces
-
-
-def hmove(src, target):
-    move(ld2cr(src), ld2cr(target))
+    changes = ((SPACE, *src), (char, *target))
+    update('move', changes=changes, ptm=ptm)
+    return changes
 
 
 def new_game():
     set_startpos()
     state['ptm'] = 0
     update('new_game', pieces=get_pieces(), ptm=0)
+
+
+def ld2cr(notation):
+    '''Letter+Digit to (col, row)
+       e.g. 'a1' -> (0, 7)
+    '''
+    c, n = notation
+    row = 8 - int(n)
+    col = ord(c) - 97
+    return col, row
+
+
+def hmove(src, target):
+    move(ld2cr(src), ld2cr(target))
+
+
+def get_pieces():
+    pieces = []
+    for row in range(8):
+        for col in range(8):
+            p = board[row][col]
+            if p != SPACE:
+                pieces.append((p, col, row))
+    return pieces
