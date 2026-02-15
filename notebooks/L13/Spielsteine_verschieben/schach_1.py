@@ -23,7 +23,7 @@ def set_field(col, row, value):
     board[row][col] = value
 
 
-def move(src, target):
+def raw_move(src, target):
     char = get_field(*src)
     set_field(*target, char)
     set_field(*src, SPACE)
@@ -34,7 +34,7 @@ def move(src, target):
 
 def new_game():
     set_startpos()
-    update('new_game', pieces=get_pieces())
+    update('new_game', changes=get_pieces())
 
 
 def ld2cr(notation):
@@ -47,8 +47,8 @@ def ld2cr(notation):
     return col, row
 
 
-def hmove(src, target):
-    move(ld2cr(src), ld2cr(target))
+def move(src, target):
+    raw_move(ld2cr(src), ld2cr(target))
 
 
 def get_pieces():

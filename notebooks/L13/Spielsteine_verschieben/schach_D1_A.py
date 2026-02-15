@@ -2,6 +2,9 @@ import helpers as H
 
 
 BOARD_SPEC = (20, 20, 20, 20, 8, 8)
+SYMBOLS = '♔♕♖♗♘♙♚♛♜♝♞♟'
+PIECES = 'KDTLSBkdtlsb'
+piece_symbol = dict(zip(PIECES, SYMBOLS))
 
 
 def draw_chessboard(canvas):
@@ -13,7 +16,8 @@ def apply_changes(canvas, changes):
     canvas.font = f'{dx}px sans-serif'
     canvas.text_align = 'center'
     canvas.text_baseline = 'ideographic'
-    for symbol, col, row in changes:
+    for piece, col, row in changes:
+        symbol = piece_symbol.get(piece, piece)
         canvas.clear_rect(x0+col*dx, y0+row*dy, dx, dy)
         canvas.fill_text(symbol, x0+(col+0.5)*dx, y0+(row+1)*dy)
 
@@ -21,6 +25,6 @@ def apply_changes(canvas, changes):
 def update(canvas, event, **kwargs):
     if event == 'new_game':
         canvas.clear()
-        place_pieces(canvas, kwargs['pieces'])
+        apply_changes(canvas, kwargs['changes'])
     if event == 'move':
-        place_pieces(canvas, kwargs['changes'])
+        apply_changes(canvas, kwargs['changes'])

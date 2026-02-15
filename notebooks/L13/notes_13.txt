@@ -1,6 +1,13 @@
 Pruefung zurueckgeben.
 Enes Formatierung ging verloren!
 
+Einige_Widgets letztes Mal mit update -e
+Nochmals fuer alle, loeschen oder nach L12 verschieben.
+---
+Bilder_Textalignment fuer Nachschalgezwecke: Zeige kurz Inhalt.
+- Bilder
+- Textalignment (Code irrelevant, do not open hidden cells!)
+
 Canvaswidgets, Callacks fuer Mausevents, Widgets
 
 
@@ -69,59 +76,155 @@ Bilder auf der Leinwand platzieren
 
 15'
 
+Pick_stones I
 
-schach_0 und schach_1 mit SChach_I:
-Konzept der Observables!
-
-
-Schiebespiel:
-Repetition mit kleinen Verbesserungen.
-game update ueberschreiben, so dass sich game selber updatet.
-elaborate
-
-Spielsteine mit Maus greifen und verschieben
-
-'Strings werden'   ' automatisch zusammengefuegt'
-
-a) steine auf schachprett
-b) steine an festen Punkten
-
-### View und Controller (simple)
-Aufgabe der Controller-Komponente ist es,
-Benutzerinput (Mausklicks und Tastendrücke) entgegenzunehmen, diese zu interpretieren und dann die passenden Funktionen der Game-Komponente aufzurufen.
+Aufgabe:
+1)
+from ipycanvas import Canvas
+import helpers as H
 
 
-def cr2ld(col, row):
-    '''(col, row) to letter+digit
-       e.g. (0, 7) -> 'a1'
-    '''
-    n = 8 - int(row)
-    c = chr(97+col)
-    return f'{c}{n}'
+layout = {'border': '1px solid black'}
+canvas = Canvas(width=200, height=200, layout=layout)
+
+canvas
+
+board_spec = (20, 20, 20, 20, 8, 8)
+H.draw_board(canvas, board_spec)
+
+2)
+pts = H.get_midpoints(board_spec)
+
+canvas.fill_style = 'black'
+for x, y in pts:
+    canvas.fill_circle(x, y, 2)
+
+3)
+from ipywidgets import Output
+from IPython.display import display
+
+out = Output(layout=layout)
+
+@out.capture(clear_output=True)
+def on_mouse_down(x, y):
+    i = H.get_closest((x, y), points)
+    col, row = H.xy2cr(x, y, board_spec)
+    print(f'Klickposition: {(round(x), round(y))}, '
+          f'Feld: ({col}, {row}), naechste Feldmitte {points[i]}')
 
 
-# schach.update = lambda event, **kwargs: D.update(fg, event, **kwargs)
-piece_sybmol = {
-    'K': '♔',
-    'D': '♕',
-    'T': '♖',
-    'L': '♗',
-    'S': '♘',
-    'B': '♙',
-    'k': '♚',
-    'd': '♛',
-    't': '♜',
-    'l': '♝',
-    's': '♞',
-    'b': '♟',
-}
+canvas.on_mouse_down(on_mouse_down)
+display(canvas, out)
 
-Fixing schiebespiel:
+==================
+
+schach_0
+
+Aufgaben: neues Notebook:
+import schach_0 as schach
+
+schach.board
+
+schach.set_startpos()
+schach.board
+
+schach.get_field(0, 0)
+
+schach.set_field(3, 4, 'X')
+schach.board
+==============
+zeige in Schach_I:
+
+schach.new_game()
+changes = schach.get_pieces()
+fg.clear()
+
+changes[:2] + changes[-2:]
+
+D.apply_changes(fg, changes)
+
+changes = schach.move('e2', 'e4')
+changes
+
+D.apply_changes(fg, changes)
+===========================
+
+Schach_II
+
+Weise darauf hin, wo selber update aufgerufen wird
+Aufgabe:
+Zeige was D1_A tut.
+Zeige was bereits passiert und was noch zu tun ist.
+
+
+
+Maussteuerung hinzufuegen:
+
+state = {'mouse_down': None}
+out = Output(layout=layout)
+@out.capture(clear_output=True)
+def on_mouse_down(x, y):
+    state['mouse_down'] = (x, y)
+    print(f'A (state[\'mouse_down\']) set to ({int(x)}, {int(y)})')
+
+
+@out.capture()
+def on_mouse_up(x, y):
+    target = H.xy2cr(x, y, D.BOARD_SPEC)
+    src = H.xy2cr(*state['mouse_down'], D.BOARD_SPEC)
+    schach.raw_move(src, target)
+    print(f'move from {src} to {target}')
+
+mcanvas.on_mouse_down(on_mouse_down)
+mcanvas.on_mouse_up(on_mouse_up)
+------
+
+
+====================
+Schiebespiel mit self-update Design:
+game.y -. game_1.py
+
++def update(event, **kwargs):
++    print(f'event: {event}, kwargs: {kwargs}')
+
+SCRAMBLE = [2, 1, 3, 4, 5]  # wird spaeter ev. zufaellig gewaehlt
+state = []  # Spielzustand wird hier gespeichert
+
+
+def new_game():
+    state[:] = SCRAMBLE
+    +update('new_game', state=state)
+
+def swap():
+    state[1], state[0] = state[0], state[1]
+    # state[4], state[2] = state[2], state[4]
+    +update('swap', state=state)
+
+def rotate():
+    state[1:] = state[-1:] + state[1:-1]
+    +update('rotate', state=state)
+
+vereinfachen: mit Einfachem- statt Doppeltausch
+
+in darstellung_2
+def update_1(canvas, pts, event, **kwargs):
+    update(canvas, kwargs['state'], pts)
+
+in Schiebespiel_v4:
+
+@out.capture(clear_output=True)
+def on_mouse_down(x, y):
+    print(f'mouse down: {(x, y)}')
+    idx = D.get_nearest_idx((x, y), nodes)
+    if idx == 0:
+        game.swap()
+    if idx == 3:
+        game.rotate()
+
 
 @out.capture(clear_output=True)
 def on_key_down(key, *flags):
     print(f'key pressed: {key}')
-   # state_old = game.state.copy()
     if key == 'ArrowUp':
         game.swap()
     if key == 'ArrowRight':
@@ -129,18 +232,6 @@ def on_key_down(key, *flags):
     if key == 'n':
         game.new_game()
 
-    # if game.state != state_old:
-    #     D.update(fg, game.state, nodes)
-
 
 mcanvas.on_key_down(on_key_down)
 mcanvas.on_mouse_down(on_mouse_down)
-
-
-D.draw_bg(bg, CENTER_X, CENTER_Y, RADIUS)
-
-game.update = lambda event, data: D.update(fg, data, nodes)
-game.new_game()
-# D.update(fg, game.state, nodes)
-
-display(mcanvas, out)

@@ -26,7 +26,7 @@ def draw_chessboard(canvas):
     H.draw_board(canvas, BOARD_SPEC)
 
 
-def place_pieces(canvas, pps):
+def apply_changes(canvas, pps):
     x0, y0, dx, dy, ncol, nrow = BOARD_SPEC
     canvas.font = f'{dx}px sans-serif'
     canvas.text_align = 'center'
@@ -48,8 +48,8 @@ def show_ptm(canvas, ptm):
 def update(canvas, event, **kwargs):
     if event == 'new_game':
         canvas.clear()
-        place_pieces(canvas, kwargs['pieces'])
+        apply_changes(canvas, kwargs['pieces'])
         show_ptm(canvas, kwargs['ptm'])
     if event == 'move':
-        place_pieces(canvas, kwargs['pieces'])
+        apply_changes(canvas, kwargs['changes'])
         show_ptm(canvas, kwargs['ptm'])
