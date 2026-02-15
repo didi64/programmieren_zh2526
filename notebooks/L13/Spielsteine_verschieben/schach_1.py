@@ -32,17 +32,9 @@ def move(src, target):
     update('move', changes=changes)
 
 
-def get_pieces():
-    pieces = []
-    for row in range(8):
-        for col in range(8):
-            p = board[row][col]
-            if p != SPACE:
-                pieces.append((p, col, row))
-    return pieces
-
-
-
+def new_game():
+    set_startpos()
+    update('new_game', pieces=get_pieces())
 
 
 def ld2cr(notation):
@@ -55,12 +47,15 @@ def ld2cr(notation):
     return col, row
 
 
-
-
 def hmove(src, target):
     move(ld2cr(src), ld2cr(target))
 
 
-def new_game():
-    set_startpos()
-    update('new_game', pieces=get_pieces())
+def get_pieces():
+    pieces = []
+    for row in range(8):
+        for col in range(8):
+            p = board[row][col]
+            if p != SPACE:
+                pieces.append((p, col, row))
+    return pieces
