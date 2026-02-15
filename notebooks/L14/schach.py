@@ -39,7 +39,7 @@ def is_legal(src, target):
     return char_1 == SPACE or char_1.islower() != char_0.islower()
 
 
-def move(src, target):
+def raw_move(src, target):
     if not is_legal(src, target):
         return
     char = get_field(*src)
@@ -57,7 +57,7 @@ def move(src, target):
 def new_game():
     set_startpos()
     state['ptm'] = 0
-    update('new_game', pieces=get_pieces(), ptm=0)
+    update('new_game', changes=get_pieces(), ptm=0)
 
 
 def ld2cr(notation):
@@ -70,8 +70,8 @@ def ld2cr(notation):
     return col, row
 
 
-def hmove(src, target):
-    move(ld2cr(src), ld2cr(target))
+def move(src, target):
+    raw_move(ld2cr(src), ld2cr(target))
 
 
 def get_pieces():
