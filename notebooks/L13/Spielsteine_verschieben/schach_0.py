@@ -19,6 +19,15 @@ def set_field(col, row, value):
     board[row][col] = value
 
 
+def move(src, target):
+    char = get_field(*src)
+    set_field(*target, char)
+    set_field(*src, SPACE)
+
+    changes = ((SPACE, *src), (char, *target))
+    return changes
+
+
 def get_pieces():
     pieces = []
     for row in range(8):
@@ -27,15 +36,6 @@ def get_pieces():
             if p != SPACE:
                 pieces.append((p, col, row))
     return pieces
-
-
-def move(src, target):
-    char = get_field(*src)
-    set_field(*target, char)
-    set_field(*src, SPACE)
-
-    changes = ((SPACE, *src), (char, *target))
-    return changes
 
 
 def ld2cr(notation):
