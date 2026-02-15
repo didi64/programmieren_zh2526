@@ -118,3 +118,29 @@ piece_sybmol = {
 
 Fixing schiebespiel:
 
+@out.capture(clear_output=True)
+def on_key_down(key, *flags):
+    print(f'key pressed: {key}')
+   # state_old = game.state.copy()
+    if key == 'ArrowUp':
+        game.swap()
+    if key == 'ArrowRight':
+        game.rotate()
+    if key == 'n':
+        game.new_game()
+
+    # if game.state != state_old:
+    #     D.update(fg, game.state, nodes)
+
+
+mcanvas.on_key_down(on_key_down)
+mcanvas.on_mouse_down(on_mouse_down)
+
+
+D.draw_bg(bg, CENTER_X, CENTER_Y, RADIUS)
+
+game.update = lambda event, data: D.update(fg, data, nodes)
+game.new_game()
+# D.update(fg, game.state, nodes)
+
+display(mcanvas, out)
