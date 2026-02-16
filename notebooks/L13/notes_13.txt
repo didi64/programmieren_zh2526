@@ -8,7 +8,7 @@ Bilder_Textalignment fuer Nachschalgezwecke: Zeige kurz Inhalt.
 - Bilder
 - Textalignment (Code irrelevant, do not open hidden cells!)
 
-Canvaswidgets, Callacks fuer Mausevents, Widgets
+Canvaswidgets, Callbacks fuer Mausevents, Widgets
 
 
 Einige_Widgets: letztes Mal mit update -e geholt, nun in L12.
@@ -71,6 +71,7 @@ bg.text_baseline = 'middle'
 1h
 
 Weise darauf hin, zeige kurz
+
 Text_alignment linecaps
 Bilder auf der Leinwand platzieren
 
