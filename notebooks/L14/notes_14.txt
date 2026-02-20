@@ -1,0 +1,24 @@
+
+Klassen
+Thread und Eventloop (nur kurz diskutiere ausfuehlicher, mit Leuten, die diese brauchen)
+
+
+
+button_new_game = Button(description='New Game')
+
+@out.capture()
+def new_game():
+    canvas.clear()
+    stop_event.clear()
+    event_queue.clear()
+    event_queue.insert(0, 'Right')
+    event_loop()
+    canvas.focus()
+
+
+canvas.on_key_down(on_key_down)
+button_stop.on_click(lambda bt: stop_event.set())
+button_new_game.on_click(lambda bt: new_game())
+
+display(canvas, button_stop, button_new_game, out)
+canvas.focus()  # Canvas Widget hoert auf Events, ohne das se zuerst angeklickt werden muss
