@@ -53,4 +53,3 @@ def move(dx, dy):
     if is_game_over():
         state['game_over'] = True
         update('game_over')
-        return
