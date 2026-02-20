@@ -1,16 +1,17 @@
-from ipywidgets import Output
 from ipycanvas import Canvas
 
 
 layout = {'border': '1px solid black'}
-out = Output(layout=layout)
 canvas = Canvas(width=100, height=100, layout=layout)
 
 state = {'pos': None}
 
 
-def grid2canvas(x, y, ncol, nrow):
-    return x*canvas.width/ncol, y*canvas.height/nrow
+def grid2canvas(col, row, ncol, nrow):
+    '''rechnet Gitterkoordinaten in Canvaskoordinaten um,
+       ncol und nrow sind Anzahl Spalten und Reihen des Gitters.
+    '''
+    return col*canvas.width/ncol, row*canvas.height/nrow
 
 
 def new_game(head, size):
