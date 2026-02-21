@@ -2,6 +2,13 @@ Game wie Snake:
 Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt wird,
 ebenso  bei Pong!
 
+
+Einsteigen mit Schach_II.ipynb
+
+einfacher Regelcheck, nicht eigene Figuren Schlagen, Springerzuege.
+
+
+
 Klassen
 Thread und Eventloop (nur kurz diskutiere ausfuehlicher, mit Leuten, die diese brauchen)
 
