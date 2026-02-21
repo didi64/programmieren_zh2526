@@ -9,13 +9,15 @@ event_queue = []
 
 def event_loop(last_event=None, count=0):
     if event_queue:
-        key = event_queue.pop()
+        direction = event_queue.pop()
     else:
-        key = last_event
+        direction = last_event
 
-    move(cmd)
+    if direction is not None:
+        dx, dy = direction
+        move(dx, dy)
 
     if not stop_event.is_set():
-        thread = threading.Timer(1, event_loop, args=(key, count+1))
+        thread = threading.Timer(0.3, event_loop, args=(direction, count+1))
         thread.name = f'Eventloop-{count}'
         thread.start()

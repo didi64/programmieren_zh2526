@@ -1,3 +1,6 @@
+Game wie Snake:
+Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt wird,
+ebenso  bei Pong!
 
 Klassen
 Thread und Eventloop (nur kurz diskutiere ausfuehlicher, mit Leuten, die diese brauchen)
