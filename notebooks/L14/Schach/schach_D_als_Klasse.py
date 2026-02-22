@@ -1,6 +1,7 @@
 import helpers as H
 from ipycanvas import MultiCanvas
 from ipywidgets import Button
+from IPython.display import display
 
 
 class View:
@@ -49,3 +50,6 @@ class View:
         if event == 'move':
             self.apply_changes(canvas, kwargs['changes'])
             self.show_ptm(canvas, kwargs['ptm'])
+
+    def _ipython_display_(self):
+        display(self.mcanvas, self.button)
