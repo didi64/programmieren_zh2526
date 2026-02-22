@@ -32,10 +32,69 @@ schach = Schach()
 
 Darstellung als Klasse:
 
+# import schach
+from schach_als_Klasse import Schach
+# import schach_D as D
+from schach_D_als_Klasse import View
+import helpers as H
+# from ipycanvas import MultiCanvas
+# from ipywidgets import Output, Button
+from ipywidgets import Output
+from IPython.display import display
 
 
+schach = Schach()
+view = View()
+
+# state = {'mouse_down': None}
+
+layout = {'border': '1px solid black'}
+out = Output(layout=layout)
+# button = Button(description='New Game')
+# mcanvas = MultiCanvas(2, width=200, height=200, layout=layout)
+# bg, fg = mcanvas
 
 
+@out.capture(clear_output=True)
+def on_mouse_down(x, y):
+    # state['mouse_down'] = (x, y)
+    view.mouse_down = (x, y)
+    # print(f'state[\'mouse_down\'] set to ({int(x)}, {int(y)})')
+    print(f'view.mouse_down set to ({int(x)}, {int(y)})')
+
+
+@out.capture()
+def on_mouse_up(x, y):
+    # target = H.xy2cr(x, y, D.BOARD_SPEC)
+    target = H.xy2cr(x, y, view.BOARD_SPEC)
+    # src = H.xy2cr(*state['mouse_down'], D.BOARD_SPEC)
+    src = H.xy2cr(*view.mouse_down, view.BOARD_SPEC)
+
+    schach.raw_move(src, target)
+    print(f'move from {src} to {target}')
+
+
+# D.draw_chessboard(bg)
+view.draw_chessboard(view.bg)
+
+# schach.update = lambda event, **kwargs: D.update(fg, event, **kwargs)
+schach.update = lambda event, **kwargs: view.update(view.fg, event, **kwargs)
+schach.new_game()
+
+# mcanvas.on_mouse_down(on_mouse_down)
+view.mcanvas.on_mouse_down(on_mouse_down)
+# mcanvas.on_mouse_up(on_mouse_up)
+view.mcanvas.on_mouse_up(on_mouse_up)
+
+# button = Button(description='New Game')
+# button.on_click(lambda _: schach.new_game())  # Argument ignorieren
+view.button.on_click(lambda _: schach.new_game())
+
+# display(mcanvas, button, out)
+display(view, out)
+
+
+========================
 Klassen
 Thread und Eventloop (nur kurz diskutiere ausfuehlicher, mit Leuten, die diese brauchen)
 
