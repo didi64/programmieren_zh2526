@@ -11,7 +11,7 @@
 10:Variadische_Funktionen.ipynb Automaten.ipynb Zeichnungsgeraet_I.ipynb Zeichnungsgeraet_II.ipynb Zeichnungsgeraet_Aufgaben.ipynb Tuerme_von_Hanoi.ipynb Loesungen_10
 12:Pruefung_2026_A Canvas_Events_II.ipynb Canvas_Events_I.ipynb Canvas_Intro.ipynb canvas_tools.py Info_Projektarbeit.ipynb Loesungen_12 MultiCanvas.ipynb Output_Widget.ipynb Schiebespiel Einige_Widgets.ipynb
 13: Drawing_App_A.ipynb Drawing_App.ipynb Einige_Widgets.ipynb Bilder_Textalignment_Linecaps Spielsteine_verschieben
-14:Eventloop Klassen Schach
+14:Klassen Schach
 #
 99:
 # update -e is update 999

@@ -1,3 +1,12 @@
+Projektskizzen:
+Tobias M: leer
+Thomas: Hangman. tastatur zuerst via Maus. Werden alle Buchstaben aufgedeckt?
+                 Ask AI fuer grosse Wotliste, wv. geornet nach Thema.
+
+Pruefungsextras Patrick? Test Fehlen, sonst alles ok?
+
+
+
 Game wie Snake:
 Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt wird,
 ebenso  bei Pong!
