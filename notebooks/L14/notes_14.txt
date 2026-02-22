@@ -3,7 +3,18 @@ Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt 
 ebenso  bei Pong!
 
 
-Einsteigen mit Schach_II.ipynb
+Einsteigen mit Schach_I.ipynb
+
+Neues Notebook:
+import schach_1 as schach
+
+schach.board
+
+schach.new_game()
+schach.board
+
+schach.raw_move((3, 6), (3, 4))
+schach.board
 
 einfacher Regelcheck, nicht eigene Figuren Schlagen, Springerzuege.
 
