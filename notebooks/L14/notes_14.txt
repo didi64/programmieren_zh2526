@@ -5,7 +5,7 @@ ebenso  bei Pong!
 
 Einsteigen mit Schach_I.ipynb
 
-Neues Notebook:
+Neues Notebook: Diskuss schach_1.py
 import schach_1 as schach
 
 schach.board
@@ -15,6 +15,13 @@ schach.board
 
 schach.raw_move((3, 6), (3, 4))
 schach.board
+
+Dann schach_D0.py
+und Rest von Schach_I.ipynb
+
+Dann Schach_II.ipynb
+
+
 
 einfacher Regelcheck, nicht eigene Figuren Schlagen, Springerzuege.
 
