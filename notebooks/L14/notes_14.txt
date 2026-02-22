@@ -19,11 +19,20 @@ schach.board
 Dann schach_D0.py
 und Rest von Schach_I.ipynb
 
-Dann Schach_II.ipynb
+Dann Schach_II.ipynb, Schach_II_A.ipynb
+
+Dann L14/Schach/schach_2.py
+
+Schreibe schach als Klasse: live, show Debugging
+Aenderungen in Schach.ipynb: nur diese 2 Zeilen!
+from schach_als_Klasse import Schach
+# import schach
+schach = Schach()
 
 
+Darstellung als Klasse:
 
-einfacher Regelcheck, nicht eigene Figuren Schlagen, Springerzuege.
+
 
 
 
