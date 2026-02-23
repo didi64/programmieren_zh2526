@@ -1,7 +1,161 @@
+add:
+hangman.py
+hangman_class.py
+hangman.ipynb
+
+as extras
+
+from IPython.display import display, Markdown
+
+
+display_widget = display(Markdown('foo'), display_id=True)
+display_widget.update(Markdown('bar'))
+=======================================
+Hangman:
+
+import random
+
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+words = ["HAUS", "BAUM", "WASSER", "SCHULE", "AUTO", "PROGRAMM", "TASTATUR", "BILDSCHIRM", "FENSTER", "GARTEN", "SONNE", "MOND", "STERNE", "HIMMEL"]
+
+state = {'f_count': 0,
+         'secret_word': None,
+         'letters_to_guess': None,
+         'guessed_letters': ''
+         }
+
+
+def update(event, **kwargs):
+    print(f'Event: {event}, kwargs: {kwargs}')
+
+
+def new_random_word(words):
+    secret_word = random.choice(words)
+    state['secret_word'] = secret_word
+    state['letters_to_guess'] = set(secret_word)
+
+
+def new_game():
+    new_random_word(words)
+    update('new_game', secret=state['secret_word'])
+
+
+def guess(c):
+    if c not in LETTERS:
+        return
+    if c in state['guessed_letters']:
+        return
+
+    if c not in state['secret_word']:
+        state['f_count'] += 1
+        update('wrong_guess', f_count=state['f_count'])
+        return
+
+    state['letters_to_guess'].remove(c)
+
+    # check if game over
+    # check if wort erraten
+
+    update('correct_guess', letter=c)
+
+---------------------
+new_game()
+guess('T')
+--> save to game.py
+-----------
+Darstellungskomponente:
+- Zeigt erratene Buchstaben des Wortes, Rest *
+- Zeichnet beim n. Fehler, den n.Teil des Hangmans auf die Leinwand.
+
+Leinwand hoert auf Tastendruecke und ruft guess(key) auf
+-----------
+import game
+from ipycanvas import Canvas
+from ipywidgets import Output
+from IPython.display import display
+
+
+layout = {'border': '1px solid black'}
+out = Output(layout=layout)
+canvas = Canvas(width=200, height=100, layout=layout)
+
+
+def update_view(event, **kwargs):
+    canvas.clear()
+    canvas.fill_text(f'{event}, {kwargs}', 10, 30)
+
+
+game.update = update_view
+canvas.on_key_down(on_key_down)
+
+
+display(canvas, out)
+------------
+Add Button:
+
+button = Button(description='New Game')
+
+display(canvas, button, out)
+----
+@out.capture(clear_output=True)
+def on_key_down(key, *flags):
+    print(key)
+    game.guess(key.upper())
+
+button.on_click(lambda bt: game.new_game())
+
+import random
+
+
+class Game:
+    LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    words = ["HAUS", "BAUM", "WASSER", "SCHULE", "AUTO", "PROGRAMM", "TASTATUR", "BILDSCHIRM", "FENSTER", "GARTEN", "SONNE",                 "MOND", "STERNE", "HIMMEL"]
+
+    def __init__(self):
+        self.f_count = 0
+        self.secret_word = None
+        self.letters_to_guess = None
+        self.guessed_letters = ''
+
+    def update(self, event, **kwargs):
+        print(f'Event: {event}, kwargs: {kwargs}')
+
+
+    def new_random_word(self, words):
+        secret_word = random.choice(self.words)
+        self.secret_word = secret_word
+        self.letters_to_guess = set(secret_word)
+
+    def new_game(self):
+        self.new_random_word(self.words)
+        self.update('new_game', secret=self.secret_word)
+
+
+    def guess(self, c):
+        if c not in self.LETTERS:
+            return
+        if c in self.guessed_letters:
+            return
+
+        if c not in self.secret_word:
+            self.f_count += 1
+            self.update('wrong_guess', f_count=self.f_count)
+            return
+
+        self.letters_to_guess.remove(c)
+
+        # check if game over
+        # check if wort erraten
+
+        self.update('correct_guess', letter=c)
+
+===================================================
+
 Projektskizzen:
 Tobias M: leer
+Andreas: wie kann sich spieler bewegen?
 Thomas: Hangman. Tastatur zuerst via Maus. Werden alle Buchstaben aufgedeckt?
-                 Ask AI fuer grosse Wotliste, wv. geornet nach Thema.
+                 Ask AI fuer grosse Wottliste, wv. geornet nach Thema.
 
 Pruefungsextras Patrick? Tests fehlen, sonst alles ok
 
@@ -28,7 +182,7 @@ Dann schach_D1.py
 und Schach_II_A.ipynb
 
 Dann L14/Schach/schach.py
-schpeichere wer am Zug.
+speichere wer am Zug.
 move gibt zugrecht weiter und prueft ein Teil der Regeln.
 
 neu: show_ptm
@@ -41,7 +195,7 @@ Klassen: z.B. String oder Canvas
 
 Thread und Eventloop (nur kurz erwaehnen, ausfuehlicher, mit Leuten, die diese brauchen)
 
-Schreibe schach als Klasse: live, show Debugging
+Schreibe schach als Klasse: live, show Debugging, nur schach.
 
 class Schach:
 
