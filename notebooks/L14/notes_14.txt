@@ -5,7 +5,13 @@ Thomas: Hangman. tastatur zuerst via Maus. Werden alle Buchstaben aufgedeckt?
 
 Pruefungsextras Patrick? Test Fehlen, sonst alles ok?
 
+class Schach:
 
+    SPACE = ' '
+
+    def __init__(self):
+        self.board = [[' ' for _ in range(8)] for _ in range(8)]
+        self.ptm = 0
 
 Game wie Snake:
 Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt wird,
