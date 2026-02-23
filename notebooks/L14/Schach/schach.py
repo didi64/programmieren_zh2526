@@ -31,7 +31,7 @@ def is_knight_move(src, target):
 def is_legal(src, target):
     '''Zug ist legal, falls
        - Figur auf Startfeld
-       - Spieler am Zug (Figursymbol ist klein fuer SPieler 1)
+       - Spieler am Zug (Figursymbol ist gross fuer Spieler 0, klein fuer Spieler 1)
        - keine eigene Figur wird geschlagen
        - Springer bewegt sich entsprechenden den Schachregeln
     '''
@@ -49,14 +49,16 @@ def is_legal(src, target):
 
 
 def raw_move(src, target):
+    # fuehre Zug nur aus, falls er regelkonform ist
     if not is_legal(src, target):
         return
+
     char = get_field(*src)
     set_field(*target, char)
     set_field(*src, SPACE)
 
-    ptm = 1 - state['ptm']
-    state['ptm'] = ptm  # Zugrecht weitergeben
+    ptm = 1 - state['ptm']  # Zugrecht weitergeben
+    state['ptm'] = ptm
 
     changes = ((SPACE, *src), (char, *target))
     update('move', changes=changes, ptm=ptm)

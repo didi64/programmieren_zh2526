@@ -1,24 +1,17 @@
 Projektskizzen:
 Tobias M: leer
-Thomas: Hangman. tastatur zuerst via Maus. Werden alle Buchstaben aufgedeckt?
+Thomas: Hangman. Tastatur zuerst via Maus. Werden alle Buchstaben aufgedeckt?
                  Ask AI fuer grosse Wotliste, wv. geornet nach Thema.
 
-Pruefungsextras Patrick? Test Fehlen, sonst alles ok?
-
-class Schach:
-
-    SPACE = ' '
-
-    def __init__(self):
-        self.board = [[' ' for _ in range(8)] for _ in range(8)]
-        self.ptm = 0
+Pruefungsextras Patrick? Tests fehlen, sonst alles ok
 
 Game wie Snake:
-Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt wird,
-ebenso  bei Pong!
+Erste Version nicht dynamisch, snake bewegt sich nur falls Pfeiltaste gedrueckt wird.
+======
 
+Allgemeiner Teil, dann Teamcalls zum besprechen der Projekte.
 
-Einsteigen mit Schach_I.ipynb
+Einsteigen mit L13/Spielsteine_verschieben/Schach_I.ipynb
 
 Neues Notebook: Diskuss schach_1.py
 import schach_1 as schach
@@ -31,18 +24,40 @@ schach.board
 schach.raw_move((3, 6), (3, 4))
 schach.board
 
-Dann schach_D0.py
-und Rest von Schach_I.ipynb
+Dann schach_D1.py
+und Schach_II_A.ipynb
 
-Dann Schach_II.ipynb, Schach_II_A.ipynb
+Dann L14/Schach/schach.py
+schpeichere wer am Zug.
+move gibt zugrecht weiter und prueft ein Teil der Regeln.
 
-Dann L14/Schach/schach_2.py
+neu: show_ptm
+update ruft nun auch show_ptm auf.
+
+===
+Klassen: z.B. String oder Canvas
+
+
+
+Thread und Eventloop (nur kurz erwaehnen, ausfuehlicher, mit Leuten, die diese brauchen)
 
 Schreibe schach als Klasse: live, show Debugging
+
+class Schach:
+
+    SPACE = ' '
+
+    def __init__(self):
+        self.board = [[' ' for _ in range(8)] for _ in range(8)]
+        self.ptm = 0
+
+
 Aenderungen in Schach.ipynb: nur diese 2 Zeilen!
 from schach_als_Klasse import Schach
 # import schach
 schach = Schach()
+
+
 
 
 Darstellung als Klasse:
@@ -111,25 +126,5 @@ display(view, out)
 
 ========================
 Klassen
-Thread und Eventloop (nur kurz diskutiere ausfuehlicher, mit Leuten, die diese brauchen)
+Thread und Eventloop (nur kurz erwaehnen, ausfuehlicher, mit Leuten, die diese brauchen)
 
-
-
-button_new_game = Button(description='New Game')
-
-@out.capture()
-def new_game():
-    canvas.clear()
-    stop_event.clear()
-    event_queue.clear()
-    event_queue.insert(0, 'Right')
-    event_loop()
-    canvas.focus()
-
-
-canvas.on_key_down(on_key_down)
-button_stop.on_click(lambda bt: stop_event.set())
-button_new_game.on_click(lambda bt: new_game())
-
-display(canvas, button_stop, button_new_game, out)
-canvas.focus()  # Canvas Widget hoert auf Events, ohne das se zuerst angeklickt werden muss
