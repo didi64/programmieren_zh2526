@@ -1,7 +1,7 @@
 import threading
 
 
-move = None  # ueberschreibe mit Funktion, die vom Eventloop aufgerufen wird 
+callback = None  # Funktion callback(*args), die vom Eventloop aufgerufen wird 
 
 stop_event = threading.Event()
 event_queue = []
@@ -14,8 +14,7 @@ def event_loop(last_event=None, count=0):
         direction = last_event
 
     if direction is not None:
-        dx, dy = direction
-        move(dx, dy)
+        callback(*direction)
 
     if not stop_event.is_set():
         thread = threading.Timer(0.3, event_loop, args=(direction, count+1))
