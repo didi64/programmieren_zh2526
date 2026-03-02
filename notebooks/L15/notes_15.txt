@@ -1,0 +1,15 @@
+Startwith Design:
+
+- Teste Spielkomponente
+- Teste Hilfsfunktionen
+- Teste update
+- Teste Prototyp
+
+====
+- Canvashold
+- H-und VBoxen
+- Errors
+- Hilfsfunktionen
+
+======
+Projekte besprechen
