@@ -13,3 +13,41 @@ Startwith Design:
 
 ======
 Projekte besprechen
+Thomas (Hangman)
+
+noch kein Thema (26.2.25) Attila, Alisir, Eias K (3)
+Talk next: Nico (Battleship), Elias S (Mesch aergere dich nicht) (2)
+
+TikTaks: Luxshan, Meriton, Engell (Battle!) (3)
+Minesweeper: Adam, Patrick (2)
+
+11
+
+Enes: Hanoi, noch SKizze
+Keri!  Pong (1 Player Breakout style) Threads spaeter, weiss noch nichts wegen Container update
+Rugero: 4-gewinnt do sync_share zusammen. Was ging jeweils schief?
+
+Ivan: Snake (Skizze)
+Simon: Mastermind,
+Tobias M: Blackjack
+
+Andreas: Memories Path
+Tobias G: Space-Invaders
+===========
+
+snake = [head-Position, ...]
+
+snake = [new_head]_pos + snake
+if nichts gegessen:
+    snake.pop()
+
+TikTak:
+compi_move(player, position):
+    '''player: X oder O
+       position: str der Laenge 9 mit X,O und Space
+       gibt Zug zurueck Zahl in (0,...,8)
+    '''
+    return position.index(' ')
+
+Rugero: do sync_share zusammen. Waas ging jeweils schief?
+
