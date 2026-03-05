@@ -16,9 +16,8 @@ state = {"max_versuche": None,
 
 def waehle_zielwort(woerter):
     """Wählt ein zufälliges Wort aus der Liste."""
-    # randint(a, b) liefert eine Zahl zwischen a und b (inklusive).
-    index = randint(0, len(woerter) - 1)  # Zufällige Position bestimmen
-    return woerter[index]  # Wort an dieser Position zurückgeben
+    index = randint(0, len(woerter) - 1)
+    return woerter[index]
 
 
 def berechne_feedback(versuch, zielwort):
@@ -28,8 +27,7 @@ def berechne_feedback(versuch, zielwort):
     Y = richtiger Buchstabe, falsche Position
     - = Buchstabe nicht vorhanden
     """
-    # Startwert: noch keine Treffer -> alles "-".
-    feedback = ["-"] * 5
+    feedback = ["-"] * 5  # Startwert: noch keine Treffer -> alles "-".
     rest_ziel = []  # Ziel-Buchstaben, die noch nicht "verbraucht" sind
 
     # Schritt 1: Exakte Treffer zuerst markieren
@@ -50,21 +48,24 @@ def berechne_feedback(versuch, zielwort):
             # Wichtig: nur ein Vorkommen entfernen (bei Doppelbuchstaben).
             rest_ziel.pop(rest_ziel.index(buchstabe))
 
-    return "".join(feedback)  # Liste wie ["G","-","Y",..] zu String machen
+    return "".join(feedback)
 
 
 def neues_spiel(n=6):
-    # Zustand komplett zurücksetzen.
+    'Zustand komplett zurücksetzen.'
     state["max_versuche"] = n
-    state["zielwort"] = waehle_zielwort(woerter)  # Neues Zielwort ziehen
-    state["versuch_nummer"] = 1  # Wieder bei Versuch 1 starten
-    state["spiel_aktiv"] = True  # Spiel wieder aktivieren
+    state["zielwort"] = waehle_zielwort(woerter)
+    state["versuch_nummer"] = 1
+    state["spiel_aktiv"] = True
     state["versuche"].clear()
     state["feedbacks"].clear()
 
-  
+
 def guess(versuch):
-    versuch = versuch.upper()[:5]
+    if len(versuch) != 5:
+        return
+
+    versuch = versuch.upper()
     feedback = berechne_feedback(versuch, state["zielwort"])
     state["versuche"].append(versuch)
     state["feedbacks"].append(feedback)
