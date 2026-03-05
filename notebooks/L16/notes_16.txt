@@ -1,0 +1,12 @@
+changes wordle
+
+47
+# canvas.fill_text(buchstabe, x + 15, y + 38) 
+canvas.fill_text(buchstabe, x + config["zell"]/2, y + config["zell"]/2)
+
+61
+# canvas.fill_text(config["titel"], 10, 28)  
+canvas.fill_text(config["titel"], config['breite']/2, config["top"]/2)  
+
+canvas.text_align = 'center'
+canvas.text_baseline = 'middle'
