@@ -19,7 +19,7 @@ def display_UI(max_versuche):
 
     @out.capture(clear_output=True)
     def on_text_change(change):
-        wort = change.get("new", "").strip().upper()
+        wort = change.new.upper()
         if wort and len(wort) != 5:
             print("Bitte genau 5 Buchstaben eingeben.")
             return

@@ -30,6 +30,7 @@ def _baue_config(max_versuche):
 
 
 def cr2xy(c, r, config):
+    '(col, row) im Buchstabengitter -> (x, y)'
     x = config["rand"] + c * (config["zell"] + config["abstand"])
     y = config["top"] + r * (config["zell"] + config["abstand"])
     return x, y
@@ -39,6 +40,7 @@ def draw_letter(canvas, config, buchstabe, c, r, feld_farbe):
     x, y = cr2xy(c, r, config)
     canvas.fill_style = feld_farbe
     canvas.fill_rect(x, y, config["zell"], config["zell"])
+
     canvas.fill_style = "#ffffff"
     canvas.font = "28px sans-serif"
     canvas.fill_text(buchstabe, x + 15, y + 38)
@@ -61,7 +63,6 @@ def zeichne_spielfeld(canvas, state, config):
                 symbol = feedback[c]
                 feld_farbe = farbe_fuer_symbol[symbol]
                 draw_letter(canvas, config, buchstabe, c, r, feld_farbe)
-
 
         buchstabe = ""
         feld_farbe = farbe_fuer_symbol[buchstabe]

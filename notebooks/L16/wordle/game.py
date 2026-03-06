@@ -20,9 +20,19 @@ def waehle_zielwort(woerter):
     return woerter[index]
 
 
+def neues_spiel(n=6):
+    'Zustand komplett zurücksetzen.'
+    state["max_versuche"] = n
+    state["zielwort"] = waehle_zielwort(woerter)
+    state["versuch_nummer"] = 1
+    state["spiel_aktiv"] = True
+    state["versuche"].clear()
+    state["feedbacks"].clear()
+
+
 def berechne_feedback(versuch, zielwort):
     """
-    Berechnet Wordle-Feedback:
+    liefert str der Form 'G--YY':
     G = richtiger Buchstabe, richtige Position
     Y = richtiger Buchstabe, falsche Position
     - = Buchstabe nicht vorhanden
@@ -51,22 +61,13 @@ def berechne_feedback(versuch, zielwort):
     return "".join(feedback)
 
 
-def neues_spiel(n=6):
-    'Zustand komplett zurücksetzen.'
-    state["max_versuche"] = n
-    state["zielwort"] = waehle_zielwort(woerter)
-    state["versuch_nummer"] = 1
-    state["spiel_aktiv"] = True
-    state["versuche"].clear()
-    state["feedbacks"].clear()
-
-
 def guess(versuch):
     if len(versuch) != 5:
         return
 
     versuch = versuch.upper()
     feedback = berechne_feedback(versuch, state["zielwort"])
+
     state["versuche"].append(versuch)
     state["feedbacks"].append(feedback)
 
@@ -80,4 +81,4 @@ def guess(versuch):
         print(f"Leider verloren. Das Wort war: {state['zielwort']}")
         return
 
-    state["versuch_nummer"] = state["versuch_nummer"] + 1
+    state["versuch_nummer"] += 1
