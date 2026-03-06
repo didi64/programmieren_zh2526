@@ -1,3 +1,18 @@
+keine Skizze:
+Alisir (4-gewinnt), 
+Atilla: (Memory)
+Enes: (Hanoi)
+
+wenig: 
+
+Engjell (TikTak)
+Ivan (Snake)
+
+
+Nachtrag Textwidget (vgl. einige_Widgets.ipynb L12/13)
+
+Nachtrag Eventloop (fuer Keri, Tobias G und Ivan).
+
 changes wordle
 
 47
