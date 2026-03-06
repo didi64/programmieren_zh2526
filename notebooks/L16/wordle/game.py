@@ -21,7 +21,7 @@ def waehle_zielwort(woerter):
 
 
 def neues_spiel(n=6):
-    'Zustand komplett zurücksetzen.'
+    'Initialisiert den Dict state'
     state["max_versuche"] = n
     state["zielwort"] = waehle_zielwort(woerter)
     state["versuch_nummer"] = 1

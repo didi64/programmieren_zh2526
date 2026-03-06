@@ -6,6 +6,9 @@ from ipycanvas import Canvas
 
 
 def display_UI(max_versuche):
+    '''Erstellt das User-Interface (Canvas, Eingabefeld, Button)
+       gibt den Dict config und das Leinwandobjekt zurueck
+    '''
     config = D._baue_config(max_versuche)  # Werte wie Breite/Höhe in Dict speichern
     canvas = Canvas(
         width=config["breite"],
