@@ -33,3 +33,30 @@ Thomas: in files aufsplitten, __repr__ fuer Klasse, sonst alles i.O.
 Nachtrag Eventloop (fuer Keri, Tobias G und Ivan).
 
 Rugero: reset(_=None) ??
+
+
+Keri:
+in Darstellung:
+
+def draw_obstacle(canvas, obstacle):
+    canvas.fill_style = 'red'
+    canvas.fill_rect(*obstacle)
+
+
+def draw_obstacles(canvas, obstacles):
+    canvas.clear()
+    for obstacle in obstacles:
+        draw_obstacle(canvas, obstacle)
+
+in game:
+
+obstacles = [(30, 20, 10, 10), (80, 0, 10, 10)]
+
+def check_obstacles(ball_x, ball_y):
+    hits = []
+    for obstacle in obstacles:
+        x, y, dx, dy = obstacle
+        if x <= ball_x <= x + dx and y <= ball_y <= y + dy:
+            hits.append(obstacle)
+    for obstacle in hits:
+        obstacles.remove(obstacle)

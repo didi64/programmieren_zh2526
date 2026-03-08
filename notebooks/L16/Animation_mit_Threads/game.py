@@ -30,10 +30,10 @@ def move_ball():
     if ball_y < 0:
         y_speed = -y_speed
 
-    if ball_y > HEIGHT - BALL_RADIUS:
+    if ball_y > HEIGHT - 2*BALL_RADIUS:
         y_speed = -y_speed
 
-    if ball_x > WIDTH - BALL_RADIUS:
+    if ball_x > WIDTH - 2*BALL_RADIUS:
         x_speed = -x_speed
 
     state['ball'] = (ball_x, ball_y)
