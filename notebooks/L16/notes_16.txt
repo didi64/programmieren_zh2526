@@ -36,6 +36,18 @@ Rugero: reset(_=None) ??
 
 
 Keri:
+ab Pad reflektieren:
+
+pad_y = state['pad_y']
+    if ball_x <= 6:
+        if pad_y <= ball_y <= pad_y + PAD_HEIGHT:
+            x_speed = -x_speed
+        else:
+            print('Game over')
+
+
+
+
 in Darstellung:
 
 def draw_obstacle(canvas, obstacle):
