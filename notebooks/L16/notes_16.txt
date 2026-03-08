@@ -3,15 +3,16 @@ Alisir (4-gewinnt),
 Atilla: (Memory)
 Enes: (Hanoi)
 
+Meriton: was genau willst du programmieren?
+
 wenig: 
 
 Engjell (TikTak)
 Ivan (Snake)
 
-
+Bem. zu shift-klick (Adam, ev. Patrick)
 Nachtrag Textwidget (vgl. einige_Widgets.ipynb L12/13)
-
-Nachtrag Eventloop (fuer Keri, Tobias G und Ivan).
+Feedback zu Elias K.'s Wordle.
 
 changes wordle
 
@@ -25,3 +26,10 @@ canvas.fill_text(config["titel"], config['breite']/2, config["top"]/2)
 
 canvas.text_align = 'center'
 canvas.text_baseline = 'middle'
+
+Thomas: in files aufsplitten, __repr__ fuer Klasse, sonst alles i.O.
+        ev. 2 Canvas layers
+
+Nachtrag Eventloop (fuer Keri, Tobias G und Ivan).
+
+Rugero: reset(_=None) ??
