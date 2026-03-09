@@ -14,6 +14,8 @@ Bem. zu shift-klick (Adam, ev. Patrick)
 pts = list(zip([left, right, left], [bottom, (top + bottom) / 2, top]))
 canvas.fill_polygon(pts)
 
+gamelogik in game.py ausgelagert, 
+ueberschreibe log und redraw, vorerst print was zu tun.
 
 Nachtrag Textwidget (vgl. einige_Widgets.ipynb L12/13)
 Feedback zu Elias K.'s Wordle.
@@ -36,8 +38,15 @@ Thomas: in files aufsplitten, __repr__ fuer Klasse, sonst alles i.O.
 
 Nachtrag Eventloop (fuer Keri, Tobias G und Ivan).
 
-Rugero: reset(_=None) ??
+keri:
+check if ball hits pad
+add obstacle, fix pad moving out,
+add end of game
+ev. player can score points if obstacles are hit?
 
+Rugero: reset(_=None) ??
+in Game und Darstellungsteil zerlegt.
+waehle beschreibende Variabelnamen.
 
 Keri: zeige wie reflektieren, wie Hindernisse abschiessen, wie
       besser zw. gameund View Kommunizieren.
