@@ -13,7 +13,7 @@
 13: Drawing_App_A.ipynb Drawing_App.ipynb Einige_Widgets.ipynb Bilder_Textalignment_Linecaps Spielsteine_verschieben
 14:Klassen Schach Eventloop
 15:Design Errors_and_Exception.ipynb HBox_und_VBox.ipynb Hilfsfunktionen.ipynb HoldCanvas.ipynb
-16: Animation_mit_Threads shift_click Textwidget.ipynb TikTakToe_Battle wordle
+16: Animation_mit_Threads shift_click Textwidget.ipynb TikTakToe_Battle wordle Pruefungsplan.ipynb
 #
 99: 
 # update -e is update 999

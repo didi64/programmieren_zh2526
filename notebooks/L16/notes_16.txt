@@ -1,3 +1,45 @@
+Pruefungsplan:
+
+5 pro abend/ total 4 Slots:
+
+18:00-18:15
+18:25-18:40
+18:40-18:55
+
+19:15-19:30
+19:40-19:55
+
+Di   Mi,  Do,  Fr
+17.3 18.3 19.3 20.3
+24.3 25.3 26.3 27.2 
+
+18:00- 18:10 Thomas (Hangman)
+18:10- 18:20 Rugero (4-gewinnt)
+18:20- 18:30 Alisir (4-gewinnt)
+18:30- 18:40 Adam (Minesweeper)
+18:40- 18:50 Patrick (Minesweeper)
+
+19:00- 19:10 Luxhan (TikTakToe)
+19:10- 19:20 Engell (TikTakToe)
+19:20- 19:30 Meriton(TikTakToe)
+19:30- 19:40 Andreas (Memories the Path)
+19:40- 19:50 Attila (Memory)
+
+20:00- 20:10 Elias K. (Wordle)
+20:10- 20:20 Simon (Mastermind)
+20:20- 20:30 Nico (Battleship)
+20:30- 20:40 Tobias M. (Blackjack)
+20:40- 20:50 Elias S. (Mensch aegere dich nicht)
+
+
+18:00- 18:10 Tobias Giger (Space_Invader)
+18:10- 18:20 Ivan (Snake)
+18:20- 18:30 Keri (Pong)
+18:30- 18:40 Enes (Tuerme von Hanoi)
+
+
+31.3  1.4  2.4 3.4
+
 keine Skizze:
 Alisir (4-gewinnt), 
 Atilla: (Memory)
