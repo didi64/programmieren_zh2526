@@ -4,7 +4,8 @@ def chessbord_dist(v, w):
 
 
 def xy2cr(x, y, board_spec):
-    '''konvertiere (x, y) in (column, row)'''
+    '''konvertiere (x, y) in (column, row)
+       returns None if (x,y) is not on the board'''
     x0, y0, dx, dy = board_spec[:4]
     col = int((x-x0) // dx)
     row = int((y-y0) // dy)
@@ -29,6 +30,14 @@ def get_midpoints(board_spec):
     '''
     x0, y0, dx, dy, ncol, nrow = board_spec
     return [(x0+(i+0.5)*dx, y0+(j+0.5)*dy) for i in range(ncol) for j in range(nrow)]
+
+
+def get_midpoint(col, row, board_spec):
+    '''liefert Feldmittelpunkten des Feldes (col, row) des Schachbretts 
+       mit der geg. board_spec
+    '''
+    x0, y0, dx, dy, ncol, nrow = board_spec
+    return (x0+(col+0.5)*dx, y0+(row+0.5)*dy)
 
 
 def draw_board(canvas, board_spec, colors=('grey', 'blue')):
