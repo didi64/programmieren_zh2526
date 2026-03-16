@@ -14,6 +14,7 @@
 14:Klassen Schach Eventloop
 15:Design Errors_and_Exception.ipynb HBox_und_VBox.ipynb Hilfsfunktionen.ipynb HoldCanvas.ipynb
 16: Animation_mit_Threads shift_click Textwidget.ipynb TikTakToe_Battle wordle Pruefungsplan.ipynb
+17:Plan_Fachgespraeche.ipynb Zugang_Unterrichtsbeurteilung.ipynb
 #
 99: 
 # update -e is update 999
