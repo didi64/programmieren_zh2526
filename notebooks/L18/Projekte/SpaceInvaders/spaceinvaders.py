@@ -603,7 +603,7 @@ def event_loop():
         draw_init_screen()
 
     elif game_state == 'playing':
-        anim_thread = threading.Timer(0.05, event_loop)
+        anim_thread = threading.Timer(0.1, event_loop)
         anim_thread.name = 'MyThread'
         anim_thread.start()
 
