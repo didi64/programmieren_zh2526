@@ -186,9 +186,9 @@ def update_view(event, **kwargs):
         canvas.fill_text("VERLOREN!", 80, 40)
     if event == "won":
         canvas.font = "40px Arial"
-        canvas.fill_style = "red"
+        canvas.fill_style = "blue"
         canvas.fill_text("GEWONNEN!", 80, 40)
-        
+
 
 
     if hangman.secret_word is None:

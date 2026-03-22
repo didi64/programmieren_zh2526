@@ -61,13 +61,13 @@ def spawn_food():
     state['food'] = random_free_cell()
 
 
-def new_game(n=20, highscore_file='highscore.txt'):
+def new_game(n=20, delay=0.16, highscore_file='highscore.txt'):
     """Startet ein neues Spiel."""
     state['n'] = n
     state['running'] = False
     state['game_over'] = False
     state['score'] = 0
-    state['tick_seconds'] = 0.16
+    state['tick_seconds'] = delay
     state['highscore_file'] = highscore_file
     state['highscore'] = load_highscore(highscore_file)
 

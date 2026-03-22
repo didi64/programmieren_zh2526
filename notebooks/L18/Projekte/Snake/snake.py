@@ -7,6 +7,8 @@ import darstellung
 
 
 n = 18
+tick_seconds = 0.16
+
 cell_px = 20
 canvas_size = n * cell_px
 
@@ -64,10 +66,10 @@ canvas.on_key_down(on_key_down)
 
 
 def on_start_clicked(b):
-    game.new_game(n)  # added
+    game.new_game(n, tick_seconds)
     game.start()
     start_loop()
-    canvas.focus()  # added
+    canvas.focus()
 
 
 def on_pause_clicked(b):
@@ -95,6 +97,10 @@ def start_loop():
         snake_task = asyncio.create_task(move_snake())
 
 
-game.new_game(n=n, highscore_file='highscore.txt')
-display(ui)
-canvas.focus()
+def run(grid_size=18, delay=0.2):
+    global n, tick_seconds
+    n = grid_size
+    tick_seconds = delay
+    game.new_game(n, tick_seconds, highscore_file='highscore.txt')
+    display(ui)
+    canvas.focus()

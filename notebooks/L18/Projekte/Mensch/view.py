@@ -1,40 +1,32 @@
-from ipycanvas import MultiCanvas
 from helpers import COLORS, get_grid_pos
 
 
-SIZE = 500  # setze Spielfeldbeite
+SCALE = 1  # Faktor zum Skalieren der Darstellungsrelevanten Groessen
 
+SIZE = 660  # setze Spielfeldbeite
 
 N = 11
-SCALE = SIZE/660
 STEP = SIZE / N
-RADIUS = 18*SCALE
-
-
-def create_canvas():
-    '''erzeugt MultiCanvas mit 3 Layern'''
-    canvas = MultiCanvas(3, width=SIZE, height=SIZE, layout={'border': '1px solid black'})
-    bg, mark, fg = canvas
-    return canvas, bg, mark, fg
+RADIUS = 18
 
 
 def get_xy(col, row):
     '''gibt Canvas-Koordinaten zum Feld (col, row) zurück'''
-    x = (col + 0.5) * STEP
-    y = (row + 0.5) * STEP
+    x = (col + 0.5) * STEP*SCALE
+    y = (row + 0.5) * STEP*SCALE
     return x, y
 
 
 def draw_field(bg, col, row, color):
     '''zeichnet ein Feld'''
-    x = col * STEP
-    y = row * STEP
+    x = col * STEP*SCALE
+    y = row * STEP*SCALE
     bg.fill_style = color
-    bg.fill_rect(x, y, STEP, STEP)
+    bg.fill_rect(x, y, STEP*SCALE, STEP*SCALE)
 
     bg.stroke_style = 'black'
     bg.line_width = 1
-    bg.stroke_rect(x, y, STEP, STEP)
+    bg.stroke_rect(x, y, STEP*SCALE, STEP*SCALE)
 
 
 def draw_board(bg):
@@ -42,7 +34,7 @@ def draw_board(bg):
     bg.clear()
 
     bg.fill_style = 'white'
-    bg.fill_rect(0, 0, SIZE, SIZE)
+    bg.fill_rect(0, 0, SIZE*SCALE, SIZE*SCALE)
 
     path_color = '#e6e6e6'
     for i in range(40):
@@ -74,7 +66,7 @@ def draw_marks(mark, game):
 
         mark.stroke_style = 'black'
         mark.line_width = 3*SCALE
-        mark.stroke_circle(x, y, RADIUS + RADIUS/3)
+        mark.stroke_circle(x, y, (1+1/3)*RADIUS*SCALE)
 
 
 def draw_stones(fg, game):
@@ -89,7 +81,7 @@ def draw_stones(fg, game):
             x, y = get_xy(col, row)
 
             fg.fill_style = color
-            fg.fill_circle(x, y, RADIUS)
+            fg.fill_circle(x, y, RADIUS*SCALE)
 
             fg.fill_style = 'white'
             fg.font = f'{14*SCALE}px sans-serif'
@@ -146,7 +138,7 @@ def get_clicked_stone(game, x, y):
         dx = x - x0
         dy = y - y0
 
-        if dx * dx + dy * dy <= (RADIUS + 4) ** 2:
+        if dx * dx + dy * dy <= ((RADIUS + 4)*SCALE) ** 2:
             return i
 
     return None

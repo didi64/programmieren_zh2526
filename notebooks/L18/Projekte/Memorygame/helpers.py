@@ -245,6 +245,7 @@ def draw_healthbar(canvas, grid_cfg, health, max_health, y_gap=80):
     y_gap : int
         Abstand unter dem Grid
     """
+    scale = grid_cfg['scale']
 
     x0 = grid_cfg["x0"]
     y0 = grid_cfg["y0"]
@@ -258,7 +259,7 @@ def draw_healthbar(canvas, grid_cfg, health, max_health, y_gap=80):
     dy = height / rows
 
     start_x = x0
-    start_y = y0 + height + y_gap
+    start_y = y0 + height + y_gap * scale
 
     canvas.line_width = line_width
 
@@ -298,14 +299,14 @@ def draw_score(canvas, grid_cfg, score, y_gap=20):
     """
 
     canvas.clear()
-
+    scale = grid_cfg['scale']
     x0 = grid_cfg["x0"]
     y0 = grid_cfg["y0"]
     width = grid_cfg["width"]
 
     # Position oben rechts
     x = x0 + width
-    y = y0 - y_gap
+    y = y0 - y_gap*scale
 
     canvas.fill_style = "black"
     canvas.font = f"{30/3}px Arial"
@@ -333,7 +334,7 @@ def draw_joker(canvas, grid_cfg, joker, max_joker, y_gap=80):
     y_gap : int
         Abstand unter dem Grid
     """
-
+    scale = grid_cfg['scale']
     x0 = grid_cfg["x0"]
     y0 = grid_cfg["y0"]
     width = grid_cfg["width"]
@@ -347,7 +348,7 @@ def draw_joker(canvas, grid_cfg, joker, max_joker, y_gap=80):
 
     # Rechtsbündig unter dem Grid
     start_x = x0 + width - max_joker * dx
-    start_y = y0 + height + y_gap
+    start_y = y0 + height + y_gap*scale
 
     canvas.line_width = line_width
 
@@ -393,7 +394,7 @@ def click_to_joker(x, y, grid_cfg, max_joker, y_gap=80):
         Welcher Joker angeklickt wurde
 
     """
-
+    scale = grid_cfg['scale']
     x0 = grid_cfg["x0"]
     y0 = grid_cfg["y0"]
     width = grid_cfg["width"]
@@ -405,7 +406,7 @@ def click_to_joker(x, y, grid_cfg, max_joker, y_gap=80):
     dy = height / rows
 
     start_x = x0 + width - max_joker * dx
-    start_y = y0 + height + y_gap
+    start_y = y0 + height + y_gap * scale
 
     if start_x <= x <= start_x + max_joker * dx and start_y <= y <= start_y + dy:
         index = int((x - start_x) // dx)

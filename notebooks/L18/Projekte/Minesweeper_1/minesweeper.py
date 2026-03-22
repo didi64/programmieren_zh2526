@@ -30,35 +30,9 @@ NUMBER_OF_MINES = 10    # Anzahl Minen im Spielfeld
 
 CELL_SIZE = 20          # Pixelfläche eines Feldes (Breite und Höhe)
 
-# Spielfeldgrösse in Pixel
-FIELD_PIXEL_SIZE = GRID_SIZE * CELL_SIZE
+BOARD_SPEC = (CELL_SIZE, CELL_SIZE, CELL_SIZE, CELL_SIZE, GRID_SIZE, GRID_SIZE)
 
-# Canvas = Spielfeld + 1 Feld Rand links/rechts/oben/unten
-CANVAS_SIZE = (GRID_SIZE + 2) * CELL_SIZE
 
-# Offset = genau eine Feldgrösse (Rand)
-OFFSET = CELL_SIZE
-
-# board_spec: (x0, y0, dx, dy, ncol, nrow)
-# Beschreibung des Spielfelds im Canvas
-BOARD_SPEC = (OFFSET, OFFSET, CELL_SIZE, CELL_SIZE, GRID_SIZE, GRID_SIZE)
-
-# Canvas-Konfiguration (hart fixiert, nicht flexibel)
-canvas_config = {
-    'width': CANVAS_SIZE,
-    'height': CANVAS_SIZE,
-    'layout': {
-        'border': '1px solid black',
-        'width': f'{CANVAS_SIZE}px',
-        'height': f'{CANVAS_SIZE}px',
-        'min_width': f'{CANVAS_SIZE}px',
-        'min_height': f'{CANVAS_SIZE}px',
-        'max_width': f'{CANVAS_SIZE}px',
-        'max_height': f'{CANVAS_SIZE}px',
-    },
-}
-
-canvas = Canvas(**canvas_config)
 output_area = Output()
 
 # Toggle-Button für Flaggenmodus
@@ -116,7 +90,7 @@ def create_empty_grid(rows, columns, default_value=False):
     return [[default_value for _ in range(columns)] for _ in range(rows)]
 
 
-def initialize_game():
+def initialize_game(canvas):
     '''
     Initialisiert das Spiel neu:
 
@@ -147,7 +121,7 @@ def initialize_game():
     log(f'Spielfeld: {GRID_SIZE}x{GRID_SIZE}, Minen: {NUMBER_OF_MINES}')
     log(f'Flaggen-Modus: {'aktiv' if flag_mode_button.value else 'inaktiv'}')
 
-    redraw_board()
+    redraw_board(canvas)
 
 
 def place_mines_randomly():
@@ -246,7 +220,7 @@ def get_neighbors(row, col):
 # Spiellogik
 # --------------------------------------------------
 
-def reveal_cell(row, col):
+def reveal_cell(row, col, canvas):
     '''
     Deckt ein Feld auf und behandelt Game-Over-, Gewinnfall und Kettenreaktion.
 
@@ -277,7 +251,7 @@ def reveal_cell(row, col):
     if mines_grid[row][col]:
         game_over = True
         reveal_all_mines()
-        redraw_board()
+        redraw_board(canvas)
         output_area.clear_output()
         show_game_over_message()
         return
@@ -289,11 +263,11 @@ def reveal_cell(row, col):
     if check_win():
         game_over = True
         flag_all_mines()
-        redraw_board()
+        redraw_board(canvas)
         show_win_message()
         return
 
-    redraw_board()
+    redraw_board(canvas)
 
 
 def flood_reveal(start_row, start_col):
@@ -343,7 +317,7 @@ def flood_reveal(start_row, start_col):
                 stack.append((neighbor_row, neighbor_col))
 
 
-def toggle_flag(row, col):
+def toggle_flag(row, col, canvas):
     '''
     Setzt oder entfernt eine Flagge auf einem verdeckten Feld.
 
@@ -364,7 +338,7 @@ def toggle_flag(row, col):
     flag_grid[row][col] = not flag_grid[row][col]
     status = 'gesetzt' if flag_grid[row][col] else 'entfernt'
     log(f'Flagge {status} auf Feld ({row}, {col}).')
-    redraw_board()
+    redraw_board(canvas)
 
 
 
@@ -411,7 +385,7 @@ def check_win():
     return True
 
 
-def redraw_board():
+def redraw_board(canvas):
     '''
     Zeichnet das komplette Spielfeld neu über das Darstellungsmodul.
     '''
@@ -445,7 +419,7 @@ def show_win_message():
 # --------------------------------------------------
 
 @output_area.capture(clear_output=False)
-def handle_mouse_click(x, y):
+def handle_mouse_click(x, y, canvas):
     '''
     Reagiert auf Mausklicks im Spielfeldbereich.
 
@@ -458,9 +432,7 @@ def handle_mouse_click(x, y):
         y (float): y-Koordinate im Canvas.
     '''
     x0, y0, dx, dy, ncol, nrow = BOARD_SPEC
-
-    raw_buttons = getattr(canvas, 'mouse_buttons', None)
-    log(f'Klick bei Canvas-Koordinate ({x:.1f}, {y:.1f}), mouse_buttons={raw_buttons}')
+    log(f'Klick bei Canvas-Koordinate ({x:.1f}, {y:.1f})')
     log(f'Flaggen-Modus aktuell: {'aktiv' if flag_mode_button.value else 'inaktiv'}')
 
     # Prüfen, ob der Klick innerhalb des Spielfeldbereichs liegt
@@ -474,9 +446,9 @@ def handle_mouse_click(x, y):
 
     try:
         if flag_mode_button.value:
-            toggle_flag(row, col)
+            toggle_flag(row, col, canvas)
         else:
-            reveal_cell(row, col)
+            reveal_cell(row, col, canvas)
     except Exception:
         print('FEHLER IM CLICK-HANDLER:')
         traceback.print_exc()
@@ -496,7 +468,7 @@ def on_flag_mode_change(change):
 
 
 @output_area.capture(clear_output=False)
-def new_game_clicked(button):
+def new_game_clicked(button, canvas):
     '''
     Event-Handler für den 'Neues Spiel'-Button.
 
@@ -504,14 +476,14 @@ def new_game_clicked(button):
         button: Das Button-Objekt, das das Event ausgelöst hat.
     '''
     log("Button 'Neues Spiel' geklickt.")
-    initialize_game()
+    initialize_game(canvas)
 
 
 # --------------------------------------------------
 # Startfunktion
 # --------------------------------------------------
 
-def start_game():
+def start_game(grid_size=10, nmines=10):
     '''
     Startet das Minesweeper-Spiel im Jupyter-Notebook.
 
@@ -519,18 +491,45 @@ def start_game():
     - verbindet Maus-Events und Button-Events mit dem Canvas bzw. den Widgets
     - zeigt Canvas, Buttons und das Log-Output-Widget an
     '''
-    initialize_game()
+    global GRID_SIZE, NUMBER_OF_MINES, BOARD_SPEC
+    GRID_SIZE = grid_size
+    NUMBER_OF_MINES = nmines
+    BOARD_SPEC = (CELL_SIZE, CELL_SIZE, CELL_SIZE, CELL_SIZE, GRID_SIZE, GRID_SIZE)
+
+    CANVAS_SIZE = (GRID_SIZE + 2) * CELL_SIZE
+
+    canvas_config = {
+        'width': CANVAS_SIZE,
+        'height': CANVAS_SIZE,
+        'layout': {
+            'border': '1px solid black',
+            'width': f'{CANVAS_SIZE}px',
+            'height': f'{CANVAS_SIZE}px',
+            'min_width': f'{CANVAS_SIZE}px',
+            'min_height': f'{CANVAS_SIZE}px',
+            'max_width': f'{CANVAS_SIZE}px',
+            'max_height': f'{CANVAS_SIZE}px',
+        },
+    }
+
+    canvas = Canvas(**canvas_config) 
+
+
+
+    initialize_game(canvas)
 
     # Maus-Events
-    canvas.on_mouse_down(handle_mouse_click)
+    canvas.on_mouse_down(lambda x, y: handle_mouse_click(x, y, canvas))
 
     # Flaggen-Modus-Änderungen beobachten
     flag_mode_button.observe(on_flag_mode_change, names='value')
 
     new_game_button = Button(description='Neues Spiel')
-    new_game_button.on_click(new_game_clicked)
+    new_game_button.on_click(lambda bt: new_game_clicked(bt, canvas))
 
     buttons_row = HBox([new_game_button, flag_mode_button])
 
-    ui = VBox([canvas, buttons_row, output_area])
-    display(ui)
+    # ui = VBox([canvas, buttons_row, output_area])
+    # display(ui)
+    display(canvas, buttons_row, output_area)
+    log('ok?')
