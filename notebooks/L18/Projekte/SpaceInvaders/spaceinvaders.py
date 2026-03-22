@@ -21,7 +21,7 @@ enemies_move_offset_y = 50
 enemies_attack_chance = 50   # spawn laser every n farmes
 enemies_attack_chance_default = 50
 enemies_attack_chance_step = 10
-enemies_laser_speed = 5  # move laser every n frames
+enemies_laser_speed = 5 # move laser every n frames
 enemies_laser_speed_default = 5
 enemies_laser_speed_step = 1
 enemies_start_speed = 10
@@ -31,7 +31,7 @@ enemies_draw_hitbox = False
 enemies_width = 400
 enemies_move_padding = 0
 enemies_num_x = 10
-game_scale = 3  # is img scale!
+game_scale = 3
 enemies_first_row_hight = 50
 enemies_row_spacing = 40
 enemies_num_y = 5
@@ -112,29 +112,25 @@ class Enemy:
         self.hitbox_y = 8
         self.lowest = False
 
-    def __repr__(self):
-        return f'Type: {self.type}, alive: {self.alive}, hitbox: {(self.hitbox_x, self.hitbox_y)},'\
-               f'pos: {(self.pos_x, self.pos_y)}'
 
-
-enemies = []
+enemie = []
 for y in range(enemies_num_y):
     row = []
     for x in range(enemies_num_x):
         row.append(Enemy())
-    enemies.append(row)
+    enemie.append(row)
 
 
 def int_enemie():
     ''' initializes every enemie '''
     for y in range(enemies_num_y):
         for x in range(enemies_num_x):
-            enemies[y][x].type = enemie_type_per_row[y]
-            enemies[y][x].hitbox_x = enemie_width[enemies[y][x].type]
-            enemies[y][x].pos_x = (canvas.width-enemies_width)/2 + enemies_width/(enemies_num_x-0)*x - enemies[y][x].hitbox_x * game_scale/2
-            enemies[y][x].pos_y = enemies_first_row_hight + y*enemies_row_spacing
-            enemies[y][x].points = enemie_points[enemies[y][x].type]
-            enemies[y][x].alive = True
+            enemie[y][x].type = enemie_type_per_row[y]
+            enemie[y][x].hitbox_x = enemie_width[enemie[y][x].type]
+            enemie[y][x].pos_x = (canvas.width-enemies_width)/2 + (enemies_width/(enemies_num_x-1))*x - (enemie[y][x].hitbox_x*game_scale)/2
+            enemie[y][x].pos_y = enemies_first_row_hight + y*enemies_row_spacing
+            enemie[y][x].points = enemie_points[enemie[y][x].type]
+            enemie[y][x].alive = True
 
 
 int_enemie()
@@ -167,6 +163,7 @@ class Enemie_Laser:
 
 
 laser = []
+# for x in range(5):
 laser.append(Laser())
 
 
@@ -214,44 +211,21 @@ anim_frame.append(anim_frame_2)
 # -------------------------------- Helper --------------------------------
 
 
-# def get_max_anim_range_left():
-#     ''' calculates how many pixels the enemies chan shift to the left '''
-#     largest_enemie_left = 0
-#     dead_col_left = 0
-
-#     for x in range(enemies_num_x):
-#         for y in range(enemies_num_y):
-#             if enemies[y][x].alive == True:
-#                 largest_enemie_left = enemies[y][x].hitbox_x
-#         if largest_enemie_left == 0:
-#             dead_col_left += 1
-#         else:
-#             break
-
-#     return (canvas.width-enemies_width)/2 - (largest_enemie_left*game_scale)/2 + (enemies_width/(enemies_num_x-1))*dead_col_left - enemies_move_padding
-
-
-emat_t = list(zip(*enemies))
-
-
 def get_max_anim_range_left():
     ''' calculates how many pixels the enemies chan shift to the left '''
     largest_enemie_left = 0
     dead_col_left = 0
 
-    for enemies in emat_t:
-        for enemy in enemies:
-            if enemy.alive:
-                largest_enemie_left = enemy.hitbox_x
+    for x in range(enemies_num_x):
+        for y in range(enemies_num_y):
+            if enemie[y][x].alive == True:
+                largest_enemie_left = enemie[y][x].hitbox_x
         if largest_enemie_left == 0:
             dead_col_left += 1
         else:
             break
 
     return (canvas.width-enemies_width)/2 - (largest_enemie_left*game_scale)/2 + (enemies_width/(enemies_num_x-1))*dead_col_left - enemies_move_padding
-
-
-
 
 
 def get_max_anim_range_right():
@@ -261,8 +235,8 @@ def get_max_anim_range_right():
 
     for x in reversed(range(enemies_num_x)):
         for y in range(enemies_num_y):
-            if enemies[y][x].alive == True:
-                largest_enemie_right = enemies[y][x].hitbox_x
+            if enemie[y][x].alive == True:
+                largest_enemie_right = enemie[y][x].hitbox_x
         if largest_enemie_right == 0:
             dead_col_right += 1
         else:
@@ -343,7 +317,7 @@ def draw_enemies():
     total_enemies_alive = 0
     for y in range(enemies_num_y):
         for x in range(enemies_num_x):
-            this_enemie = enemies[y][x]
+            this_enemie = enemie[y][x]
             if this_enemie.alive:
                 total_enemies_alive += 1
                 canvas.draw_image(anim_frame[cur_anim_frame][this_enemie.type],
@@ -444,16 +418,16 @@ def move_lasers():
                             # canvas.stroke_style = "yellow"
                             # canvas.line_width = 1
                             # canvas.stroke_line(enemie[y][x].pos_x + enemies_move_offset_x, enemie[y][x].pos_y + enemies_move_offset_y, enemie[y][x].pos_x + enemies_move_offset_x + enemie[y][x].hitbox_x*game_scale, enemie[y][x].pos_y + enemies_move_offset_y + enemie[y][x].hitbox_y*game_scale)
-                            if (laser[l].pos_x >= enemies[y][x].pos_x + enemies_move_offset_x  and
-                            laser[l].pos_y >= enemies[y][x].pos_y + enemies_move_offset_y and
-                            laser[l].pos_x <= enemies[y][x].pos_x + enemies_move_offset_x + enemies[y][x].hitbox_x*game_scale and
-                            laser[l].pos_y <= enemies[y][x].pos_y + enemies_move_offset_y + enemies[y][x].hitbox_y*game_scale  and
-                            laser[l].alive == True and enemies[y][x].alive == True):
-                                enemies[y][x].alive = False
+                            if (laser[l].pos_x >= enemie[y][x].pos_x + enemies_move_offset_x  and
+                            laser[l].pos_y >= enemie[y][x].pos_y + enemies_move_offset_y and
+                            laser[l].pos_x <= enemie[y][x].pos_x + enemies_move_offset_x + enemie[y][x].hitbox_x*game_scale and
+                            laser[l].pos_y <= enemie[y][x].pos_y + enemies_move_offset_y + enemie[y][x].hitbox_y*game_scale  and
+                            laser[l].alive == True and enemie[y][x].alive == True):
+                                enemie[y][x].alive = False
                                 laser[l].alive = False
                                 global score
                                 global highscore
-                                score += enemies[y][x].points
+                                score += enemie[y][x].points
                                 if highscore < score:
                                     highscore = score
 
@@ -520,14 +494,14 @@ def reset_game():
     enemies_move_offset_x = 0
     enemies_move_offset_y = 50
     player.pos_x = 250
-    player.retrys = 1
+    player.retrys = 3
     enemies_attack_chance = enemies_attack_chance_default
     enemies_laser_speed = enemies_laser_speed_default
     enemies_start_speed = enemies_start_speed_default
 
     for y in range(enemies_num_y):
         for x in range(enemies_num_x):
-            enemies[y][x].alive = True
+            enemie[y][x].alive = True
 
     for x in range(4):
         barrier[x].thiccc = 10
@@ -556,7 +530,7 @@ def next_level():
 
     for y in range(enemies_num_y):
         for x in range(enemies_num_x):
-            enemies[y][x].alive = True
+            enemie[y][x].alive = True
 
     for x in range(4):
         barrier[x].thiccc = 10
@@ -573,7 +547,7 @@ def spawn_enemie_lasers():
         for x in range(enemies_num_x):
             found = False
             for y in reversed(range(enemies_num_y)):
-                if enemies[y][x].alive == True and found == False:
+                if enemie[y][x].alive == True and found == False:
                     lowest_enemie_col[x][0] = y
                     lowest_enemie_col[x][1] = x
                     active_enemie_cols += 1
@@ -585,7 +559,7 @@ def spawn_enemie_lasers():
 
         if active_enemie_cols > 0:
             sel_enemie = random.randrange(0, active_enemie_cols)
-            this_enemie = enemies[lowest_enemie_col[sel_enemie][0]][lowest_enemie_col[sel_enemie][1]]
+            this_enemie = enemie[lowest_enemie_col[sel_enemie][0]][lowest_enemie_col[sel_enemie][1]]
 
             laser.append(Enemie_Laser())
             laser[len(laser)-1].pos_x = this_enemie.pos_x + (this_enemie.hitbox_x*game_scale)/2 + enemies_move_offset_x
@@ -596,7 +570,7 @@ def spawn_enemie_lasers():
 def kill_all_laser():
     ''' removes or disables all lasers '''
     for l in reversed(range(len(laser))):
-        if (l != 0):
+        if(l != 0):
             laser.pop(l)
         else:
             laser[l].alive = False
@@ -609,9 +583,9 @@ def check_game_over():
     lowest_enemie_height = 0
     for x in range(enemies_num_x):
         for y in range(enemies_num_y):
-            if enemies[y][x].alive == True and enemies[y][x].pos_y > lowest_enemie_y:
-                lowest_enemie_y = enemies[y][x].pos_y
-                lowest_enemie_height = enemies[y][x].hitbox_y
+            if enemie[y][x].alive == True and enemie[y][x].pos_y > lowest_enemie_y:
+                lowest_enemie_y = enemie[y][x].pos_y
+                lowest_enemie_height = enemie[y][x].hitbox_y
     # print(f"lowest enemie:{lowest_enemie_y} + move_y_offset:{enemies_move_offset_y} = {lowest_enemie_y + enemies_move_offset_y}")
 
     if (lowest_enemie_y + lowest_enemie_height*game_scale + enemies_move_offset_y >= game_over_pos_y or player.retrys <= 0):
@@ -653,18 +627,19 @@ def event_loop():
             draw_player()
             draw_enemies()
             draw_lasers()
+        pass
 
-    if total_enemies_alive == 0:
-        next_level()
+        if total_enemies_alive == 0:
+            next_level()
 
     elif game_state == 'game_over':
         draw_game_over_screen()
+
 
     # display(canvas)
 
 
 canvas.on_key_down(on_keyboard_event)
-display(canvas, out)
-canvas.focus()
 
+display(canvas, out)
 event_loop()
