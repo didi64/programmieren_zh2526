@@ -532,4 +532,3 @@ def start_game(grid_size=10, nmines=10):
     # ui = VBox([canvas, buttons_row, output_area])
     # display(ui)
     display(canvas, buttons_row, output_area)
-    log('ok?')
