@@ -89,7 +89,7 @@ def place_stone(canvas, pos, board_spec, radius=1, color=None):
     col, row = pos
     if color:
         canvas.fill_style = color
-    canvas.fill_circle((x0+(col+0.5)*dx, y0+(row+0.5)*dy), min(dx, dy)*radius)
+    canvas.fill_circle(x0+(col+0.5)*dx, y0+(row+0.5)*dy, min(dx, dy)*radius)
 
 
 def place_flag(canvas, pos, board_spec, color=None):
