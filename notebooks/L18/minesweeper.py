@@ -59,7 +59,7 @@ class Game:
         for row in range(self.size):
             for col in range(self.size):
                 if not self.mines_grid[row][col]:
-                    self.neighbor_mine_counts[row][col] = G.count_neighbor_mines(row, col, self.mines_grid)
+                    self.neighbor_mine_counts[row][col] = G.count_neighbor_mines(col, row, self.mines_grid)
 
 
     def reveal_cell(self, col, row):
@@ -86,12 +86,12 @@ class Game:
                                  self.flag_grid,
                                  self.neighbor_mine_counts)
 
+        self._notify('reveal', reveal=reveal)
+
         if self.check_win():
             self.game_over = True
             self._notify('win')
             return
-
-        self._notify('reveal', reveal=reveal)
 
     def toggle_flag(self, col, row):
         if self.game_over or self.visibility_grid[row][col]:

@@ -5,6 +5,17 @@ from IPython.display import display
 
 
 class View:
+
+    NUM_COLORS = {1: "#0000ff",
+                  2: "#008000",
+                  3: "#ff0000",
+                  4: "#000080",
+                  5: "#800000",
+                  6: "#008080",
+                  7: "#000000",
+                  8: "#808080",
+                  }
+
     def __init__(self, game, size=240, margin=20):
         self.game = game
         self.size = size
@@ -33,8 +44,11 @@ class View:
 
     def reveal(self, **kwargs):
         with hold_canvas():
-            for pos in kwargs['reveal']:
-                H.clear_field(self.mg, pos, self.boardspec)
+            for c, r in kwargs['reveal']:
+                H.clear_field(self.mg, (c, r), self.boardspec)
+                n = self.game.neighbor_mine_counts[r][c]
+                if n > 0:
+                    H.place_text(self.info, self.boardspec, (c, r), f'{n}', color=self.NUM_COLORS[n])
 
     def flag(self, **kwargs):
         pos = kwargs['pos']
@@ -44,13 +58,13 @@ class View:
             H.clear_field(self.info, pos, self.boardspec)
 
     def win(self, **kwargs):
-        self.out.append_stdout(f'Congrats, you revealed all mines!\n')
-        for c, r in view.game.mines:
-            if not self.game.mines_grid[r][c]:
+        self.out.append_stdout('Congrats, you revealed all mines!\n')
+        for c, r in self.game.mines:
+            if not self.game.flags_grid[r][c]:
                 H.place_flag(self.info, (c, r), self.boardspec, color='red')
 
     def game_over(self, **kwargs):
-        self.out.append_stdout(f'BOOM! Game over!\n')
+        self.out.append_stdout('BOOM! Game over!\n')
         self.info.clear()
         self.mg.clear()
 
