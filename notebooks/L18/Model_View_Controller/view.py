@@ -26,6 +26,7 @@ class View:
 
         self.out = Output(layout={'border': '1px solid black'})
         self.mcanvas = MultiCanvas(4, width=size, height=size, layout={'border': '1px solid black'})
+        # bg fuer Minen und Zahlen, mg fuer bedeckte Felder, info fuer Flaggen und fg fuer Gitter
         self.bg, self.mg, self.info, self.fg = self.mcanvas
         self.mg.fill_style = '#CCCCCC'
         H.draw_grid(self.fg, self.boardspec, line_width=2, color='black')
