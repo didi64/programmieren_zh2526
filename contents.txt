@@ -15,7 +15,7 @@
 15:Design Errors_and_Exception.ipynb HBox_und_VBox.ipynb Hilfsfunktionen.ipynb HoldCanvas.ipynb
 16: Animation_mit_Threads shift_click Textwidget.ipynb TikTakToe_Battle wordle Pruefungsplan.ipynb
 17:Plan_Fachgespraeche.ipynb Zugang_Unterrichtsbeurteilung.ipynb
-18:Projekte Controller.ipynb  Minesweeper.ipynb  Observable.ipynb view.py grid_helpers.py minesweeper.py View.ipynb
+18:Projekte Model_View_Controller
 #
 99:
 #123:Memory_Atilla.ipynb
