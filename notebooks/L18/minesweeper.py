@@ -62,8 +62,11 @@ class Game:
                     self.neighbor_mine_counts[row][col] = G.count_neighbor_mines(row, col, self.mines_grid)
 
 
-    def reveal_cell(self, row, col):
+    def reveal_cell(self, col, row):
         'Deckt ein Feld auf und behandelt Game-Over-, Gewinnfall und Kettenreaktion.'
+        if col < 0 or row < 0 or col >= self.size or row >= self.size:
+            return
+
         if self.game_over or self.visibility_grid[row][col] or self.flag_grid[row][col]:
             return
 
@@ -74,12 +77,14 @@ class Game:
             self._notify('game_over')
             return
 
-        reveal = G.flood_reveal(row,
-                                col,
-                                self.visibility_grid,
-                                self.mines_grid,
-                                self.flag_grid,
-                                self.neighbor_mine_counts)
+        reveal = set()
+        reveal.add((col, row))
+        reveal |= G.flood_reveal(row,
+                                 col,
+                                 self.visibility_grid,
+                                 self.mines_grid,
+                                 self.flag_grid,
+                                 self.neighbor_mine_counts)
 
         if self.check_win():
             self.game_over = True
@@ -88,7 +93,7 @@ class Game:
 
         self._notify('reveal', reveal=reveal)
 
-    def toggle_flag(self, row, col):
+    def toggle_flag(self, col, row):
         if self.game_over or self.visibility_grid[row][col]:
             return
         self.flag_grid[row][col] = not self.flag_grid[row][col]
