@@ -33,6 +33,7 @@ class View:
         self.game.new_game()
 
     def new_game(self, **kwargs):
+        self.out.clear_output()
         self.mcanvas.clear()
         self.mg.fill_rect(self.margin, self.margin, self.size-2*self.margin)
         H.draw_grid(self.fg, self.boardspec, line_width=2, color='black')
@@ -60,7 +61,7 @@ class View:
     def win(self, **kwargs):
         self.out.append_stdout('Congrats, you revealed all mines!\n')
         for c, r in self.game.mines:
-            if not self.game.flags_grid[r][c]:
+            if not self.game.flag_grid[r][c]:
                 H.place_flag(self.info, (c, r), self.boardspec, color='red')
 
     def game_over(self, **kwargs):
