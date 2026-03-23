@@ -22,22 +22,27 @@ class Game:
         self.callbacks = {}
         self.size = size
         self.n_mines = n_mines
-        self.mines = set()
+        self.mines = set()  # Menge der Minenpositionen
 
+        # noch leere Listen um die entsprechenden Gitter zu speichern
         self.mines_grid = []
         self.visibility_grid = []
         self.neighbor_mine_counts = []
         self.flag_grid = []
+
         self.game_over = False
+
+    def new_grid(self, default, nrows, ncols):
+        return [[default for _ in range(nrows)] for _ in range(ncols)]
 
     def new_game(self):
         self.game_over = False
         self.mines.clear()
 
-        self.mines_grid[:] = [[False for _ in range(self.size)] for _ in range(self.size)]
-        self.visibility_grid[:] = [[False for _ in range(self.size)] for _ in range(self.size)]
-        self.neighbor_mine_counts[:] = [[False for _ in range(self.size)] for _ in range(self.size)]
-        self.flag_grid[:] = [[False for _ in range(self.size)] for _ in range(self.size)]
+        self.mines_grid[:] = self.new_grid(False, self.size, self.size)
+        self.visibility_grid[:] = self.new_grid(False, self.size, self.size)
+        self.neighbor_mine_counts[:] = self.new_grid(False, self.size, self.size)
+        self.flag_grid[:] = self.new_grid(False, self.size, self.size)
 
         self.place_mines()
 
@@ -45,6 +50,10 @@ class Game:
         self._notify('new_game')
 
     def place_mines(self):
+        '''platziere zuefallig Minen.
+           fuege die Minen in die Menge self.mines ein und markiere 
+           sie in self.mines_grid mit True
+        '''
         placed = 0
         while placed < self.n_mines:
             row = random.randrange(self.size)
@@ -56,6 +65,7 @@ class Game:
                 placed += 1
 
     def set_neighbor_mine_counts(self):
+        '''setze die Werte im Gitter self.neighbor_mine_counts'''
         for row in range(self.size):
             for col in range(self.size):
                 if not self.mines_grid[row][col]:
@@ -94,11 +104,13 @@ class Game:
             return
 
     def toggle_flag(self, col, row):
+        'setze oder entferne Flagge'
         if self.game_over or self.visibility_grid[row][col]:
             return
         self.flag_grid[row][col] = not self.flag_grid[row][col]
         self._notify('flag', pos=(col, row), status=self.flag_grid[row][col])
 
     def check_win(self):
+        'gib True zurueck falls alle sicheren Felder aufgedeckt sind'
         return all(self.mines_grid[row][col] or self.visibility_grid[row][col]
                    for row in range(self.size) for col in range(self.size))

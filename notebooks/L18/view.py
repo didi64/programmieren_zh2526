@@ -6,6 +6,7 @@ from IPython.display import display
 
 class View:
 
+    # Farben fuer Ziffern
     NUM_COLORS = {1: "#0000ff",
                   2: "#008000",
                   3: "#ff0000",
@@ -44,6 +45,7 @@ class View:
         self.out.append_stdout(f'New Game. Find the {self.game.n_mines} mines.\n')
 
     def reveal(self, **kwargs):
+        ''
         with hold_canvas():
             for c, r in kwargs['reveal']:
                 H.clear_field(self.mg, (c, r), self.boardspec)
@@ -52,6 +54,7 @@ class View:
                     H.place_text(self.info, self.boardspec, (c, r), f'{n}', color=self.NUM_COLORS[n])
 
     def flag(self, **kwargs):
+        'zeichnet oder entwernt Flagge'
         pos = kwargs['pos']
         if kwargs['status']:
             H.place_flag(self.info, pos, self.boardspec, color='red')
@@ -59,6 +62,7 @@ class View:
             H.clear_field(self.info, pos, self.boardspec)
 
     def win(self, **kwargs):
+        'markiert alle Monen mit Flaggen und gratuliert'
         self.out.append_stdout('Congrats, you revealed all mines!\n')
         for c, r in self.game.mines:
             if not self.game.flag_grid[r][c]:
@@ -70,6 +74,7 @@ class View:
         self.mg.clear()
 
     def update(self, event,  **kwargs):
+        'rufe die Methode event mit **kwargs auf'
         self.out.append_stdout(f'{event}, {kwargs}\n')
         if hasattr(self, event):
             getattr(self, event)(**kwargs)
