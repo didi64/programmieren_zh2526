@@ -1,5 +1,4 @@
-
-def count_neighbor_mines(row, col):
+def count_neighbor_mines(row, col, grid):
     '''
     Zählt Minen in den acht Nachbarfeldern eines Feldes.
 
@@ -11,7 +10,7 @@ def count_neighbor_mines(row, col):
         int: Anzahl Minen in der direkten Nachbarschaft.
     '''
     count = 0
-
+    size = len(grid)
     for dr in (-1, 0, 1):
         for dc in (-1, 0, 1):
             if dr == 0 and dc == 0:
@@ -19,15 +18,13 @@ def count_neighbor_mines(row, col):
 
             r = row + dr
             c = col + dc
-
-            if 0 <= r < GRID_SIZE and 0 <= c < GRID_SIZE:
-                if mines_grid[r][c]:
+            if 0 <= r < size and 0 <= c < size:
+                if grid[r][c]:
                     count += 1
-
     return count
 
 
-def get_neighbors(row, col):
+def get_neighbors(row, col, grid):
     '''
     Liefert alle gültigen Nachbarfelder eines Feldes.
 
@@ -39,7 +36,7 @@ def get_neighbors(row, col):
         list[tuple[int, int]]: Liste der Nachbarpositionen als (row, col).
     '''
     neighbors = []
-
+    size = len(grid)
     for dr in (-1, 0, 1):
         for dc in (-1, 0, 1):
             if dr == 0 and dc == 0:
@@ -48,23 +45,18 @@ def get_neighbors(row, col):
             r = row + dr
             c = col + dc
 
-            if 0 <= r < GRID_SIZE and 0 <= c < GRID_SIZE:
+            if 0 <= r < size and 0 <= c < size:
                 neighbors.append((r, c))
 
     return neighbors
 
 
-
-
-
-
-
-
-
-
-
-
-def flood_reveal(start_row, start_col):
+def flood_reveal(row,
+                 col,
+                 visibility_grid,
+                 mines_grid,
+                 flag_grid,
+                 neighbor_mine_counts):
     '''
     Deckt zusammenhängende leere Bereiche automatisch auf.
 
@@ -79,7 +71,7 @@ def flood_reveal(start_row, start_col):
         start_row (int): Start-Zeilenindex.
         start_col (int): Start-Spaltenindex.
     '''
-    stack = [(start_row, start_col)]
+    stack = [(row, col)]
     visited = set()
 
     while stack:
@@ -94,18 +86,13 @@ def flood_reveal(start_row, start_col):
                 continue
 
             if flag_grid[neighbor_row][neighbor_col]:
-                log(f'Kettenreaktion überspringt Flagge auf ({neighbor_row}, {neighbor_col}).')
                 continue
 
             if mines_grid[neighbor_row][neighbor_col]:
                 continue
 
             visibility_grid[neighbor_row][neighbor_col] = True
-            log(
-                f'Kettenreaktion deckt Feld auf: '
-                f'({neighbor_row}, {neighbor_col}), '
-                f'Nachbarminen: {neighbor_mine_counts[neighbor_row][neighbor_col]}'
-            )
+
 
             if neighbor_mine_counts[neighbor_row][neighbor_col] == 0:
                 stack.append((neighbor_row, neighbor_col))
