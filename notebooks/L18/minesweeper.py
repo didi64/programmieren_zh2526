@@ -77,14 +77,14 @@ class Game:
             self._notify('game_over')
             return
 
-        reveal = set()
-        reveal.add((col, row))
-        reveal |= G.flood_reveal(col,
-                                 row,
-                                 self.visibility_grid,
-                                 self.mines_grid,
-                                 self.flag_grid,
-                                 self.neighbor_mine_counts)
+        reveal = {(col, row)}
+        if self.neighbor_mine_counts[row][col] == 0:
+            reveal |= G.flood_reveal(col,
+                                     row,
+                                     self.visibility_grid,
+                                     self.mines_grid,
+                                     self.flag_grid,
+                                     self.neighbor_mine_counts)
 
         self._notify('reveal', reveal=reveal)
 
