@@ -68,14 +68,53 @@ def draw_grid(canvas, board_spec, line_width=2, color='blue'):
 
 
 def clear_field(canvas, pos, board_spec):
-    x0, y0, dx, dy, ncol, nrow = board_spec
+    x0, y0, dx, dy = board_spec[:4]
     col, row = pos
     canvas.clear_rect(x0+col*dx, y0+row*dy, dx, dy)
 
 
 def fill_field(canvas, pos, board_spec, color=None):
-    x0, y0, dx, dy, ncol, nrow = board_spec
+    x0, y0, dx, dy = board_spec[:4]
     col, row = pos
     if color:
         canvas.fill_style = color
     canvas.fill_rect(x0+col*dx, y0+row*dy, dx, dy)
+
+
+def place_stone(canvas, pos, board_spec, radius=1, color=None):
+    '''draws a circle in the middle of the field 
+       with radius min(dx, dy)/2*radius
+    '''
+    x0, y0, dx, dy = board_spec[:4]
+    col, row = pos
+    if color:
+        canvas.fill_style = color
+    canvas.fill_circle((x0+(col+0.5)*dx, y0+(row+0.5)*dy), min(dx, dy)*radius)
+
+
+def place_flag(canvas, pos, board_spec, color=None):
+    x0, y0, dx, dy = board_spec[:4]
+    col, row = pos
+
+    left = x0 + col * dx + dx * 0.25
+    right = x0 + col * dx + dx * 0.75
+    top = y0 + row * dy + dy * 0.25
+    bottom = y0 + row * dy + dy * 0.75
+
+    pts = list(zip([left, right, left], [bottom, (top + bottom) / 2, top]))
+
+    if color:
+        canvas.fill_style = color
+    canvas.fill_polygon(pts)
+
+
+def place_text(canvas, board_spec, pos, text, color=None, force_fit=False):
+    dx, dy = board_spec[2:4]
+    col, row = pos
+    x, y = get_midpoint(col, row, board_spec)
+    if color:
+        canvas.fill_style = color
+    canvas.font = f'{min(dx, dy*3/5)}px sans-serif'
+    canvas.text_align = 'center'
+    canvas.text_baseline = 'middle'
+    canvas.fill_text(text, x, y, max_width=dx if force_fit else None )
