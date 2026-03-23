@@ -1,4 +1,4 @@
-def count_neighbor_mines(row, col, grid):
+def count_neighbor_mines(col, row, grid):
     '''
     Zählt Minen in den acht Nachbarfeldern eines Feldes.
 
@@ -24,7 +24,7 @@ def count_neighbor_mines(row, col, grid):
     return count
 
 
-def get_neighbors(row, col, grid):
+def get_neighbors(col, row, grid):
     '''
     Liefert alle gültigen Nachbarfelder eines Feldes.
 
@@ -46,13 +46,13 @@ def get_neighbors(row, col, grid):
             c = col + dc
 
             if 0 <= r < size and 0 <= c < size:
-                neighbors.append((r, c))
+                neighbors.append((c, r))
 
     return neighbors
 
 
-def flood_reveal(row,
-                 col,
+def flood_reveal(col,
+                 row,
                  visibility_grid,
                  mines_grid,
                  flag_grid,
@@ -71,18 +71,18 @@ def flood_reveal(row,
         start_row (int): Start-Zeilenindex.
         start_col (int): Start-Spaltenindex.
     '''
-    stack = [(row, col)]
+    stack = [(col, row)]
     visited = set()
     revealed = set()
 
     while stack:
-        row, col = stack.pop()
+        col, row = stack.pop()
 
-        if (row, col) in visited:
+        if (col, row) in visited:
             continue
-        visited.add((row, col))
+        visited.add((col, row))
 
-        for neighbor_row, neighbor_col in get_neighbors(row, col, mines_grid):
+        for neighbor_col, neighbor_row in get_neighbors(col, row, mines_grid):
             if visibility_grid[neighbor_row][neighbor_col]:
                 continue
 
@@ -93,9 +93,9 @@ def flood_reveal(row,
                 continue
 
             visibility_grid[neighbor_row][neighbor_col] = True
-            revealed.add((neighbor_row, neighbor_col))
+            revealed.add((neighbor_col, neighbor_row))
 
             if neighbor_mine_counts[neighbor_row][neighbor_col] == 0:
-                stack.append((neighbor_row, neighbor_col))
+                stack.append((neighbor_col, neighbor_row))
 
     return revealed

@@ -79,8 +79,8 @@ class Game:
 
         reveal = set()
         reveal.add((col, row))
-        reveal |= G.flood_reveal(row,
-                                 col,
+        reveal |= G.flood_reveal(col,
+                                 row,
                                  self.visibility_grid,
                                  self.mines_grid,
                                  self.flag_grid,
