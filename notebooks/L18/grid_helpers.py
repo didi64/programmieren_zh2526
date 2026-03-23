@@ -19,8 +19,8 @@ def count_neighbor_mines(row, col, grid):
             r = row + dr
             c = col + dc
             if 0 <= r < size and 0 <= c < size:
-                if grid[r][c]:
-                    count += 1
+                count += grid[r][c]
+
     return count
 
 
@@ -81,7 +81,7 @@ def flood_reveal(row,
             continue
         visited.add((row, col))
 
-        for neighbor_row, neighbor_col in get_neighbors(row, col):
+        for neighbor_row, neighbor_col in get_neighbors(row, col, mines_grid):
             if visibility_grid[neighbor_row][neighbor_col]:
                 continue
 
