@@ -34,6 +34,7 @@ class View:
         self.game.new_game()
 
     def new_game(self, **kwargs):
+        '''zeichnet das Spielfeld neu und gibt eine Meldung aus'''
         self.out.clear_output()
         self.mcanvas.clear()
         self.mg.fill_rect(self.margin, self.margin, self.size-2*self.margin)
@@ -45,7 +46,9 @@ class View:
         self.out.append_stdout(f'New Game. Find the {self.game.n_mines} mines.\n')
 
     def reveal(self, **kwargs):
-        ''
+        '''deckt die Felder in kwargs['reveal'] auf
+           und malt den Minencount auf diese Felder
+        '''
         with hold_canvas():
             for c, r in kwargs['reveal']:
                 H.clear_field(self.mg, (c, r), self.boardspec)
@@ -54,7 +57,10 @@ class View:
                     H.place_text(self.info, self.boardspec, (c, r), f'{n}', color=self.NUM_COLORS[n])
 
     def flag(self, **kwargs):
-        'zeichnet oder entwernt Flagge'
+        '''zeichnet oder entfernt Flagge an 
+           Position kwargs['pos'], je nachdem ob
+           kwargs['status'] True oder False
+        '''
         pos = kwargs['pos']
         if kwargs['status']:
             H.place_flag(self.info, pos, self.boardspec, color='red')
@@ -69,12 +75,13 @@ class View:
                 H.place_flag(self.info, (c, r), self.boardspec, color='red')
 
     def game_over(self, **kwargs):
+        '''deckt alle Felder auf und gibt eine Meldung aus'''
         self.out.append_stdout('BOOM! Game over!\n')
         self.info.clear()
         self.mg.clear()
 
     def update(self, event,  **kwargs):
-        'rufe die Methode event mit **kwargs auf'
+        '''rufe die Methode event mit **kwargs auf'''
         self.out.append_stdout(f'{event}, {kwargs}\n')
         if hasattr(self, event):
             getattr(self, event)(**kwargs)
