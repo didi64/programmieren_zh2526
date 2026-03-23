@@ -73,6 +73,7 @@ def flood_reveal(row,
     '''
     stack = [(row, col)]
     visited = set()
+    revealed = set()
 
     while stack:
         row, col = stack.pop()
@@ -92,7 +93,9 @@ def flood_reveal(row,
                 continue
 
             visibility_grid[neighbor_row][neighbor_col] = True
-
+            revealed.add((neighbor_row, neighbor_col))
 
             if neighbor_mine_counts[neighbor_row][neighbor_col] == 0:
                 stack.append((neighbor_row, neighbor_col))
+
+    return revealed
