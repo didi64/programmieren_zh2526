@@ -22,14 +22,27 @@ git -C "${response_repo}" merge --allow-unrelated-histories --no-edit
 
 # copy the new files to response
 
-mapfile -t lines < <(git -C $response_repo log --name-status -1)
+# mapfile -t lines < <(git -C $response_repo log --name-status -1)
+# for ((i=${#lines[@]}-1; i>=0; i--)); do
+#    line=${lines[i]}
+#    echo $line | while read a b; do  # default delimiter is space tab and newline!
+#        if [[ $a == [AM] ]]; then
+#            # cp -i "${response_repo}/${b}" "${response}/."  # does not wait for user to respond!
+#            cp "${response_repo}/${b}" "${response}/."
+#            echo "updated ${b} in response"
+#        fi
+#    done
+# done
+
+mapfile -t lines < <(git log --name-status -1)
 for ((i=${#lines[@]}-1; i>=0; i--)); do
     line=${lines[i]}
-    echo $line | while read a b; do  # default delimiter is space tab and newline!
-        if [[ $a == [AM] ]]; then
-            # cp -i "${response_repo}/${b}" "${response}/."  # does not wait for user to respond!
-            cp "${response_repo}/${b}" "${response}/."
-            echo "updated ${b} in response"
-        fi
-    done
+    read -ra parts <<<"$line"
+    modifier="${parts[0]}"
+    file="${parts[1]}"
+    # echo "modifier: $modifier, file: $file"
+    if [[ $modifier == [AM] ]]; then
+        cp -i "${response_repo}/${file}" "${response}/."
+        echo "updated ${file} in response"
+    fi
 done

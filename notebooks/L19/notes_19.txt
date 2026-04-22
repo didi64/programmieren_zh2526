@@ -1,5 +1,15 @@
+Configuration:
+- neues Token access from musculus
+
+- transfer to teamix
+- NIA-repo, neues Token token_zh_projects
+- encode into coords
+
+- how to clean out share and response
+- 
 
 
+pin: 2704
 
 !share: shares pushes the current notebook
  - prefixies name with Lnn_<old_name>
@@ -9,6 +19,19 @@
    things are pushed to github
 
 Overview
+
+Desingmpatterns die Testen erlauben,
+MOdulares erweitern
+
+Ideal: closed for modufication, open for extension
+
+Programmkomponenten (Funktionen, Module, Klassen) sind offen fuer Erweiterungen (exensions) und geschlossen fuer
+Modifikationen.
+
+Aenderungen am Programm werden realisiert durch 
+Hinzufuegen von neuem Code (), nicht durch Modifikation von bestehendem Code.
+
+
 
 Konzept:
 - review some topic with a Problem 30'
@@ -60,7 +83,9 @@ x and y gibt
 - gibt y zurueck, falls bool(x) False ist
 
 
-
+small convenent things: walruss operator
+ if (i := stack.pop()) in seen:
+            continue
 
 
 
@@ -93,3 +118,73 @@ def keep_longpaths_only(tree, n):
     children = [t for child in tree[1] if (t := keep_longpaths_only(child, n-1))]
     if children:
         return (tree[0], children)
+
+----------
+Overview: Softwaredeveloppement.
+Wie designt und testet man etwas groessere Programme.
+SOLID
+
+Software in Komponenten (Funktionen, Module/Files, Klassen)
+
+------------------
+globale Variablen
+globale Variabeln eines Moduls
+
+globale Variabeln einer Klasse
+
+vars und dir.
+
+__name__
+
+teste module falls einfach ausgefuehrt wird.
+
+
+quiz zu globalen Variabeln und modulen
+
+gird_helpers
+und 
+
+
+
+----------
+Warm-ups
+1. Googles 100 Lampen Problem:
+- For- und Whileschleifen, enumerate, List-Comprehension.
+
+2. Sign-Funktion:
+def sign(x):
+    return (x > 0) - (x < 0)
+
+3. Die Operatoren and, or
+
+===
+
+
+
+===
+
+recreate Minesweeper:
+Fill in function by function, keep testing.
+
+    def update(event, **kwargs):
+        if event == 'new_game':
+            for i, mine in enumerate(kwargs['mines']):
+                if mine:
+                    pos = divmod(i, View.gs[-2])
+                    place_stone(bg, pos, View.gs, color='black')
+        elif event == 'reveal_cell':
+            ...
+        elif event == 'toggle_flag':
+            ...
+        else:
+            print(event, kwargs)
+
+
+
+Module/Files vs Klassen:
+
+- Einfaches Spaceinvaders entwickeln.
+- Entwicklung fokusiert auf Testbarkeit der einzelnen Komponenten.
+
+Komponenten: Funktionen, Module, Klassen
+
