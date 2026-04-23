@@ -2,11 +2,14 @@ import widget_helpers as W
 import grid_helpers as G
 
 
-width = 100
-height = 100
+WIDTH = 100
+HEIGHT = 100
 
-mcanvas = W.get_mcanvas(3, width, height)
-bg, fg, info = mcanvas
+
+def reset():
+    global mcanvas, bg, fg, info
+    mcanvas = W.get_mcanvas(3, WIDTH, HEIGHT)
+    bg, fg, info = mcanvas
 
 
 def draw_grid(grid_spec, color='blue'):
@@ -21,5 +24,8 @@ def show_mode(normal_mode):
     info.stroke_style = 'red'
     info.line_width = 2
 
-    pts = [(0, 0), (width, 0), (width, height), (0, height)]
+    pts = [(0, 0), (WIDTH, 0), (WIDTH, HEIGHT), (0, HEIGHT)]
     info.stroke_polygon(pts)
+
+
+reset()

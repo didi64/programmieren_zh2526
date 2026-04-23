@@ -2,7 +2,12 @@ import widget_helpers as W
 import grid_helpers as G
 from IPython.display import display
 
-CLEAR_OUTPUT = False
+
+CLEAR_OUTPUT = {'mouse_down': True,
+                'mouse_up': False,
+                'mouse_move': False,
+                'key_down': True,
+                }
 
 callbacks = {}
 grid_spec = None
@@ -29,7 +34,7 @@ def toggle_mode():
     view.show_mode(normal_mode)
 
 
-@out.capture(clear_output=CLEAR_OUTPUT)
+@out.capture(clear_output=CLEAR_OUTPUT['mouse_down'])
 def on_mouse_down(x, y):
     global click_pos
 
@@ -40,13 +45,13 @@ def on_mouse_down(x, y):
     call(key=('mouse_down', normal_mode), args=(pos,))
 
 
-@out.capture(clear_output=CLEAR_OUTPUT)
+@out.capture(clear_output=CLEAR_OUTPUT['mouse_up'])
 def on_mouse_up(x, y):
     global click_pos
     click_pos = None
 
 
-@out.capture(clear_output=CLEAR_OUTPUT)
+@out.capture(clear_output=CLEAR_OUTPUT['mouse_move'])
 def on_mouse_move(x, y):
     global current_pos, click_pos
     if click_pos is None:
@@ -57,13 +62,15 @@ def on_mouse_move(x, y):
         return
 
     if current_pos != pos:
-        call(key=('move', normal_mode), args=(pos,))
+        call(key=('mouse_move', normal_mode), args=(pos,))
         current_pos = pos
 
 
-@out.capture(clear_output=CLEAR_OUTPUT)
+@out.capture(clear_output=CLEAR_OUTPUT['key_down'])
 def on_key_down(key, *flags):
     global normal_mode
+    if key == 'x':
+        out.clear_output()
     if key == 'Escape':
         normal_mode = not normal_mode
         view.show_mode(normal_mode)
