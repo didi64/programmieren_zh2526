@@ -10,7 +10,6 @@ CLEAR_OUTPUT = {'mouse_down': True,
                 }
 
 callbacks = {}
-grid_spec = None
 view = None
 canvas = None
 
@@ -38,7 +37,7 @@ def toggle_mode():
 def on_mouse_down(x, y):
     global click_pos
 
-    if (pos := G.xy2cr(x, y, grid_spec, strict=True)) is None:
+    if (pos := G.xy2cr(x, y, view.grid_spec, strict=True)) is None:
         return
 
     click_pos = pos
@@ -56,7 +55,7 @@ def on_mouse_move(x, y):
     global current_pos, click_pos
     if click_pos is None:
         return
-    if (pos := G.xy2cr(x, y, grid_spec, strict=True)) is None:
+    if (pos := G.xy2cr(x, y, view.grid_spec, strict=True)) is None:
         click_pos = None
         current_pos = None
         return

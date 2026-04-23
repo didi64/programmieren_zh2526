@@ -42,7 +42,11 @@ Konzept:
 
 Pruefungen/Noten:
 
-Leightweight Projektarbeit
+Leightweight Projektarbeiten 2 + 2 mal muendlich
+Fokus auf modularitaet und Testbarkeit.
+Tests bereitstellen fuer die einzelnen Komponenten.
+
+
 Uebungen: bewerte Engagement.
 
 Heavy use of sync share
@@ -51,14 +55,7 @@ test and teach how to fix issues, regardint sync share and response folder.
 
 ===================================================
 Thema: Booleans, Rechnen mit Booleans, was macht `and` und `or` mit beliebigen Objekten?
-
-x and y gibt
-- x zurueck, falls bool(x) False ist
-- gibt y zurueck, falls bool(x) True ist
-
-x and y gibt
-- x zurueck, falls bool(x) True ist
-- gibt y zurueck, falls bool(x) False ist
+globale Variabeln.
 
 
 Frage: Was macht die Funktion f? Was passiert hier?
@@ -87,6 +84,78 @@ small convenent things: walruss operator
  if (i := stack.pop()) in seen:
             continue
 
+
+
+
+
+----------
+Overview: Softwaredeveloppement.
+Wie designt und testet man etwas groessere Programme.
+SOLID
+
+Software in Komponenten (Funktionen, Module/Files, Klassen)
+
+------------------
+globale Variablen
+globale Variabeln eines Moduls
+
+globale Variabeln einer Klasse
+
+vars und dir.
+
+__name__
+
+teste module falls einfach ausgefuehrt wird.
+
+
+quiz zu globalen Variabeln und modulen
+
+gird_helpers
+und 
+
+
+----------
+Warm-ups
+1. Googles 100 Lampen Problem:
+- For- und Whileschleifen, enumerate, List-Comprehension.
+
+2. Sign-Funktion:
+def sign(x):
+    return (x > 0) - (x < 0)
+
+3. Die Operatoren and, or
+
+===
+
+dict.setdefault(key, []).append(item)
+
+
+===
+
+recreate Minesweeper:
+Fill in function by function, keep testing.
+
+    def update(event, **kwargs):
+        if event == 'new_game':
+            for i, mine in enumerate(kwargs['mines']):
+                if mine:
+                    pos = divmod(i, View.gs[-2])
+                    place_stone(bg, pos, View.gs, color='black')
+        elif event == 'reveal_cell':
+            ...
+        elif event == 'toggle_flag':
+            ...
+        else:
+            print(event, kwargs)
+
+
+
+Module/Files vs Klassen:
+
+- Einfaches Spaceinvaders entwickeln.
+- Entwicklung fokusiert auf Testbarkeit der einzelnen Komponenten.
+
+Komponenten: Funktionen, Module, Klassen
 
 
 # Handgestrickte Vektorklasse, Ansatz
@@ -118,73 +187,3 @@ def keep_longpaths_only(tree, n):
     children = [t for child in tree[1] if (t := keep_longpaths_only(child, n-1))]
     if children:
         return (tree[0], children)
-
-----------
-Overview: Softwaredeveloppement.
-Wie designt und testet man etwas groessere Programme.
-SOLID
-
-Software in Komponenten (Funktionen, Module/Files, Klassen)
-
-------------------
-globale Variablen
-globale Variabeln eines Moduls
-
-globale Variabeln einer Klasse
-
-vars und dir.
-
-__name__
-
-teste module falls einfach ausgefuehrt wird.
-
-
-quiz zu globalen Variabeln und modulen
-
-gird_helpers
-und 
-
-
-
-----------
-Warm-ups
-1. Googles 100 Lampen Problem:
-- For- und Whileschleifen, enumerate, List-Comprehension.
-
-2. Sign-Funktion:
-def sign(x):
-    return (x > 0) - (x < 0)
-
-3. Die Operatoren and, or
-
-===
-
-
-
-===
-
-recreate Minesweeper:
-Fill in function by function, keep testing.
-
-    def update(event, **kwargs):
-        if event == 'new_game':
-            for i, mine in enumerate(kwargs['mines']):
-                if mine:
-                    pos = divmod(i, View.gs[-2])
-                    place_stone(bg, pos, View.gs, color='black')
-        elif event == 'reveal_cell':
-            ...
-        elif event == 'toggle_flag':
-            ...
-        else:
-            print(event, kwargs)
-
-
-
-Module/Files vs Klassen:
-
-- Einfaches Spaceinvaders entwickeln.
-- Entwicklung fokusiert auf Testbarkeit der einzelnen Komponenten.
-
-Komponenten: Funktionen, Module, Klassen
-
