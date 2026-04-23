@@ -1,3 +1,14 @@
+def make_grid_spec(x0=0, ncol=3, width=100, **kwargs):
+    height = width if 'height' not in kwargs else kwargs['height']
+    nrow = ncol if 'nrow' not in kwargs else kwargs['nrow']
+    y0 = x0 if 'y0' not in kwargs else kwargs['y0']
+
+    dx = (width - 2*x0) / ncol
+    dy = (height - 2*y0) / nrow
+
+    return x0, y0, dx, dy, ncol, nrow
+
+
 def draw_grid(canvas, grid_spec, line_width=None, color=None):
     '''zeichnet Gitter mit grid_spec'''
     x0, y0, dx, dy, ncol, nrow = grid_spec
