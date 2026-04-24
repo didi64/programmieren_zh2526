@@ -84,7 +84,10 @@ small convenent things: walruss operator
  if (i := stack.pop()) in seen:
             continue
 
+while (sentinel := f(foo)):
+    ...
 
+items[(i := i+1)]
 
 
 
