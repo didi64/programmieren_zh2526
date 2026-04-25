@@ -13,17 +13,30 @@ canvas.save(), canvas.restore()
     response Folder nicht selber befuellen, 
     besser leer machen
   share folder leer machen!
+- search also original notebooks:
+    $ cd
+      cd work
+      ln -s .src _src
 
-$ cd
-  cd work
-  ln -s .src _src
+  if changed, these are reset with the next update
+  update .
+  does an update without copying files
+
+
   
 2) 10' 
 - Ueberblick, Bewertungen, Uebungen
 
 3) Warm-up/Repetition List-Comprehension: 20'
+   use nbf: list-comprehension, suche nur in _src!
+   sollte Notebook zu Listcomp. und Notebook mit Loesungen zu den Aufgaben liefern (top 2)
 - Lightbulb Problem
 
+def toggle_ith(i, items):
+    j = i
+    while j < len(items):
+        items[j] = not items[j]
+        j = j + (i + 1)
 --- 1/4 ---
 
 4 (Vorbereitung Module)
