@@ -32,11 +32,11 @@ canvas.save(), canvas.restore()
    sollte Notebook zu Listcomp. und Notebook mit Loesungen zu den Aufgaben liefern (top 2)
 - Lightbulb Problem
 
-def toggle_ith(i, items):
-    j = i
-    while j < len(items):
-        items[j] = not items[j]
-        j = j + (i + 1)
+def toggle(k, items):
+    i = k - 1
+    while i < len(items):
+        items[i] = not items[i]
+        i += k
 --- 1/4 ---
 
 4 (Vorbereitung Module)

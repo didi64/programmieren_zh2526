@@ -1,3 +1,8 @@
+'''
+Module mit Methoden zum raschen Erstellen der gebraechlichsten Jupyterlab-Widgets'
+Benutze folgende Line-Magic fuer eine Demo:
+%run -m widget_helpers
+'''
 from ipycanvas import Canvas, MultiCanvas
 from ipywidgets import Output
 
@@ -6,16 +11,19 @@ LAYOUT = {'border': '1px solid black'}
 
 
 def get_out():
+    '''Gibt ein Output-Widget mit layout=LAYOUT zurueck'''
     out = Output(layout=LAYOUT)
     return out
 
 
 def get_canvas(width=100, height=100):
+    '''gibt ein Canvas-Widget mit layout=LAYOUT zurueck'''
     canvas = Canvas(width=width, height=height, layout=LAYOUT)
     return canvas
 
 
 def get_mcanvas(n=2, width=100, height=100):
+    '''gibt ein MultiCanvas-Widget mit layout=LAYOUT zurueck'''
     mcanvas = MultiCanvas(n, width=width, height=height, layout=LAYOUT)
     return mcanvas
 
@@ -28,7 +36,7 @@ if __name__ == '__main__':
     with out:
         print('- get_out() returns an Output-Widget')
         print('- get_canvas(width=100, height=100) returns a Canvas-Widget')
-        print('- get_mcanvas(n=2, width=100, height=100) returns a MultiCanvas-Widget')
+        print('- get_mcanvas(n=2, width=100, height=100) returns a MultiCanvas-Widget with 2 layers')
 
     canvas = get_canvas(100, 50)
     canvas.font = '50px sans serif'
