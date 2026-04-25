@@ -95,7 +95,7 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 
 git -C "$repo_url" fetch
-git reset --hard origin/main
+git -C "$repo_url" reset --hard origin/main
 
 for item in "$@"; do
     if [[ $item =~ $is_numeric ]]; then
