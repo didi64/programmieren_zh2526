@@ -1,5 +1,5 @@
 '''
-Module mit Methoden zum raschen Erstellen der gebraechlichsten Jupyterlab-Widgets'
+Modul mit Methoden zum raschen Erstellen der gebraechlichsten Jupyterlab-Widgets'
 Benutze folgende Line-Magic fuer eine Demo:
 %run -m widget_helpers
 '''

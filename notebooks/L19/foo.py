@@ -1,5 +1,1 @@
-x = 123
-
-
-def apply(f):
-    f()
+print(f'__name__: "{__name__}"')
