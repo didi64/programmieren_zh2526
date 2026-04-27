@@ -17,7 +17,7 @@
 17:Plan_Fachgespraeche.ipynb Zugang_Unterrichtsbeurteilung.ipynb
 18:Projekte Model_View_Controller
 #
-19:And_und_Or.ipynb grid_helpers.py widget_helpers.py Lightbulbs.ipynb Module_DocString_Tests.ipynb Overview.ipynb Simple_Grid_Controller
+19:And_und_Or.ipynb grid_helpers.py widget_helpers.py Aufgabe_Lightbulbs.ipynb Module_DocString_Tests.ipynb Overview.ipynb Simple_Grid_Controller
 #
 99:
 # update -e is update 999

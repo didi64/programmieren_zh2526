@@ -36,12 +36,12 @@ if-then-else Ausdrueck
     response Folder nicht selber befuellen, 
     besser leer machen
   share folder leer machen!
-- search also original notebooks:
+- auch nach originalen Notebooks suchen:
     $ cd
       cd work
       ln -s .src _src
 
-  if changed, files in _src are restored with the next call to update .
+  wird diese Notebook veranedert, wird es beim naechsten Update wieder hergestellt
  
   
 2) 10' 
@@ -51,6 +51,10 @@ if-then-else Ausdrueck
    use nbf: list-comprehension, suche nur in _src!
    sollte Notebook zu Listcomp. und Notebook mit Loesungen zu den Aufgaben liefern (top 2)
 - Lightbulb Problem
+
+items = [False, False, False, False]
+tokel(2, items)
+items = [False, True, False, True]  # 1. und 3. Element wird negiert
 
 def toggle(k, items):
     i = k - 1
@@ -62,8 +66,6 @@ def toggle(k, items):
 4) Repetition Module (Module_Doc_String_Tests.ipynb)
    - mit nbf suche nach 'modul' in '_src'
    - Aufgaben
-
-
 
     Aufgaben widget_helpers und grid_helpers
     
@@ -115,7 +117,14 @@ def toggle(k, items):
     ----------------------
 
 --- 1/2 --- Pause
-And_Or -> versuche daraus dachen anzuwenden beim schreiben einfacher Tests!
+
+And_Or -> versuche daraus Ideen  anzuwenden beim Schreiben einfacher Tests!
+starte mit: was macht
+
+def f(x):
+    return (x > 0) - (x < 0)
+
+
 
 DRY!
 Ziel: Module Widget- und grid-helper benutzen und testen, ob tatsaechlich nuetzlich.

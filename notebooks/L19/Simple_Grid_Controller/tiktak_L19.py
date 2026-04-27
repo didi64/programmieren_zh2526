@@ -75,14 +75,11 @@ if __name__ == '__main__':
         return result == word
 
     def test_play_game():
-        new_game()
-        for i in (4, 0, 1, 7, 3, 5, 2, 6, 8):
-            play(idx2pos(i))
-        show()
+        ...
 
     tests = [test_set_result]
 
-    with redirect_stdout(None):
+    with redirect_stdout(None):  # unterdruecke Ausgaben
         n_passed = sum(test() for test in tests)
 
     print(f'{n_passed}/{len(tests)} tests passed')
