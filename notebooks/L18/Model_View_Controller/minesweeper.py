@@ -1,5 +1,5 @@
 import random
-import grid_helpers as G
+import grid_helpers1 as G
 
 
 class Game:
