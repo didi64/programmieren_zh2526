@@ -11,8 +11,7 @@ CLEAR_OUTPUT = {'mouse_down': True,
 
 def try_to_call(key, args=()):
     if key in callbacks:
-        f, extra_args = callbacks[key]
-        args += extra_args
+        f = callbacks[key]
         print(f'Calling {f.__name__}{args}')
         f(*args)
 

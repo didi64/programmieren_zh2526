@@ -1,7 +1,30 @@
+27.04.
+04.05.
+11.05.
+18.05.
+
+01.06.
+08.06.
+015.06.
+22.06.
+29.06.
+06.07.  (10)
+
+17.08.
+24.08.
+31.08.
+07.09.
+14.09.
+21.09.
+28.09.  (17)
+
+
+
+
+# not yet
 neu: 
 walruss-operator
 if-then-else Ausdrueck
-canvas.save(), canvas.restore()
 
 
 1) 15'
@@ -18,11 +41,8 @@ canvas.save(), canvas.restore()
       cd work
       ln -s .src _src
 
-  if changed, these are reset with the next update
-  update .
-  does an update without copying files
-
-
+  if changed, files in _src are restored with the next call to update .
+ 
   
 2) 10' 
 - Ueberblick, Bewertungen, Uebungen
@@ -39,9 +59,9 @@ def toggle(k, items):
         i += k
 --- 1/4 ---
 
-4) Repetition Module: 
+4) Repetition Module (Module_Doc_String_Tests.ipynb)
    - mit nbf suche nach 'modul' in '_src'
-   - AUfgaben
+   - Aufgaben
 
 
 
@@ -66,7 +86,7 @@ def toggle(k, items):
     def fill_triangle(canvas, pos, grid_spec, anchor=0, color='black'):
         '''verbinde 3 Ecken des Gitterfeldes pos=(col, row) zu einem Dreieck.
            Der rechte Winkel ist bei der Ecke anchor
-           (die linke obere Ecke ist Ecke 0, aufgezaehlt wir im Gegenuhrzeigersinn).
+           (die linke obere Ecke ist Ecke 0, aufgezaehlt wird im Gegenuhrzeigersinn).
         '''
         pts = [(0, 0), (1, 0), (1, 1), (0, 1)]
         pts.pop((anchor+2) % 4)
@@ -95,20 +115,48 @@ def toggle(k, items):
     ----------------------
 
 --- 1/2 --- Pause
+And_Or -> versuche daraus dachen anzuwenden beim schreiben einfacher Tests!
 
-5) Live-Code TikTakToe?
-   Look at TikTakToe
+DRY!
+Ziel: Module Widget- und grid-helper benutzen und testen, ob tatsaechlich nuetzlich.
+      Nutzen, um flexiblen, wiederverwendbaren Controller fuer
+      Anwendungen/Spiele mit Gitter zu Schreiben.
+
+      Zeige: 
+      1. TikTak_L19.ipynb
+      2. Grid_Controller.ipynb
+
+5) 
+   Look at TikTak_L19:
+   Bem. zu test-driven developpement: Schreibe test, 
+   bastle and FUnktion herum, bis test Funktioninert, z.B.
+
+   erklaere bestehene tests zu play,
+   mache funktionen daraus.
+   fuege in tiktak_L19.py ein
+   %run tiktak_L19
+
+   -> schreibe einige weitere Test 
+      - def test_set_result
+      - gib zeig um tests zu schreiben.
+
+
+   in Praxis: schreibt test of nachtraechlich.
+              sollte Funktion auf jedenfall testen.
+              sollte diesen Schritt auch dokumentieren.
+              oft tut man das, indem man kleine testfunktion schreibt.
+              und diese fuer Wiederverwendung an geeignetem Ort speichert.
+
+              Vorlaeufig: im MOdule das zu testende Funktion enthaelt.
 
     build it funktion by function, add test -> Test_TikTak19.ipynb (keep hidden)
 
-word = 'foo'
-set_result(word)
-result == word
 
 def test_set_result(word='foo'):
     set_result(word)
     return result == word
 --
+
 positions = [idx2pos(i) for i in range(9)]
 positions
 
@@ -185,260 +233,6 @@ show()
 %run -m tiktak_L19
 Aufgabe: speichere als File, fuege Tests hinzu!
 --- 3/4 ---
-
-
-
-
------
-
-4 (Vorbereitung Module)
-- Globale Variabeln, Variabelverzeichnisse: dir(), vars(), locals()
- dir(<modul_name>)
-
- def f():
-     global x
-
- def f():
-    print locals()
-  Welche Variablen COde sieht, haeng davon ab, wo er geladen/gelesen wurde.
-
-    def f():
-        print(x)
-
-5. Module (rep und neu), __name__, tests, DocStrings
-
-  Welche Variablen Code sieht, haeng davon ab, wo er geladen/gelesen wurde.
-
-def f():
-    print(x)
-
-foo.f = f
-
-x = 0
-foo.x = 42
-foo.f()
-
-def apply(f):
-    f()
-
-Funktion weiss, wo sie definiert wurde
-f.__name__
-# f.__qualname__
-f.__module__ (Filename oder '__main__')
-
-
-
-
-
-- if __name__ == '__main__':
-    # use for testing
-
-- Modul-level Doc-Strings.
-
-import foo
-
-
-help(foo)
-
-
-6. Bsp widget_helpers, grid_helpers
-
-7. MCV, 
-   grid-controller um grid-helpers zu nutzen/testen.
-
-
-==============
-
-
-Configuration:
-- neues Token access from musculus
-
-- transfer to teamix
-- NIA-repo, neues Token token_zh_projects
-- encode into coords
-
-- how to clean out share and response
-- 
-
-
-pin: 2704
-
-!share: shares pushes the current notebook
- - prefixies name with Lnn_<old_name>
- - appends it to contents, the lines 1414: ... Lnn_<old_name>
- - tags notebook and remove the cell with !share
- - all these notebooks are first copies to .src/live/., then contents is updated and then 
-   things are pushed to github
-
-Overview
-
-Desingmpatterns die Testen erlauben,
-MOdulares erweitern
-
-Ideal: closed for modufication, open for extension
-
-Programmkomponenten (Funktionen, Module, Klassen) sind offen fuer Erweiterungen (exensions) und geschlossen fuer
-Modifikationen.
-
-Aenderungen am Programm werden realisiert durch 
-Hinzufuegen von neuem Code (), nicht durch Modifikation von bestehendem Code.
-
-
-
-Konzept:
-- review some topic with a Problem 30'
-- review Homework: 
-
-- start with homework, I will provide hints.
-
-
-Pruefungen/Noten:
-
-Leightweight Projektarbeiten 2 + 2 mal muendlich
-Fokus auf modularitaet und Testbarkeit.
-Tests bereitstellen fuer die einzelnen Komponenten.
-
-
-Uebungen: bewerte Engagement.
-
-Heavy use of sync share
-
-test and teach how to fix issues, regardint sync share and response folder.
-
-===================================================
-Thema: Booleans, Rechnen mit Booleans, was macht `and` und `or` mit beliebigen Objekten?
-globale Variabeln.
-
-
-Frage: Was macht die Funktion f? Was passiert hier?
-
-def f(x):
-    return (x > 0) - (x < 0)
-
-# Alle Faelle
-[True - False,  # x > 0
- False - False,  # x == 0
- False - True,  # x < 0
- ]
-
-Was macht `and` und `or` mit beliebigen Objekten?
-
-x and y gibt
-- x zurueck, falls bool(x) False ist
-- gibt y zurueck, falls bool(x) True ist
-
-x and y gibt
-- x zurueck, falls bool(x) True ist
-- gibt y zurueck, falls bool(x) False ist
-
-
-small convenent things: walruss operator
- if (i := stack.pop()) in seen:
-            continue
-
-while (sentinel := f(foo)):
-    ...
-
-items[(i := i+1)]
-
-
-
-----------
-Overview: Softwaredeveloppement.
-Wie designt und testet man etwas groessere Programme.
-SOLID
-
-Software in Komponenten (Funktionen, Module/Files, Klassen)
-
-------------------
-globale Variablen
-globale Variabeln eines Moduls
-
-globale Variabeln einer Klasse
-
-vars und dir.
-
-__name__
-
-teste module falls einfach ausgefuehrt wird.
-
-
-quiz zu globalen Variabeln und modulen
-
-gird_helpers
-und 
-
-
-----------
-Warm-ups
-1. Googles 100 Lampen Problem:
-- For- und Whileschleifen, enumerate, List-Comprehension.
-
-2. Sign-Funktion:
-def sign(x):
-    return (x > 0) - (x < 0)
-
-3. Die Operatoren and, or
-
-===
-
-dict.setdefault(key, []).append(item)
-
-
-===
-
-recreate Minesweeper:
-Fill in function by function, keep testing.
-
-    def update(event, **kwargs):
-        if event == 'new_game':
-            for i, mine in enumerate(kwargs['mines']):
-                if mine:
-                    pos = divmod(i, View.gs[-2])
-                    place_stone(bg, pos, View.gs, color='black')
-        elif event == 'reveal_cell':
-            ...
-        elif event == 'toggle_flag':
-            ...
-        else:
-            print(event, kwargs)
-
-
-
-Module/Files vs Klassen:
-
-- Einfaches Spaceinvaders entwickeln.
-- Entwicklung fokusiert auf Testbarkeit der einzelnen Komponenten.
-
-Komponenten: Funktionen, Module, Klassen
-
-
-# Handgestrickte Vektorklasse, Ansatz
-
-def __init__(self, x=0, y=0):
-    self['x'] = x
-    self['y'] = y
-
-
-def show(self):
-    print(f'Vec({self['x']}, {self['y']})')
-
-
-Vec = {
-    '__name__': 'Vec',
-    '__init__': __init__,
-    'show': show,
-}
-
-
-Tree stuff
-
-def depth(tree):
-    return max((depth(child) + 1 for child in tree[1]), default=0)
-
-def keep_longpaths_only(tree, n):
-    if n == 0:
-        return tree
-    children = [t for child in tree[1] if (t := keep_longpaths_only(child, n-1))]
-    if children:
-        return (tree[0], children)
+TikTak_mit Maussteuerung
+Grid_Controller
+--- ----

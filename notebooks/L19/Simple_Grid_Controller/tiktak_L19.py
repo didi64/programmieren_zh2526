@@ -70,72 +70,20 @@ def show():
 if __name__ == '__main__':
     from contextlib import redirect_stdout
 
-    positions = [(0, 0), (1, 0), (2, 0), (0, 1), (1, 1), (2, 1), (0, 2), (1, 2), (2, 2)]
-    idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-
     def test_set_result(word='foo'):
         set_result(word)
         return result == word
 
-    def test_idx2pos():
-        return [idx2pos(i) for i in range(9)] == positions
-
-    def test_pos2idx():
-        return [pos2idx(pos) for pos in positions] == idxs
-
-    def test_get_player():
-        board[:] = [EMPTY] * 9
-        board[0] = get_player()
-        return board[0] == 'X' and get_player() == 'O'
-
-    def test_get_win_line():
-        board[:] = ['X'] * 3 + ['O'] * 3 + [EMPTY] * 3
-        return get_win_line('X') == (0, 1, 2) and get_win_line('O') == (3, 4, 5)
-
-    def test_new_game():
-        board[:] = ['X'] * 3 + ['O'] * 3 + [EMPTY] * 3
+    def test_play_game():
         new_game()
-        return result is None and board.count(EMPTY) == 9
-
-    def test_check_result_1():
-        board[:] = ['X'] * 3 + ['O'] * 3 + [EMPTY] * 3
-        return (check_result('X') or result == 'X') and (check_result('O') or result == 'O')
-
-    def test_check_result_2():
-        board[:] = ['O', 'X', 'O', 'O', 'X', 'X', 'X', 'O', 'X']
-        return (check_result('X') or result == 'draw') and (check_result('O') or result == 'draw')
-
-    def test_play_game_1():
-        new_game()
-        for i in range(3):
-            play(i)
-            j = i+3
-            play(j)
-        show()
-
-    def test_play_game_2():
-        new_game()
-        for i in range(3):
+        for i in (4, 0, 1, 7, 3, 5, 2, 6, 8):
             play(idx2pos(i))
-            j = i+3
-            play(idx2pos(j))
         show()
 
-    tests = [test_set_result,
-             test_idx2pos,
-             test_pos2idx,
-             test_get_player,
-             test_get_win_line,
-             test_new_game,
-             test_check_result_1,
-             test_check_result_2,
-             ]
+    tests = [test_set_result]
 
     with redirect_stdout(None):
         n_passed = sum(test() for test in tests)
 
     print(f'{n_passed}/{len(tests)} tests passed')
-    print(80 * '-')
-    test_play_game_1()
-    print(80 * '-')
-    test_play_game_2()
+    test_play_game()

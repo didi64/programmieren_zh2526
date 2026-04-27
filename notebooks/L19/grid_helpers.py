@@ -160,15 +160,15 @@ def fill_text(canvas, text, pos, grid_spec, color=None, margin=0.1):
 
 if __name__ == '__main__':
     import widget_helpers as W
+    import time
     from IPython.display import display
-
 
     mcanvas = W.get_mcanvas(2)
     bg, fg = mcanvas
     display(mcanvas)
 
-    x0, y0, dx, dy, ncol, nrow = (10, 10, 20, 20, 3, 4)
-    grid_spec = x0, y0, dx, dy, ncol, nrow
+    grid_spec = make_grid_spec(x0=10, ncol=3, nrow=4)
+    x0, y0, dx, dy, ncol, nrow = grid_spec
     draw_grid(fg, grid_spec, color='grey')
     fill_rect(bg, (0, 0), grid_spec)
 
@@ -177,6 +177,7 @@ if __name__ == '__main__':
         pos = (c, 0)
         fill_text(bg, str(c), pos, grid_spec, color='gold')
 
+    time.sleep(1)
     for r in range(1, nrow):
         for c in range(ncol):
             pos = (c, r)
@@ -186,6 +187,7 @@ if __name__ == '__main__':
             stroke_circle(bg, pos, grid_spec, color='black', line_width=n+1)
             fill_circle(bg, pos, grid_spec, color='black', radius=1/dx)
 
+    time.sleep(1)
     pts = [(1/4, 1/4), (3/4, 1/2), (1/4, 3/4)]
     clear_rect(bg, (1, 0), grid_spec)
     clear_rect(bg, (2, 0), grid_spec)
