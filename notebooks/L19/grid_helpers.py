@@ -32,14 +32,14 @@ def draw_grid(canvas, grid_spec, line_width=None, color=None):
     if color:
         canvas.stroke_style = color
 
-    x1 = x0 + ncol*dx
-    y1 = y0 + nrow*dy
+    x1 = round(x0 + ncol*dx)
+    y1 = round(y0 + nrow*dy)
 
     for i in range(ncol+1):
-        x = x0+i*dx
+        x = round(x0+i*dx)
         canvas.stroke_lines([(x, y0), (x, y1)])
     for j in range(nrow+1):
-        y = y0+j*dy
+        y = round(y0+j*dy)
         canvas.stroke_lines([(x0, y), (x1, y)])
 
 
@@ -53,7 +53,7 @@ def is_inside(pos, grid_spec):
 def get_rect(grid_spec):
     '''liefert (x0, y0, dx*ncol, dy*nrow)'''
     x0, y0, dx, dy, ncol, nrow = grid_spec
-    return x0, y0, dx*ncol, dy*nrow
+    return x0, y0, round(dx*ncol), round(dy*nrow)
 
 
 def xy2cr(x, y, grid_spec, strict=False):
@@ -80,13 +80,29 @@ def fill_rect(canvas, pos, grid_spec, color=None):
     x0, y0, dx, dy = grid_spec[:4]
     if color:
         canvas.fill_style = color
-    canvas.fill_rect(x0+pos[0]*dx, y0+pos[1]*dy, dx, dy)
+    rect = [x0+pos[0]*dx, y0+pos[1]*dy, dx, dy]
+    rect = [round(x) for x in rect]
+    canvas.fill_rect(*rect)
+
+
+def stroke_rect(canvas, pos, grid_spec, color=None, line_width=None):
+    '''fuellt das Gitterfeld pos=(col, row) mit der Farbe color'''
+    x0, y0, dx, dy = grid_spec[:4]
+    if color:
+        canvas.stroke_style = color
+    if line_width:
+        canvas.line_width = line_width
+    rect = [x0+pos[0]*dx, y0+pos[1]*dy, dx, dy]
+    rect = [round(x) for x in rect]
+    canvas.stroke_rect(*rect)
 
 
 def clear_rect(canvas, pos, grid_spec):
     '''loescht das Gitterfeld pos=(col, row)'''
     x0, y0, dx, dy = grid_spec[:4]
-    canvas.clear_rect(x0+pos[0]*dx, y0+pos[1]*dy, dx, dy)
+    rect = [x0+pos[0]*dx, y0+pos[1]*dy, dx, dy]
+    rect = [round(x) for x in rect]
+    canvas.clear_rect(*rect)
 
 
 def fill_circle(canvas, pos, grid_spec, radius=1/3, color=None):
