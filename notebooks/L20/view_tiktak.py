@@ -28,4 +28,5 @@ def init(game, width=100, height=None):
     height = height or width
     grid_spec = G.make_grid_spec(x0=width/10, y0=height/10, width=width, height=height)
     canvas = W.get_canvas(width, height)
+    G.draw_grid(canvas, grid_spec, color='blue')
     game.update = update

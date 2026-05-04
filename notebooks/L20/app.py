@@ -1,9 +1,8 @@
 import matrix_helpers as M
 
 
-matrix = M.make_matrix(10)
-
 colorcode = 0
+matrix = M.make_matrix(10)
 
 
 def update(event, **kwargs):
@@ -17,10 +16,10 @@ def set_colorcode(val):
 
 
 def clear():
-    matrix[:] = M.make_matrix(10)
-    update('clear', colorcode=colorcode)
+    '''loesche alle Felder'''
+    ...
 
 
 def update_field(pos):
-    M.set_item(matrix, pos, colorcode)
-    update('fill_rect', pos=pos, colorcode=colorcode)
+    '''setze ins Feld pos den aktuellen colorcode'''
+    ...

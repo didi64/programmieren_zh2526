@@ -153,3 +153,62 @@ def draw_matrix(canvas, matrix, grid_spec, colordict):
             pos = (col, row)
             color = colordict[val]
             G.fill_rect(canvas, pos, grid_spec, color=color)
+
+
+import matrix_helpers as M
+
+
+matrix = M.make_matrix(10)
+
+colorcode = 0
+
+
+def update(event, **kwargs):
+    print(event, kwargs)
+
+
+def set_colorcode(val):
+    global colorcode
+    colorcode = val
+    update('set_colorcode', color=val)
+
+
+def clear():
+    matrix[:] = M.make_matrix(10)
+    update('clear', colorcode=colorcode)
+
+
+def update_field(pos):
+    M.set_item(matrix, pos, colorcode)
+    update('fill_rect', pos=pos, colorcode=colorcode)
+
+
+import widget_helpers as W
+import grid_helpers as G
+
+
+grid_spec = None
+mcanvas = None
+color_dict = {0: 'red', 1: 'green', 2: 'blue'}
+
+
+def update(event, **kwargs):
+    bg, fg = mcanvas
+    if event == 'clear':
+        bg.clear()
+    if event == 'fill_rect':
+        pos = kwargs['pos']
+        colorcode = kwargs['colorcode']
+        color = color_dict.get(colorcode, 'black')
+        G.fill_rect(bg, pos, grid_spec, color=color)
+    else:
+        print(event, kwargs)
+
+
+def init(game, width=100, height=None, n=10):
+    global grid_spec, mcanvas
+    height = height or width
+    grid_spec = G.make_grid_spec(x0=width/10, y0=height/10, ncol=n, width=width, height=height)
+    mcanvas = W.get_mcanvas(2, width, height)
+    G.draw_grid(mcanvas[1], grid_spec)
+    game.update = update
