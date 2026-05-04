@@ -34,10 +34,7 @@ def init(canvas_, grid_spec_, callbacks_):
     canvas.on_key_down(on_key_down)
 
 
-def show(grid_color='black', debug=False):
-    canvas.clear()
-    if grid_color:
-        G.draw_grid(canvas, grid_spec, color=grid_color)
+def show(debug=False):
     if debug:
         display(canvas, OUT)
     else:

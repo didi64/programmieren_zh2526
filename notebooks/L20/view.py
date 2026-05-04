@@ -4,28 +4,26 @@ import grid_helpers as G
 
 grid_spec = None
 mcanvas = None
+color_dict = {0: 'red', 1: 'green', 2: 'blue'}
 
 
 def update(event, **kwargs):
-    canvas.save()
+    bg, fg = mcanvas
     if event == 'clear':
-        canvas.clear()
-        G.draw_grid(canvas, grid_spec, color='blue')
-    if event == 'set_color':
-        print(f'Color set to {kwargs['color']}')
-    if event == 'fillrect':
-        canvas.global_alpha = 0.3
-        for pos in kwargs['win_line']:
-            G.fill_rect(canvas, pos, grid_spec, color='red')
-        canvas.global_alpha = 1
+        bg.clear()
+    if event == 'fill_rect':
+        pos = kwargs['pos']
+        colorcode = kwargs['colorcode']
+        color = color_dict.get(colorcode, 'black')
+        G.fill_rect(bg, pos, grid_spec, color=color)
     else:
         print(event, kwargs)
-    canvas.restore()
 
 
-def init(game, width=100, height=None):
-    global grid_spec, canvas
+def init(game, width=100, height=None, n=10):
+    global grid_spec, mcanvas
     height = height or width
-    grid_spec = G.make_grid_spec(x0=width/10, y0=height/10, width=width, height=height)
-    canvas = W.get_canvas(width, height)
+    grid_spec = G.make_grid_spec(x0=width/10, y0=height/10, ncol=n, width=width, height=height)
+    mcanvas = W.get_mcanvas(2, width, height)
+    G.draw_grid(mcanvas[1], grid_spec, color='blue')
     game.update = update
