@@ -18,6 +18,7 @@
 18:Projekte Model_View_Controller
 #
 19:And_und_Or.ipynb grid_helpers.py widget_helpers.py Aufgabe_Lightbulbs.ipynb Module_DocString_Tests.ipynb Overview.ipynb Simple_Grid_Controller
+20:app.py Components.ipynb Matrix_Helpers.ipynb matrix_helpers.py tiktak_L19.py TikTakToe_mit_3_Komp.ipynb view.py view_tiktak.py Walruss_Operator.ipynb
 #
 99:
 # update -e is update 999
