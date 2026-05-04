@@ -1,6 +1,72 @@
 to do: notebook mit Loesungang zu Lightbulbs und grid_helpers
 /Losungen_L19
 
+update -y grid_helpers.py
+update -y Simple_Grid_Controller
+
+- grid_helpers.py
+  zeichne Rechtecke nur mit Integerkoordinaten, sonst bleibt beim Loeschen ev. etwas zurueck!
+- neu stroke_rect (ginge zwar auch mit stroke_polygon
+
+
+
+Beginne mit Rechnen mit Booleans:
+
+was macht
+
+def f(x):
+    return (x > 0) - (x < 0)
+
+
+numbers and numbers[-1]
+
+
+And_Or -> versuche daraus Ideen  anzuwenden beim Schreiben einfacher Tests!
+
+Matrix_helpers, Tuecken von Listen von Listen
+
+
+def make_matrix(ncol, nrow=None, default=None):
+    '''returns a ncol x nrow matrix, or a ncol x nrow matrix if nrow=None.
+       Each cell has value default.
+    '''
+    nrow = nrow or ncol
+    matrix = [[default]*ncol for _ in range(nrow)]
+    return matrix
+
+
+def get_dims(matrix):
+    '''returns (ncol, nrow)'''
+    nrow = len(matrix)
+    ncol = len(matrix[0])
+    return ncol, nrow
+
+
+def is_inside(pos, dims):
+    x, y = pos
+    ncol, nrow = dims
+    return 0 <= x < ncol and 0 <= y < nrow
+
+def get_neighbors(matrix, pos):
+    '''gib eine Liste aller Positionen zurueck,
+       die mit dem Feld pos eine gemeinsame Seite haben.
+    '''
+    x, y = pos
+    dims = get_dims(matrix)
+    neighbors = [(x, y-1), (x+1, y), (x, y+1), (x-1, y)]
+    positions = [pos for pos in neighbors if is_inside(pos, dims)]
+    return positions
+
+
+
+Zusammenhangskomponente:
+
+Walruss:
+
+Back to TikTak_L19.
+get win_line, typischer Walruss Fall.
+
+
 Changes to L19:
 Fuer mehr Flexibilitaet, wird auch einfacher.
 on_mouse_event callbacks korrigieren/beruecksichtigen nur grid-spezifisches.
@@ -18,10 +84,6 @@ Wollen moeglichkeit behalten, auf clicks ausserhalb des gitters reagieren zu koe
         pos = G.xy2cr(x, y, grid_spec)
         is_inside = G.is_inside(pos, grid_spec)
         try_to_call(key='mouse_down', args=(pos,))
-
-- grid_helpers.py
-  zeichnen rechtecke nur mit Integerkoordinaten, sonst bleibt beim Loeschen ev. etwas zurueck!
-- neu stroke_rect (ginge zwar auch mit stroke_polygon
 ----
 
 - Gird_helpers nutzen um ALgo zu illustrieren, der Zusammenhangskomp. berechnet.
@@ -32,7 +94,26 @@ Nuezlich u.a. fuer tests. siehe auch notes L19
 weiter mit Tiktak-Modul und Tests:
 - schreibe einige test gemeinsam, rest als Uebungsaufgabe.
 
-Weiter mi Grid-Controller:
+TikTak mit Maussteuerung:
+
+Weiter mi Grid-Controller: Anederungen: Fuer mehr Flexibilitaet, wird auch einfacher.
+  on_mouse_event: callbacks korrigieren/beruecksichtigen nur grid-spezifisches.
+  Wollen moeglichkeit behalten, auf clicks ausserhalb des gitters reagieren zu koennen.
+
+- Grid_Controller
+    callbacks = {'mouse_down': lambda is_inside, pos: is_inside and game.play(pos),
+                 'n': game.new_game,
+                 }
+- grid_controller.py
+    @OUT.capture(clear_output=CLEAR_OUTPUT['mouse_down'])
+    def on_mouse_down(x, y):
+        # if (pos := G.xy2cr(x, y, grid_spec, strict=True)) is None:
+        #     return
+        pos = G.xy2cr(x, y, grid_spec)
+        is_inside = G.is_inside(pos, grid_spec)
+        try_to_call(key='mouse_down', args=(is_inside, pos))
+----
+
 Idee: Ausbauen zu Flexiblem COntroller fuer Spiele mit Gitter.
       Beobachten in was fuer Schwierigkeiten wir laufen.
 
@@ -41,3 +122,34 @@ Mehr als eine Instanz!
 
 -view
 -Tiktak in 3
+
+def get_samecolored_4neighbors(matrix, pos0):
+    '''gibt eine Liste mit allen Feldern (Positionen) zurueck,
+       die den gleichen Wert wir pos0 haben, sowie eine gemeinsame Seite
+    '''
+    ns = M.get_neighbors(matrix, pos0, kinds='s')
+    return [pos for pos in ns
+            if M.get_item(matrix, pos) == M.get_item(matrix, pos0)
+            ]
+
+
+def get_save_neighbors(matrix, pos0):
+    '''gibt [] zurueck, falls Wert des Feldes pos0 != 0 (Nachbar koennte Mine sein)
+       sonst: gibt eine Liste aller Felder zurueck, die
+              gemeinsame Seite oder Ecke mit dem Feld pos0 haben
+    '''
+    if M.get_item(matrix, pos0) != 0:
+        return []
+    return M.get_neighbors(matrix, pos0, kinds='sc')
+
+def draw_matrix(canvas, matrix, grid_spec, colordict):
+    '''
+    colordict: Dict, der jedem Wert in der Matrix eine Farbe zuweist
+    grid_spec: Grid-SPec fuer ein Gitter der gleichen Dimensionen wie die Matrix
+    fuellt jedes Gitterfeld mit dem Farbwert in der Matrix
+    '''
+    for row, cols in enumerate(matrix):
+        for col, val in enumerate(cols):
+            pos = (col, row)
+            color = colordict[val]
+            G.fill_rect(canvas, pos, grid_spec, color=color)

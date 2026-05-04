@@ -9,7 +9,7 @@ idx: Index einer Zelle. pos2idx und idx2pos wandeln eins ins andere um.
 
 
 def make_matrix(ncol, nrow=None, default=None):
-    '''returns a ncol x nrow matrix, or a ncol x nrow matrix nrow=None.
+    '''returns a ncol x nrow matrix, or a ncol x nrow matrix if nrow=None.
        Each cell has value default.
     '''
     nrow = nrow or ncol
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     def test_make_matrix():
         matrix = make_matrix(2, default=1)
         positions = ((0, 0), (1, 0), (1, 0), (1, 1))
-        return get_dims(matrix) == (2, 2) and all(get_cell(matrix, pos) == 1 for pos in positions)
+        return get_dims(matrix) == (2, 2) and all(get_item(matrix, pos) == 1 for pos in positions)
 
     def test_get_neighbors():
         m = make_matrix(2)
@@ -94,5 +94,5 @@ if __name__ == '__main__':
     print('\nA 3x3 matrix with value 1..9:')
     matrix = make_matrix(3)
     for i in range(9):
-        set_cell(matrix, idx2pos(i, 3), i+1)
+        set_item(matrix, idx2pos(i, 3), i+1)
     show_matrix(matrix)
