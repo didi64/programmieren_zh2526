@@ -1,0 +1,43 @@
+to do: notebook mit Loesungang zu Lightbulbs und grid_helpers
+/Losungen_L19
+
+Changes to L19:
+Fuer mehr Flexibilitaet, wird auch einfacher.
+on_mouse_event callbacks korrigieren/beruecksichtigen nur grid-spezifisches.
+Wollen moeglichkeit behalten, auf clicks ausserhalb des gitters reagieren zu koennen.
+
+- Grid_Controller
+    callbacks = {'mouse_down': lambda is_inside, pos: is_inside and game.play(pos),
+                 'n': game.new_game,
+                 }
+- grid_controller.py
+    @OUT.capture(clear_output=CLEAR_OUTPUT['mouse_down'])
+    def on_mouse_down(x, y):
+        # if (pos := G.xy2cr(x, y, grid_spec, strict=True)) is None:
+        #     return
+        pos = G.xy2cr(x, y, grid_spec)
+        is_inside = G.is_inside(pos, grid_spec)
+        try_to_call(key='mouse_down', args=(pos,))
+
+- grid_helpers.py
+  zeichnen rechtecke nur mit Integerkoordinaten, sonst bleibt beim Loeschen ev. etwas zurueck!
+- neu stroke_rect (ginge zwar auch mit stroke_polygon
+----
+
+- Gird_helpers nutzen um ALgo zu illustrieren, der Zusammenhangskomp. berechnet.
+Nuezlich u.a. fuer tests. siehe auch notes L19
+- and or
+- walruss
+
+weiter mit Tiktak-Modul und Tests:
+- schreibe einige test gemeinsam, rest als Uebungsaufgabe.
+
+Weiter mi Grid-Controller:
+Idee: Ausbauen zu Flexiblem COntroller fuer Spiele mit Gitter.
+      Beobachten in was fuer Schwierigkeiten wir laufen.
+
+spater mit Klassen. Mehr flexibilitaeat.
+Mehr als eine Instanz!
+
+-view
+-Tiktak in 3

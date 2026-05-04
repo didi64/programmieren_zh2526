@@ -18,8 +18,9 @@
 21.09.
 28.09.  (17)
 
-
-
+save canvas as png
+mcanvas.sync_image_data = True
+mcanvas.to_file('component_0_0.png')
 
 # not yet
 neu: 
@@ -135,6 +136,8 @@ Ziel: Module Widget- und grid-helper benutzen und testen, ob tatsaechlich nuetzl
       1. TikTak_L19.ipynb
       2. Grid_Controller.ipynb
 
+Walruss:
+
 5) 
    Look at TikTak_L19:
    Bem. zu test-driven developpement: Schreibe test, 
@@ -245,3 +248,8 @@ Aufgabe: speichere als File, fuege Tests hinzu!
 TikTak_mit Maussteuerung
 Grid_Controller
 --- ----
+
+Schreibe View komponente -> view_tiktak in L20
+Schreibe TikTak aufgeteilt in 3 Komponenten TikTak_20.ipynb
+
+

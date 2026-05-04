@@ -18,9 +18,9 @@ def try_to_call(key, args=()):
 
 @OUT.capture(clear_output=CLEAR_OUTPUT['mouse_down'])
 def on_mouse_down(x, y):
-    if (pos := G.xy2cr(x, y, grid_spec, strict=True)) is None:
-        return
-    try_to_call(key='mouse_down', args=(pos,))
+    pos = G.xy2cr(x, y, grid_spec)
+    is_inside = G.is_inside(pos, grid_spec)
+    try_to_call(key='mouse_down', args=(is_inside, pos))
 
 
 @OUT.capture(clear_output=CLEAR_OUTPUT['key_down'])
