@@ -39,12 +39,12 @@ def is_inside(pos, dims):
     return 0 <= x < ncol and 0 <= y < nrow
 
 
-def set_cell(matrix, pos, value):
+def set_item(matrix, pos, value):
     col, row = pos
     matrix[row][col] = value
 
 
-def get_cell(matrix, pos):
+def get_item(matrix, pos):
     col, row = pos
     return matrix[row][col]
 
