@@ -51,11 +51,16 @@ def check_result(player):
         update('draw')
 
 
+def is_inside(pos):
+    col, row = pos
+    return 0 <= col < 3 and 0 <= row < 3
+
+
 def play(pos):
-    '''pos: index or (col, row) tuple'''
-    i = pos2idx(pos) if type(pos) is tuple else pos
-    if not (0 <= i < len(board)) or board[i] != EMPTY or result:
+    '''pos: (col, row) tuple'''
+    if not is_inside(pos):
         return
+    i = pos2idx(pos)
     player = get_player()
     board[i] = player
     update('play', player=player, pos=idx2pos(i))
