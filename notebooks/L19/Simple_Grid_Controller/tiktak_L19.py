@@ -60,8 +60,9 @@ def play(pos):
     '''pos: (col, row) tuple'''
     if result or not is_inside(pos):
         return
+    if board[i := pos2idx(pos)] != EMPTY:
+        return
     player = get_player()
-    i = pos2idx(pos)
     board[i] = player
     update('play', player=player, pos=pos)
     check_result(player)

@@ -1,3 +1,7 @@
+changes update script, searches for L_<number>/file, not ust file
+thus failnames only have to be unique within lessions.
+
+
 matrix_helpers: add
 
 
@@ -22,6 +26,10 @@ update grid_controller.py
 update Simple_Grid_Congroller
 
 Finish stuff
+
+%load_ext autoreload
+%autoreload 2
+print(f'modul {__name__} imported')
 
 Recap:
 Listen: Matix kopieren? (Original und Kopie sollen sich gleich verhalten)
@@ -66,14 +74,42 @@ Diskutiere: was sollen die einzelnen Tests leisten?
             [idx2pos for i in idxs]
 
 
-play: zu komplex um separater Testfuer Funktion:
-      implizit getestet beim Modultest
+play: zu komplex um separaten Test fuer Funktion zu scheiben:
+      wird implizit getestet beim Modultest.
+
+8 Test: test 1 done, to test_check_result_1(), test_check_result_2() together, 
+   task: test_idx2pos() und get_win_line
+   Rest: Aufgabe
 
 %run tiktak_L19
 
-8: test 1 done, to test_check_result_1(), test_check_result_2() together, 
-   task: test_idx2pos() und get_win_line
-   Rest: Aufgabe
+TikTak_View.ipynb 
+importlib benutzen,  um module erneut importieren zu koennen.
+
+-> view_0
+-> Ex: compolete view_tiktak
+-> has already view_tiktaktoe.pyc
+
+wieterer Code zur Text-View
+pos = (1, 1)
+game.play(pos)
+game.show()
+
+game.new_game()
+for i in range(3):
+    game.play(game.idx2pos(i))
+    game.play(game.idx2pos(i+3))
+game.show()
+
+
+TikTak_mit_Maussteuerung.ipynb (View und Controller)
+
+
+grid_controller.py ->verschiebe nach modules
+
+==================
+
+Tiktatoe - Tests
 
     idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     positions = [(0, 0), (1, 0), (2, 0), (0, 1), (1, 1), (2, 1), (0, 2), (1, 2), (2, 2)]
@@ -118,3 +154,124 @@ play: zu komplex um separater Testfuer Funktion:
     def test_set_result(word='foo'):
         set_result(word)
         return result == word
+
+======= view_tiktaktoe.py
+import widget_helpers as W
+import grid_helpers as G
+
+
+canvas = None
+grid_spec = None
+
+
+def init(game, width=100, height=None):
+    global grid_spec, canvas
+
+    height = height or width
+    canvas = W.get_canvas(width, height)
+    canvas.text_align = 'center'
+    canvas.text_baseline = 'ideographic'
+    canvas.font = f'{height//5}px sans-serif'
+
+    grid_spec = (width//8, height//4 - 2, width//4, height//4, 3, 3)
+    G.draw_grid(canvas, grid_spec, color='blue')
+    game.update = update
+
+
+def new_game():
+    canvas.clear()
+    G.draw_grid(canvas, grid_spec, color='blue')
+
+
+def draw():
+    canvas.fill_text('draw', canvas.width/2, grid_spec[1])
+
+
+def winner(win_line, winner):
+    canvas.fill_text(f'{winner} wins', canvas.width/2, grid_spec[1])
+
+    canvas.global_alpha = 0.3
+    for pos in win_line:
+        G.fill_rect(canvas, pos, grid_spec, color='yellow')
+
+
+def play(player, pos):
+    G.fill_text(canvas, player, pos, grid_spec, color='black')
+
+
+def update(event, **kwargs):
+    canvas.save()
+    if event == 'new_game':
+        new_game()
+    if event == 'draw':
+        draw()
+    if event == 'winner':
+        winner(**kwargs)
+    if event == 'play':
+        play(**kwargs)
+    canvas.restore()
+====================
+
+===app.py====
+import matrix_helpers as M
+
+
+colorcode = 1
+matrix = M.make_matrix(10)
+
+
+def update(event, **kwargs):
+    print(event, kwargs)
+
+
+def set_colorcode(val):
+    global colorcode
+    colorcode = val
+    update('set_colorcode', color=val)
+
+
+def clear():
+    matrix[:] = M.make_matrix(10)
+    set_colorcode(1)
+    update('clear')
+
+
+def update_field(pos):
+    M.set_item(matrix, pos, colorcode)
+    update('fill_rect', pos=pos, colorcode=colorcode)
+=====
+
+
+==== view.py =====
+import widget_helpers as W
+import grid_helpers as G
+
+
+grid_spec = None
+mcanvas = None
+color_dict = {1: 'red', 2: 'green', 3: 'blue'}
+
+
+def update(event, **kwargs):
+    bg, fg = mcanvas
+    if event == 'clear':
+        bg.clear()
+    if event == 'fill_rect':
+        pos = kwargs['pos']
+        colorcode = kwargs['colorcode']
+        color = color_dict.get(colorcode, 'black')
+        G.fill_rect(bg, pos, grid_spec, color=color)
+    else:
+        print(event, kwargs)
+
+
+def init(game, width=100, height=None, n=10):
+    global grid_spec, mcanvas
+
+    height = height or width
+    mcanvas = W.get_mcanvas(2, width, height)
+
+    x0, y0 = width//10, height//10
+    grid_spec = (x0, y0, (width-2*x0)//n, (height-2*y0)//n, n, n)
+    G.draw_grid(mcanvas[1], grid_spec)
+    game.update = update

@@ -44,8 +44,8 @@ process_file () {
     # echo "target: $nb_dir"
     echo "processing $1"
    
-    readarray -d '' files < <(find "$repo_url" -type f -name $1 -print0)
-    readarray -d '' folders < <(find "$repo_url" -type d -name $1 -print0)
+    readarray -d '' files < <(find "$repo_url" -type f -path "*/$1" -print0)
+    readarray -d '' folders < <(find "$repo_url" -type d -path "*/$1" -print0)
 
     if [[ ${#files[@]} -gt 0 ]]; then 
         file=${files[0]}
@@ -98,15 +98,19 @@ git -C "$repo_url" fetch
 git -C "$repo_url" reset --hard origin/main
 
 for item in "$@"; do
-    if [[ $item =~ $is_numeric ]]; then
+    if [[ $item =~ $is_number ]] && ((item < 50)); then
         files=$(sed -n "s/^${item}:\(.*\)/\1/p" "$contents")
         for file in $files; do
-            process_file $file
+            process_file "L_${item}/$file"
         done
-        if [[ $item =~ $is_number ]]; then echo $item > $work/.lesson; fi
+    elif [[ $item =~ $is_number ]] && ((item >= 50)); then
+        files=$(sed -n "s/^${item}:\(.*\)/\1/p" "$contents")
+        for file in $files; do
+            process_file "$file"
+        done
     else
         n=$(find . -name $item | wc -l)
-        if [ $n -gt 0 ]; then
+        if ((n > 0)); then
             process_file $item
         else
             echo "$item not found!"
