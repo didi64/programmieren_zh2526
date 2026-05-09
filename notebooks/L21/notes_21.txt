@@ -1,0 +1,120 @@
+matrix_helpers: add
+
+
+def copy(matrix):
+    return [row.copy() for row in matrix]
+
+
+def pos_and_values(matrix):
+    for row, values in enumerate(matrix):
+        for col, value in enumerate(values):
+            yield (col, row), value
+
+def show_matrix(matrix, sep=',', cell_width=None):
+    '''prints the matrix. Each cell is converted to a centered string of length cell_width'''
+    width = cell_width or 0
+    rows = [sep.join(str(x).center(width) for x in row) for row in matrix]
+    s = '\n'.join(rows)
+    print(s)
+
+-----------------------
+update grid_controller.py
+update Simple_Grid_Congroller
+
+Finish stuff
+
+Recap:
+Listen: Matix kopieren? (Original und Kopie sollen sich gleich verhalten)
+        list hat copy methode. (Shallow copy)
+        new_list = [item for item in old_list]
+
+        Matrix-Copy
+        copy = [row.copy() for row in matrix]
+        Liste neu befullen.
+
+any, all
+
+TikTak.ipynb
+-update(event, **kwargs): gibt aus, was sich am Spielzustand aendert.
+                          Idee: die uebergebenen Argumente event und die Key-Word-Argumente
+                                liefert genug Informationen, so dass
+                                die Darstellungskomponente die Darstellung bequem updaten kann.
+
+                                d.h. update wird von Darstellungskomonente ueberschreiben
+                                und nimmt dann update der Darstellung vor.
+                                N.B: koennen der Darstellungskomponente auch zugriff auf die Game-komponente geben,
+                                     dann hat diese Zugriff auf alle Variabeln der Gamekomponente,
+
+ Programmierer der SPielkomponente muss
+ kommunizieren/dokummentieren, wann update mit was fuer Argumenten aufgerufen wird! 
+                                
+
+
+- benutze 'global' keyword nur an einer Stelle.
+  nur diese Funktion aendert den Wert der globalen Variable result.
+
+- get_win_line(player): gibt None zurueck, falls kein player nicht gewonnen hat 
+- new_game
+  board[:] = [EMPTY] * 9 . Wieso? Liste wir neu befuellt (keine neue Liste wird erstellt)
+- play(pos) (geaendert!)
+  prueft, ob Argument sinnvoll und ob Spiel noch laeuft
+
+
+Diskutiere: was sollen die einzelnen Tests leisten?
+            ev. etwas Daten bereitstellen, wie idxs und positions.
+            idxs = list(range(9))
+            [idx2pos for i in idxs]
+
+
+play: zu komplex um separater Testfuer Funktion:
+      implizit getestet beim Modultest
+
+%run tiktak_L19
+
+8: test 1 done, to test_check_result_1(), test_check_result_2() together, 
+   task: test_idx2pos() und get_win_line
+   Rest: Aufgabe
+
+    idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    positions = [(0, 0), (1, 0), (2, 0), (0, 1), (1, 1), (2, 1), (0, 2), (1, 2), (2, 2)]
+
+    def test_check_result_1():
+        '''X und O haben TikTak'''
+        board[:] = ['X'] * 3 + ['O'] * 3 + [EMPTY] * 3
+        return (check_result('X') or result == 'X') and (check_result('O') or result == 'O')
+
+    def test_check_result_2():
+        '''draw'''
+        board[:] = ['O', 'X', 'O', 'O', 'X', 'X', 'X', 'O', 'X']
+        return (check_result('X') or result == 'draw') and (check_result('O') or result == 'draw')
+
+    def test_get_player():
+        board[:] = [EMPTY] * 9
+        board[0] = get_player()
+        return board[0] == 'X' and get_player() == 'O'
+
+    def test_get_win_line():
+        board[:] = ['X'] * 3 + ['O'] * 3 + [EMPTY] * 3
+        return get_win_line('X') == (0, 1, 2) and get_win_line('O') == (3, 4, 5)
+
+    def test_idx2pos():
+        return [idx2pos(i) for i in range(9)] == positions
+
+    def test_is_inside():
+        outside = [(0, -1), (2, 3)]
+        return (all(is_inside(pos) for pos in positions)
+                and all(not is_inside(pos) for pos in outside)
+                )
+
+    def test_new_game():
+        board[0] = 'X'
+        set_result('draw')
+        new_game()
+        return result is None and len(board) == 9 and board.count(EMPTY) == 9
+
+    def test_pos2idx():
+        return [pos2idx(pos) for pos in positions] == [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+    def test_set_result(word='foo'):
+        set_result(word)
+        return result == word

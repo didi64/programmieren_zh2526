@@ -58,12 +58,12 @@ def is_inside(pos):
 
 def play(pos):
     '''pos: (col, row) tuple'''
-    if not is_inside(pos):
+    if result or not is_inside(pos):
         return
-    i = pos2idx(pos)
     player = get_player()
+    i = pos2idx(pos)
     board[i] = player
-    update('play', player=player, pos=idx2pos(i))
+    update('play', player=player, pos=pos)
     check_result(player)
 
 
@@ -79,13 +79,22 @@ if __name__ == '__main__':
         set_result(word)
         return result == word
 
-    def test_play_game():
-        ...
+    def simulate_game_play():
+        new_game()
+        for i in (4, 0, 1, 7, 3, 5, 2, 6, 8):
+            play(idx2pos(i))
+        show()
+
 
     tests = [test_set_result]
 
     with redirect_stdout(None):  # unterdruecke Ausgaben
-        n_passed = sum(test() for test in tests)
+        failed_tests = [test.__name__ for test in tests if not test()]
 
-    print(f'{n_passed}/{len(tests)} tests passed')
-    test_play_game()
+    n = len(tests)
+    m = len(failed_tests)
+    print(f'{n-m}/{n} tests passed')
+    for test in failed_tests:
+        print(f'    Test "{test}" failed')
+
+    simulate_game_play()
