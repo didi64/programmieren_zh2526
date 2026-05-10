@@ -1,6 +1,19 @@
 changes update script, searches for L_<number>/file, not ust file
 thus failnames only have to be unique within lessions.
 
+
+Aufraeumen:
+VOr dem Erstellen von L20, loesche
+  app.py 
+  tiktak_L19.py 
+  TikTakToe_mit_3_Komp.ipynb 
+  view.py 
+  view_tiktak.py
+
+In leicht modifizierter Form in L21/Simple_Grid_Controller
+
+
+
 shallow and deep copy.
 c = items.copy() is 
 
