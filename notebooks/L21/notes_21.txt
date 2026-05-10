@@ -1,7 +1,42 @@
 changes update script, searches for L_<number>/file, not ust file
 thus failnames only have to be unique within lessions.
 
+shallow and deep copy.
+c = items.copy() is 
 
+a = [item for item in items]
+b = []
+b[:] = items
+
+shallow copy
+
+matrix = [[], []]
+shallow copy ot good enough!
+matrix.copy = [row.copy() for row in matrix]
+----------------------------
+Assignment statements in Python do not copy objects, they create bindings between a target and an object. For collections that are mutable or contain mutable items, a copy is sometimes needed so one can change one copy without changing the other. This module provides generic shallow and deep copy operations (explained below).
+
+
+The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
+
+    A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
+
+    A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.
+
+Two problems often exist with deep copy operations that don’t exist with shallow copy operations:
+
+    Recursive objects (compound objects that, directly or indirectly, contain a reference to themselves) may cause a recursive loop.
+
+    Because deep copy copies everything it may copy too much, such as data which is intended to be shared between copies.
+
+------------------------
+ANy and ALl
+
+
+
+
+
+-----------------------
 matrix_helpers: add
 
 
@@ -107,6 +142,11 @@ TikTak_mit_Maussteuerung.ipynb (View und Controller)
 
 grid_controller.py ->verschiebe nach modules
 
+
+L21/App/AUfgabe.ipynb
+
+Diskutiere erweiterungen -> Bimodaler Controller, mehr Mausevents unterstuetzen.
+Diskutiere Limiten geg. durch Verwendung von Modulen.
 ==================
 
 Tiktatoe - Tests
