@@ -18,8 +18,8 @@
 18:Projekte Model_View_Controller
 #
 19:And_und_Or.ipynb grid_helpers.py widget_helpers.py Aufgabe_Lightbulbs.ipynb Module_DocString_Tests.ipynb Overview.ipynb Simple_Grid_Controller
-20:App Components.ipynb Matrix_Helpers.ipynb matrix_helpers.py Walruss_Operator.ipynb
-21:Matrizen_Aufgabe.ipynb 
+20:Components.ipynb Matrix_Helpers.ipynb matrix_helpers.py Walruss_Operator.ipynb
+21:Matrizen_Aufgabe.ipynb Simple_Grid_Controller App grid_helpers.py
 #
 99:
 # update -e is update 999
