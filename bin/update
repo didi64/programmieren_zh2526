@@ -109,7 +109,7 @@ for item in "$@"; do
             process_file "$file"
         done
     elif [[ "$item" != "." ]]; then
-        n=$(find . -path "*/$item" | wc -l)
+        n=$(find "$repo_url" -path "*/$item" | wc -l)
         if ((n > 0)); then
             process_file $item
         fi
