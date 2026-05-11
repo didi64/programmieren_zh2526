@@ -27,10 +27,11 @@ def on_key_down(key, *flags):
     try_to_call(key=key)
 
 
-def init(canvas_, grid_spec_, callbacks_):
+def init(canvas_, callbacks_, grid_spec_=None):
     global canvas, grid_spec, callbacks
     canvas, grid_spec, callbacks = canvas_, grid_spec_, callbacks_
-    canvas.on_mouse_down(on_mouse_down)
+    if grid_spec:
+        canvas.on_mouse_down(on_mouse_down)
     canvas.on_key_down(on_key_down)
 
 
