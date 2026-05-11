@@ -63,9 +63,11 @@ def new_game():
     mines[:] = get_mines()
     for pos in mines:
         M.set_item(grid, pos, MINE)
-    for pos, val in M.pos_and_values(grid):
-        if val != MINE:
-            count = mines_count(pos)
-            M.set_item(grid, pos, count)
+    for row, values in enumerate(grid):
+        for col, val in enumerate(values):
+            pos = (col, row)
+            if val != MINE:
+                count = mines_count(pos)
+                M.set_item(grid, pos, count)
     save_fields.clear()
     update('new_game')
