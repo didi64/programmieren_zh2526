@@ -10,3 +10,5 @@ __pycache__/
 !.keep
 !modules/loesungen.pyc
 !modules/view_tiktaktoe.pyc
+!modules/app_1.pyc
+!modules/view_1.pyc
