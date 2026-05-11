@@ -2,8 +2,8 @@ changes update script, searches for L_<number>/file, not ust file
 thus failnames only have to be unique within lessions.
 
 
-Aufraeumen:
-VOr dem Erstellen von L20, loesche
+Aufraeumen:git ac -m '.'
+Vor dem Erstellen von L20, loesche
   app.py 
   tiktak_L19.py 
   TikTakToe_mit_3_Komp.ipynb 
@@ -12,114 +12,40 @@ VOr dem Erstellen von L20, loesche
 
 In leicht modifizierter Form in L21/Simple_Grid_Controller
 
+update .
+update 21
+verschiebe grid_helpers.py nach Modules
+---
 
+mutable, immutable
+is vs ==
+gleiche Listen, Listen mit gleichen Elementen
 
-shallow and deep copy.
-c = items.copy() is 
+Moeglichkeiten, Liste [1, 2, 3] zu Kopieren.
+xs = [1, 2, 3]
+[x for x in xs]
+x[:]
+x.copy()
 
-a = [item for item in items]
-b = []
-b[:] = items
+ys = []
+ys[:] xs
+----
 
-shallow copy
+Matrizen_Aufgaben (incl. any all)
 
-matrix = [[], []]
-shallow copy ot good enough!
-matrix.copy = [row.copy() for row in matrix]
-----------------------------
-Assignment statements in Python do not copy objects, they create bindings between a target and an object. For collections that are mutable or contain mutable items, a copy is sometimes needed so one can change one copy without changing the other. This module provides generic shallow and deep copy operations (explained below).
-
-
-The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
-
-    A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
-
-    A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.
-
-Two problems often exist with deep copy operations that don’t exist with shallow copy operations:
-
-    Recursive objects (compound objects that, directly or indirectly, contain a reference to themselves) may cause a recursive loop.
-
-    Because deep copy copies everything it may copy too much, such as data which is intended to be shared between copies.
-
-------------------------
-ANy and ALl
-
-
-
-
-
------------------------
-matrix_helpers: add
-
-
-def copy(matrix):
-    return [row.copy() for row in matrix]
-
-
-def pos_and_values(matrix):
-    for row, values in enumerate(matrix):
-        for col, value in enumerate(values):
-            yield (col, row), value
-
-def show_matrix(matrix, sep=',', cell_width=None):
-    '''prints the matrix. Each cell is converted to a centered string of length cell_width'''
-    width = cell_width or 0
-    rows = [sep.join(str(x).center(width) for x in row) for row in matrix]
-    s = '\n'.join(rows)
-    print(s)
-
------------------------
-update grid_controller.py
-update Simple_Grid_Congroller
 
 Finish stuff
 
-%load_ext autoreload
-%autoreload 2
-print(f'modul {__name__} imported')
-
-Recap:
-Listen: Matix kopieren? (Original und Kopie sollen sich gleich verhalten)
-        list hat copy methode. (Shallow copy)
-        new_list = [item for item in old_list]
-
-        Matrix-Copy
-        copy = [row.copy() for row in matrix]
-        Liste neu befullen.
-
-any, all
 
 TikTak.ipynb
--update(event, **kwargs): gibt aus, was sich am Spielzustand aendert.
-                          Idee: die uebergebenen Argumente event und die Key-Word-Argumente
-                                liefert genug Informationen, so dass
-                                die Darstellungskomponente die Darstellung bequem updaten kann.
 
-                                d.h. update wird von Darstellungskomonente ueberschreiben
-                                und nimmt dann update der Darstellung vor.
-                                N.B: koennen der Darstellungskomponente auch zugriff auf die Game-komponente geben,
-                                     dann hat diese Zugriff auf alle Variabeln der Gamekomponente,
+Spiel-Komponente Ziel: Modul mit Tests
 
- Programmierer der SPielkomponente muss
- kommunizieren/dokummentieren, wann update mit was fuer Argumenten aufgerufen wird! 
-                                
-
-
-- benutze 'global' keyword nur an einer Stelle.
-  nur diese Funktion aendert den Wert der globalen Variable result.
-
-- get_win_line(player): gibt None zurueck, falls kein player nicht gewonnen hat 
-- new_game
-  board[:] = [EMPTY] * 9 . Wieso? Liste wir neu befuellt (keine neue Liste wird erstellt)
-- play(pos) (geaendert!)
-  prueft, ob Argument sinnvoll und ob Spiel noch laeuft
-
-
-Diskutiere: was sollen die einzelnen Tests leisten?
-            ev. etwas Daten bereitstellen, wie idxs und positions.
-            idxs = list(range(9))
-            [idx2pos for i in idxs]
+Diskutiere Aufgabe: 
+    was sollen die einzelnen Tests leisten?
+    ev. etwas Daten bereitstellen, wie idxs und positions.
+    idxs = list(range(9))
+    [idx2pos for i in idxs]
 
 
 play: zu komplex um separaten Test fuer Funktion zu scheiben:
@@ -131,14 +57,17 @@ play: zu komplex um separaten Test fuer Funktion zu scheiben:
 
 %run tiktak_L19
 
+schrebie erte 3 Tests zusammen, 
+gib Zeit, weitere Tests zu schreiben.
+
 TikTak_View.ipynb 
 importlib benutzen,  um module erneut importieren zu koennen.
 
 -> view_0
--> Ex: compolete view_tiktak
--> has already view_tiktaktoe.pyc
+-> Aufgabe: complete view_tiktak
+-> vorfuehrbar, da view_tiktaktoe.pyc vorhanden
 
-wieterer Code zur Text-View
+weiterer Code zur Text-View
 pos = (1, 1)
 game.play(pos)
 game.show()
@@ -150,10 +79,8 @@ for i in range(3):
 game.show()
 
 
-TikTak_mit_Maussteuerung.ipynb (View und Controller)
-
-
-grid_controller.py ->verschiebe nach modules
+TikTak_mit_3_Komp.ipynb (View und Controller)
+    grid_controller.py -> verschiebe nach modules
 
 
 L21/App/AUfgabe.ipynb
