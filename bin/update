@@ -115,5 +115,7 @@ for item in "$@"; do
         else
             echo "$item not found!"
         fi
+    else
+        :
     fi  
 done
