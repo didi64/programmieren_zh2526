@@ -9,4 +9,4 @@ __pycache__/
 !.gitignore
 !.keep
 !modules/loesungen.pyc
-
+!modules/view_tiktaktoe.pyc
