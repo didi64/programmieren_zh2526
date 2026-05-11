@@ -76,6 +76,9 @@ def show():
 if __name__ == '__main__':
     from contextlib import redirect_stdout
 
+    idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    positions = [(0, 0), (1, 0), (2, 0), (0, 1), (1, 1), (2, 1), (0, 2), (1, 2), (2, 2)]
+
     def test_set_result(word='foo'):
         set_result(word)
         return result == word
