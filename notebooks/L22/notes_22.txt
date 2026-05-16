@@ -1,0 +1,50 @@
+[default for _ in range(ncol)] is aeq zu [default] * ncol
+
+matrix = [[default for _ in range(ncol)] for _ in range(nrow)]
+
+
+------------------
+restart Computer might help.
+
+Workflow zum Schreiben einer Darstellungskomponente (View) fuer
+ein TikTakToe.
+
+- Starte mit Grid-Controller: 
+  game.new_game() und game.move(pos) durch Druecken von 'n' oder Mausklick auf Feld pos
+  aufrufen.
+
+  Zuerst ohne View.
+  game.update(event, **kwargs) is print(event, **kwargs)
+  teste, ob Funktionen der Game-Komponente tatsaechlich aufgerufen werden.
+
+  Ueberschreibe nun einzelnen Funktionen der View-Komponente in view_tiktak.py und
+  teste.
+  Dank importlib ist das modul reimportierbar.
+
+
+- selbes Vorgehen fuer App.
+  beginne auch mit Controller.
+
+-----
+
+generators
+depth-first search
+
+Componente
+Labyrinth
+8-Damen
+
+--------------------
+generators: wie range(1000)
+
+def my_range(start, stop, step):
+    while start < stop:
+        yield start
+
+        start += step
+        
+    
+
+ 
+  
+
