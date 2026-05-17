@@ -57,7 +57,7 @@ play: zu komplex um separaten Test fuer Funktion zu scheiben:
 
 %run tiktak_L19
 
-schrebie erte 3 Tests zusammen, 
+schreibe erste 3 Tests zusammen, 
 gib Zeit, weitere Tests zu schreiben.
 
 TikTak_View.ipynb 
