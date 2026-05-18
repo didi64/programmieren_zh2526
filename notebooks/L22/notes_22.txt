@@ -1,37 +1,3 @@
-Liebe Studierende,
-
-zum Reimport Problem
---------------------
-Das Modul importlib stellt die Funktion reload(<Modul>) zur Verfuegung, die ein
-bereits importiertes Modul erneut importiert. Damit werden die in diesem File gemachten Aenderungen wirksam.
-
-
-Auf meinem schwachen Laptop hat der Reimport zum Teil auch nicht funktioniert, ev.
-weil nicht mehr genug Arbeitsspeicher vorhanden ist?
-
-Bei mir hilft es, vor dem Starten von Dockerdesktop den Computer neu zu starten:
-Beim Herunterfahren wird der PC nicht komplett ausgeschaltet, sondern versetzt einen Teil des Systems in einen Ruhezustand. Ein echter Neustart hingegen leert den Arbeitsspeicher vollständig und lädt alle Treiber und den Windows-Kern sauber neu.
---------------
-
-Morgen werden wir nochmals moegliche Workflows zum Schreiben einer View
-anschauen und dann endlich einen einfachen konfigurierbaren Grid-Kontroller programmieren.
-
-Weiter werden wir einen Blick auf Fehlerbehandlung in Python werfen und
-sog. generators einfuehren.
-
-Noch einen schoenen Sonntagabend.
-Beste Gruesse,
-Dieter
-
-
-
-
-
-
-importlib.reload Problem:
-
-restart Computer might help.
-
 ----------------
 Aufgaben besprechen:
 1. Matrix_Loesungen
@@ -52,7 +18,7 @@ Wollte moeglichen Workflow zum Programmieren einer View zeigen.
 - kann Notebookzelle die Funktionen testet einfach nochmals ausfuehren,
   importlib.reload() reimportiert geaenderte View jeweils.
 
--> TikTak_View AUfgabe (gemeinsam)
+-> TikTak_View Aufgabe (gemeinsam)
 - view_tiktak.py -> printe NUR zur Illustration/Kontrolle das NB reimportiert!
 init am wichtigsten, beginne damit.
 
@@ -101,32 +67,16 @@ Diskutiere erweiterungen -> Bimodaler Controller, mehr Mausevents unterstuetzen.
 Diskutiere Limiten geg. durch Verwendung von Modulen.
 
 
-Ev. einfacherer Workflow: Starte mit Controller. In diesem Falle ja sehr einfach.
+Ev. einfacherer Workflow: Starte mit Controller. 
+
 Demonstriere am Beispiel App mit 3 Komp.
+Zuerst Sokoban, dann App.py
+Lasse App als Uebung: 
+  weise auf Fehler hin, in Markdown, init(canvas, grid_spec, callbacks), tauche callbacks mit grid_spec.
+  app_1, view_1 -> app, view
 
 
-- Starte mit Grid-Controller: 
-  game.new_game() und game.move(pos) durch Druecken von 'n' oder Mausklick auf Feld pos
-  aufrufen.
-
-  Zuerst ohne View.
-  game.update(event, **kwargs) is print(event, **kwargs)
-  teste, ob Funktionen der Game-Komponente tatsaechlich aufgerufen werden.
-
-  Ueberschreibe nun einzelnen Funktionen der View-Komponente in view_tiktak.py und
-  teste.
-  Dank importlib ist das modul reimportierbar.
-
-
-
-Well: mache hier Jeweils ein reload.
-
-app_1, view_1 -> app, view
-Korrigiere alle Fehler:
-
-
-    1.    ---> 35 canvas.on_key_down(on_key_down)
-        AttributeError: 'NoneType' object has no attribute 'on_key_down'
+Ev. erster Teil: Ausfueheren der App liefert Fehler.
 
     view.mcanvas ist None!
     view.init() soll das korrigieren!
@@ -211,6 +161,93 @@ def update_field(pos):
     M.set_item(matrix, pos, colorcode)
     update('fill_rect', pos=pos, colorcode=colorcode)
 
+
+
+----sokoban/game.py
+def update(event, **kwargs):
+    print(event, kwargs)
+
+
+def new_game():
+    global player_pos, boxes, targets, blocked
+
+    player_pos = [4, 4]
+    boxes = {(2, 3), (2, 5), (3, 3), (3, 4), (3, 5)}
+    targets = {(3, 3), (3, 4), (3, 5), (4, 3), (4, 5)}
+    blocked = {(0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (1, 1), (1, 5), (1, 6), (1, 7), (2, 1),
+               (2, 7), (3, 0), (3, 1), (3, 7), (4, 0), (4, 7), (5, 0), (5, 2), (5, 4), (5, 5),
+               (5, 6), (5, 7), (6, 0), (6, 4), (7, 0), (7, 1), (7, 2), (7, 3), (7, 4),
+               }
+    update('new_game')
+
+
+def move(dx, dy):
+    if (new_ppos := (player_pos[0]+dx, player_pos[1]+dy)) in blocked:
+        return
+
+    new_bpos = (player_pos[0]+2*dx, player_pos[1]+2*dy)
+    if new_ppos in boxes and new_bpos in (boxes | blocked):
+        return
+
+    if new_ppos in boxes:
+        boxes.remove(new_ppos)
+        boxes.add(new_bpos)
+
+    player_pos[:] = new_ppos
+    update('move', done=boxes == targets)
+------
+
+
+---- sokoban/view.py----
+import widget_helpers as W
+import grid_helpers as G
+from ipycanvas import hold_canvas
+
+
+DIAG_1 = [(0.25, 0.25), (0.75, 0.75)]
+DIAG_2 = [(0.25, 0.75), (0.75, 0.25)]
+
+game = None
+grid_spec = [0, 20, 20, 20, 8, 8]
+canvas = None
+
+
+def init(game_):
+    global canvas, game
+    canvas = W.get_canvas(width=160, height=180)
+    game = game_
+    game.update = update
+
+
+def draw_board(msg):
+    with hold_canvas():
+        canvas.clear()
+        canvas.fill_style = 'black'
+        canvas.fill_text(msg, 25, 15)
+
+        for pos in game.blocked:
+            G.fill_rect(canvas, pos, grid_spec, color='grey')
+        for pos in game.boxes:
+            color = 'orange' if pos in game.targets else 'brown'
+            G.fill_rect(canvas, pos, grid_spec, color=color)
+            G.stroke_rect(canvas, pos, grid_spec, color='black')
+        for pos in game.targets - game.boxes:
+            G.stroke_polygon(canvas, pos, DIAG_1, grid_spec, color='orange', line_width=2)
+            G.stroke_polygon(canvas, pos, DIAG_2, grid_spec, color='orange', line_width=2)
+
+        color = 'orange' if tuple(game.player_pos) in game.targets else 'red'
+        G.fill_circle(canvas, game.player_pos, grid_spec, color=color)
+
+
+def update(event, **kwargs):
+    msg = 'Congrats!' if event == 'move' and kwargs['done'] else 'Sokoban Level 1'
+    draw_board(msg)
+----
+
+
+
+
+
 ===========
 Pause
 ===========
@@ -262,85 +299,81 @@ def get_lines(s):
 
 list(get_lines(lines))
 ------
- 
-  
-----expanded maze_generator.py ----
-import widget_helpers as W
-import grid_helpers as G
-from IPython.display import display
+
+-----------------------------------------------------------
+
+generator, alle Loesungen zu den Aufgaben.
 
 
-def init_canvas(ncol, nrow, dx=20, dy=20):
-    canvas = W.get_canvas(width=ncol*dx, height=nrow*dy)
-    grid_spec = (0, 0, dx, dy, ncol, nrow)
-    G.draw_grid(canvas, grid_spec)
-
-    canvas.stroke_style = 'blue'
-    canvas.line_width = 3
-    return canvas, grid_spec
 
 
-def connect(canvas, src, dst, grid_spec):
-    p = G.cr2xy(*src, grid_spec, center=True)
-    q = G.cr2xy(*dst, grid_spec, center=True)
-    canvas.stroke_line(*p, *q)
+Loesungen Generator Aufgaben:
+1.
+def get_lines(s):
+    start = 0
+    while (i := s.find('\n', start)) != -1:
+        yield s[start:i]
+        start = i+1
+    yield s[start:]
+
+2.
+def find_chars(s, chars):
+    for i, c in enumerate(s):
+        if c in chars:
+            yield i
+
+3.
+def pos_and_values(mat):
+    for row, values in enumerate(mat):
+        for col, val in enumerate(values):
+            pos = (col, row)
+            yield pos, val
+
+4.
+def get_positions(mat, chars):
+    for pos, c in pos_and_values(mat):
+        if c in chars:
+            yield pos
 
 
+
+
+
+
+Loesungen maze_generation:
+
+1.
+def get_moves_bf(dims, start=(0, 0), shuffle=True):
+    stack = [(start)]
+    visited = {start}
+
+    while len(visited) < dims[0]*dims[1]:
+        pos = stack.pop(0)
+        for npos in get_random_neighbors(pos, dims, shuffle=shuffle):
+            if npos in visited:
+                continue
+            visited.add(npos)
+            stack.append(npos)
+            yield pos, npos
+
+
+2.
 def get_path_home(dst, go_back):
     path = [dst]
     while (src := go_back[path[-1]]):
         path.append(src)
     return path
 
-
-def draw_path(canvas, dst, go_back, grid_spec):
-    path = get_path_home(dst, go_back)
-    canvas.stroke_style = 'lightblue'
-    for i in range(1, len(path)):
-        connect(canvas, path[i-1], path[i], grid_spec)
-
-
-def get_door(src, dst):
-    return (src[0]+dst[0])/2+.5, (src[1]+dst[1])/2+.5
-
-
+3.
 def draw_maze(ncol, nrow, dx=20, dy=20):
     go_back = {(0, 0): None}
-    doors = set()
-
     canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
-
-    for src, dst in get_moves(dims=(ncol, nrow)):
-        go_back[dst] = src
-        door = get_door(src, dst)
-        doors.add(door)
+    for src, dst in get_moves_df(dims=(ncol, nrow)):
         connect(canvas, src, dst, grid_spec)
+        go_back[dst] = src
 
-    draw_path(canvas, (ncol-1, nrow-1), go_back, grid_spec)
+    canvas.stroke_style = 'lightblue'
+    path = get_path_home((ncol-1, nrow-1), go_back)
+    for i in range(1, len(path)):
+        connect(canvas, path[i-1], path[i], grid_spec)
     display(canvas)
-    return doors
-
-def get_options(pos, doors):
-    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-
-    x, y = pos
-    for dx, dy in directions:
-        npos = x+dx, y+dy
-        if get_door(pos, npos) in doors:
-            yield npos
-
-
-def find_path(src, dst, doors):
-    stack = [(dst)]
-    go_back = {dst: None}
-
-    while stack and (pos := stack.pop()) != src:
-        for npos in get_options(pos, doors):
-            if npos in go_back:
-                continue
-            go_back[npos] = pos
-            stack.append(npos)
-
-    return get_path_home(src, go_back)
-
- find_path((0, 0), (5, 2), set(doors))
