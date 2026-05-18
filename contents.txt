@@ -20,7 +20,7 @@
 19:And_und_Or.ipynb grid_helpers.py widget_helpers.py Aufgabe_Lightbulbs.ipynb Module_DocString_Tests.ipynb Overview.ipynb Simple_Grid_Controller
 20:Components.ipynb Matrix_Helpers.ipynb matrix_helpers.py Walruss_Operator.ipynb
 21:Simple_Grid_Controller App_mit_3_Komp grid_helpers.py Matrizen_Aufgabe.ipynb Components_L.ipynb
-22:Fehlerbehandlung.ipynb Generators.ipynb Matrizen_Loesungen.ipynb Maze_Generation.ipynb Sokoban tiktak_L19_mit_Tests.py view_tiktaktoe.py
+22:Fehlerbehandlung.ipynb Generators.ipynb Matrizen_Loesungen.ipynb Maze_Generation.ipynb Sokoban tiktak_L19_mit_Tests.py view_tiktak_L.py
 #
 99:
 # update -e is update 999
