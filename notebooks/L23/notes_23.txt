@@ -1,4 +1,4 @@
-Abgaben ?
+Abgaben ? Keine Abgabe, wie weiter?
 Projekt ?
 
 Loesung Sokoban: Demonstriere und lasse als Uebung fertig machen, wie undo einzubauen ist.
@@ -33,13 +33,18 @@ Loesung L21/App mit 3 Komponenten:
 
 Loesungen Generators:
 
+s = 'abcabc'
+s.find('a', 1)
+
 matrix_helpers: fuege Funktionen aus mehr_matrix_helpers hinzu modules/matrix_helpers.py
+---------------------------------------------------------
 
-Deque:
+Deque: wie Liste, kann aber von beiden Seiten schnell Elemente anhaengen und wegnehmen.
+       bei liste Einfuegenund entfernen am Anfang bei LANGEN Listen SEHR LANGSAM!
 
-
-Searching:
 Spannbaeume:
+Searching:
+
 
 Solve Maze
 Solve Sokoban
