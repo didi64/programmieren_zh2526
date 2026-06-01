@@ -1,82 +1,22 @@
+Abgaben ?
+Projekt ?
+
 Loesung Sokoban: Demonstriere und lasse als Uebung fertig machen, wie undo einzubauen ist.
-(Falls Bimodaler Controller: pull-modus einschalten.)
+# (Falls Bimodaler Controller: pull-modus einschalten.)
 
-matrix_helpers:
-Ex.
-def pos_and_values(matrix):
-    '''returns an iterator that yiels (position, value) pairs'''
-    for row, values in enumerate(matrix):
-        for col, value in enumerate(values):
-            yield (col, row), value
-
-extra
-def positions(ncol, nrow):
-    '''returns an iterator that yiels positions'''
-    for row in range(nrow):
-        for col in range(ncol):
-            yield (col, row)
-
-Ex.
-def find(matrix, item):
-    '''return the position of the first cell that contains item
-       or None if item is not found
-    '''
-    for row, values in enumerate(matrix):
-        for col, val in enumerate(values):
-            pos = (col, row)
-            if val.lower() == item:
-                return pos
-
-
-
-extra:
-def get_neighbor_vals(matrix, pos, kinds='s'):
-    '''returns all values at positions that are neighbors of pos.
-       kinds: str with chars in 'sc'
-       's' are neighbors with adjacent sides,
-       'c' are neighbors with common corners.
-    '''
-    x, y = pos
-    dims = get_dims(matrix)
-    neighbors = {'s': ((x, y-1), (x+1, y), (x, y+1), (x-1, y)),
-                 'c': ((x+1, y-1), (x+1, y+1), (x-1, y+1), (x-1, y-1)),
-                 }
-    values = []
-    for kind in kinds:
-        values += [matrix[pos[1]][pos[0]] for pos in neighbors[kind] if is_inside(pos, dims)]
-    return values
-
---- L23/Sokoban/game_1.py ---
-
+--- game_1.py Loesung zu undo Aufgabe:
 history = []
 
-
-def update(event, **kwargs):
-    print(event, kwargs)
-
-
-def new_game():
-    global player_pos, boxes, targets, blocked
-    ...
-
+...
 
 def move(dx, dy):
-    if (new_ppos := (player_pos[0]+dx, player_pos[1]+dy)) in blocked:
-        return
-
-    new_bpos = (player_pos[0]+2*dx, player_pos[1]+2*dy)
-    if new_ppos in boxes and new_bpos in (boxes | blocked):
-        return
+    ...
 
     if new_ppos in boxes:
         # speichere Spielzustand
         history.append((tuple(player_pos), frozenset(boxes)))
 
-        boxes.remove(new_ppos)
-        boxes.add(new_bpos)
-
-    player_pos[:] = new_ppos
-    update('move', done=boxes == targets)
+    ...
 
 
 def undo():
@@ -87,6 +27,37 @@ def undo():
     boxes.update(old_bp)
     player_pos[:] = old_pp
     update('undo')
+----------------------------------------------
+
+Loesung L21/App mit 3 Komponenten:
+
+Loesungen Generators:
+
+matrix_helpers: fuege Funktionen aus mehr_matrix_helpers hinzu modules/matrix_helpers.py
+
+Deque:
+
+
+Searching:
+Spannbaeume:
+
+Solve Maze
+Solve Sokoban
+
+Solve Sokoban:
+
+Gehe zu Play_Sokoban: 
+
+add to view.py
+line 40
+        canvas.save()
+        for i in range(8):
+            G.fill_text(canvas,  f'{i}', (0, i), grid_spec, color='black')
+            G.fill_text(canvas,  f'{i}', (i, 0), grid_spec, color='black')
+        canvas.restore()
+
+
+Damenproblem:
 
 
 ---- queens Loesung ---
@@ -104,9 +75,28 @@ def search_bf_all(node, get_neigbors, is_goal):
         notes_to_visit.extend(get_neigbors(node))
 --- queens Loesung ---
 
-Maze_II
 
-def path_home(node, go_back):
+Solve_Maze: Bem breadt-first searchetwas anders ohne Deque, hinten anhaengen, vorne wegnehmen
+-> Maze-Generation change while len() < ncol*nrow -> while stack: 
+
+----------loesungen maze_generation ----------------
+helpt with 1.
+
+def get_moves_bf(dims, start=(0, 0), shuffle=True):
+    stack = [start]
+    visited = {start}
+
+    while len(visited) < dims[0]*dims[1]:
+        pos = stack.pop(0)
+        for npos in get_random_neighbors(pos, dims, shuffle=shuffle):
+            if npos in visited:
+                continue
+            visited.add(npos)
+            stack.append(npos)
+            yield pos, npos
+-----
+
+def get_path_home(node, go_back):
     path = []
     while node:
         path.append(node)
@@ -114,9 +104,8 @@ def path_home(node, go_back):
 
     return path
 
-while len() < ncol*nrow -> while stack:
 
-def draw_maze(ncol, nrow, dx=20, dy=20, shuffle=True):
+def draw_maze_1(ncol, nrow, dx=20, dy=20, shuffle=True):
     go_back = {(0, 0): None}
     canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
     for src, dst in get_moves_df(dims=(ncol, nrow), shuffle=shuffle):
@@ -125,10 +114,11 @@ def draw_maze(ncol, nrow, dx=20, dy=20, shuffle=True):
     display(canvas)
     return go_back
 
-def draw_maze(ncol, nrow, dx=20, dy=20):
+
+def draw_maze_2(ncol, nrow, dx=20, dy=20, shuffle=True):
     go_back = {(0, 0): None}
     canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
-    for src, dst in get_moves_df(dims=(ncol, nrow)):
+    for src, dst in get_moves_df(dims=(ncol, nrow), shuffle=shuffle):
         connect(canvas, src, dst, grid_spec)
         go_back[dst] = src
 
@@ -136,56 +126,6 @@ def draw_maze(ncol, nrow, dx=20, dy=20):
     path = get_path_home((ncol-1, nrow-1), go_back)
     for i in range(1, len(path)):
         connect(canvas, path[i-1], path[i], grid_spec)
+
     display(canvas)
-
-
-def mark_path(canvas, grid_spec, path):
-    canvas.stroke_style = 'lightblue'
-    for i in range(1, len(path)):
-        connect(canvas, path[i-1], path[i], grid_spec)
-
-
-
-def goback2tree(cp):
-    '''return root, tree: dict'''
-    parent_children = {}
-    root = None
-    for k, v in cp.items():
-        if v is None:
-            root = k
-            continue
-        parent_children.setdefault(v, []).append(k)
-    return root, parent_children
-
-
-
-def cp2rpcs(cp):
-    pcs = {}
-    root = None
-    for k, v in cp.items():
-        if v is None:
-            root = k
-            continue
-        pcs.setdefault(v, []).append(k)
-    return root, pcs
-
-
-def rpcs2tree(root, pcs):
-    if root not in pcs:
-        return (root, [])
-
-    children = [rpcs2tree(child, pcs) for child in pcs[root]]
-    return (root, children)    
-
----solve sokoban show solution --
-for i in range(8):
-    G.fill_text(view.canvas,  f'{i}', (0, i), view.grid_spec, color='black')
-    G.fill_text(view.canvas,  f'{i}', (i, 0), view.grid_spec, color='black')
-
-add to view.py
-line 40
-        canvas.save()
-        for i in range(8):
-            G.fill_text(canvas,  f'{i}', (0, i), grid_spec, color='black')
-            G.fill_text(canvas,  f'{i}', (i, 0), grid_spec, color='black')
-        canvas.restore()
+----------------------------------------

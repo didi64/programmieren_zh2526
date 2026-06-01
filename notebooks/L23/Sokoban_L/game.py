@@ -1,3 +1,6 @@
+history = []
+
+
 def update(event, **kwargs):
     print(event, kwargs)
 
@@ -25,8 +28,19 @@ def move(dx, dy):
         return
 
     if new_ppos in boxes:
+        history.append((tuple(player_pos), frozenset(boxes)))
         boxes.remove(new_ppos)
         boxes.add(new_bpos)
 
     player_pos[:] = new_ppos
     update('move', done=boxes == targets)
+
+
+def undo():
+    if not history:
+        return
+    old_pp, old_bp = history.pop()
+    boxes.clear()
+    boxes.update(old_bp)
+    player_pos[:] = old_pp
+    update('undo')

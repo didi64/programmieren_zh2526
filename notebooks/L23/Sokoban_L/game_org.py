@@ -1,6 +1,3 @@
-history = []
-
-
 def update(event, **kwargs):
     print(event, kwargs)
 
@@ -8,7 +5,7 @@ def update(event, **kwargs):
 def new_game():
     global player_pos, boxes, targets, blocked
     print('game: callinig new_game()')
-    history.clear()
+
     player_pos = [4, 4]
     boxes = {(2, 3), (2, 5), (3, 3), (3, 4), (3, 5)}
     targets = {(3, 3), (3, 4), (3, 5), (4, 3), (4, 5)}
@@ -20,29 +17,13 @@ def new_game():
 
 
 def move(dx, dy):
+    print(f'game: callinig move({dx}, {dy})')
     if (new_ppos := (player_pos[0]+dx, player_pos[1]+dy)) in blocked:
         return
 
-    new_bpos = (player_pos[0]+2*dx, player_pos[1]+2*dy)
-    if new_ppos in boxes and new_bpos in (boxes | blocked):
-        return
-
-    if new_ppos in boxes:
-        # speichere Spielzustand
-        history.append((tuple(player_pos), frozenset(boxes)))
-
-        boxes.remove(new_ppos)
-        boxes.add(new_bpos)
+    # new_bpos = Position, auf die eine Box auf dem Feld new_ppos geschoben wuerde
+    # falls auf new_ppos eine Box steht und new_bpos blockiert oder Boxfeld ist, return
+    # falls auf new_ppos eine Box steht, entferne new_ppos aus der Menge boxes und fuege new_bpos hinzu
 
     player_pos[:] = new_ppos
     update('move', done=boxes == targets)
-
-
-def undo():
-    if not history:
-        return
-    old_pp, old_bp = history.pop()
-    boxes.clear()
-    boxes.update(old_bp)
-    player_pos[:] = old_pp
-    update('undo')
