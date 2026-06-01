@@ -42,12 +42,38 @@ matrix_helpers: fuege Funktionen aus mehr_matrix_helpers hinzu modules/matrix_he
 Deque: wie Liste, kann aber von beiden Seiten schnell Elemente anhaengen und wegnehmen.
        bei liste Einfuegenund entfernen am Anfang bei LANGEN Listen SEHR LANGSAM!
 
-Spannbaeume:
+zuerst kurz Spannbaeume: kurz DFS und BFS (um was es geht)
+
 Searching:
+nun Spannbaeume im Detail: wie Baum als graph Dict aus go_back bez. child_parent Dict.
 
+Solve Maze -> Hint at Mazegeneration um so ein Maze zu generieren.
 
-Solve Maze
-Solve Sokoban
+------------------
+def search_df(root, tree, target):
+    nodes_to_visit = [root]
+    go_back = {root: None}
+    counter_1 = 0
+    counter_2 = 0
+    
+    while nodes_to_visit:
+        parent = nodes_to_visit.pop()
+        counter_1 += 1
+        if parent == target:
+            print(counter_1, counter_2)
+            return parent, go_back
+
+        for child in tree.get(parent, ()):
+            if child in go_back:
+                continue
+            counter_2 += 1
+            go_back[child] = parent
+            nodes_to_visit.append(child)
+
+add count, maches es mit bf
+from collections import deque
+
+------------
 
 Solve Sokoban:
 
