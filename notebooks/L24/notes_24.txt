@@ -105,4 +105,52 @@ def undo():
 
     board[:] = history.pop()
     update('undo')
--------------------------
+----------preview_move und show_and_move-----
+from solution import get_move_iter
+
+moves = get_move_iter()
+
+def preview_move(jpeg, hole):
+    x1, y1 = view.G.cr2xy(*jpeg, view.grid_spec, center=True)
+    x2, y2 = view.G.cr2xy(*hole, view.grid_spec, center=True)
+    view.canvas.stroke_style = 'blue'
+    view.canvas.stroke_line(x1, y1, x2, y2)
+    view.canvas.stroke_style = 'black'
+
+
+def show_and_move(move=[None, None]):
+    global moves
+    if move[0] is None:
+        try:
+            move[:] = next(moves)
+        except StopIteration:
+            moves = get_move_iter()
+            game.new_game()
+            move[:] = next(moves)
+
+        preview_move(*move)
+    else:
+        game.move(*move)
+        move[:] = None, None
+------ verbessere touch --
+def color_stone(pos, color):
+    view.canvas.save()
+    view.G.fill_circle(view.canvas, pos, view.grid_spec, color=color)
+    view.canvas.restore()
+
+
+def touch(pos, move=[None, None]):
+    if move[0] is None and game.is_pos(pos) and game.M.get_item(game.board, pos):
+        move[0] = pos
+        color_stone(pos, 'blue')
+    elif move[0] == pos:
+        move[0] = None
+        color_stone(pos, 'black')
+    elif move[0]:
+        move[1] = pos
+        print(f'move({move[0]}, move[1])')
+        if game.move(*move):
+            move[:] = None, None
+        else:
+            move[1] = None
+    print(f'move: {move}')
