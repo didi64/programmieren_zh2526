@@ -1,0 +1,108 @@
+queens: in get_neighbors: early return is superfluous.
+
+metric: look at len(go_back)
+
+is the generator approch for serachin any better!?
+
+zeige generator approch an spannbaeumen (directer depth first)
+zeige auch anhand von maze Generation
+
+play solitare
+copy past from play sokoban
+
+
+----game.py -----------
+import matrix_helpers as M
+
+
+def update(event):
+    print(event)
+
+
+def new_game():
+    global board
+    board = M.make_matrix(7, default=1)
+    M.set_item(board, (3, 3), 0)
+    update('new_game')
+
+
+def is_pos(pos):
+    return all(0 <= i < 7 for i in pos) and any(2 <= i < 5 for i in pos)
+
+
+def is_legal(jpeg, peg, hole):
+    return (is_pos(jpeg) and is_pos(hole)
+            and (jpeg[0] == hole[0] and abs(jpeg[1] - hole[1]) == 2
+                 or jpeg[1] == hole[1] and abs(jpeg[0] - hole[0]) == 2)
+            and M.get_item(board, jpeg) == M.get_item(board, peg) == 1
+            and M.get_item(board, hole) == 0
+            )
+
+
+def move(jpeg, hole):
+    peg = (jpeg[0] + hole[0]) // 2, (jpeg[1] + hole[1]) // 2
+    if not is_legal(jpeg, peg, hole):
+        return
+
+    M.set_item(board, jpeg, 0)
+    M.set_item(board, peg, 0)
+    M.set_item(board, hole, 1)
+    update('move')
+
+--------view.py ----------
+
+import widget_helpers as W
+import grid_helpers as G
+import matrix_helpers as M
+from ipycanvas import hold_canvas
+
+
+grid_spec = [20, 20, 20, 20, 20, 7, 7]
+
+
+def init(game_):
+    global canvas, game
+    canvas = W.get_canvas(width=180, height=180)
+    game = game_
+    game.update = update
+
+
+def draw_board():
+    with hold_canvas():
+        canvas.clear()
+        for pos, val in M.pos_and_values(game.board):
+            if not game.is_pos(pos):
+                continue
+
+            if val == 1:
+                G.fill_circle(canvas, pos, grid_spec)
+            else:
+                G.stroke_circle(canvas, pos, grid_spec)
+
+
+def update(event):
+    draw_board()
+
+--- game_1.py with undo() ---
+
+history = []
+
+
+def new_game():
+    global board
+    history.clear()
+    
+
+
+def move(jpeg, hole):
+    history.append(M.copy(board))
+    
+
+
+def undo():
+    if not history:
+        return
+
+    board[:] = history.pop()
+    update('undo')
+-------------------------
