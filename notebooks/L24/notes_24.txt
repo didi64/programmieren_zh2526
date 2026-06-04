@@ -1,3 +1,22 @@
+Nachtrag Generators:
+AUch mit enumerate benutzbar! E.G.
+for i, pos in enumerate(M.positions)
+
+fix M.find !
+def find(matrix, item):
+    '''return the position of the first cell that contains item
+       or None if item is not found
+    '''
+    for row, values in enumerate(matrix):
+        for col, val in enumerate(values):
+            pos = (col, row)
+            if val == item:
+                return pos
+
+def as_tuple(mat):
+    return tuple(tuple(row) for row in mat)
+
+
 queens: in get_neighbors: early return is superfluous.
 
 metric: look at len(go_back)
