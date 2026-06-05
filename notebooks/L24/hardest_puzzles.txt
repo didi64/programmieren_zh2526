@@ -37,7 +37,7 @@
 000200000060010700008000050500004000700000002009300000000700400040060009001000030
 
 # 9. Peter Norvig's "hard1" — used in his famous Sudoku essay
-# 21 clues. The benchmark puzzle from norvig.com/sudoku.html
+# 17 clues. The benchmark puzzle from norvig.com/sudoku.html
 400000805030000000000700000020000060000080400000010000000603070500200000104000000
 
 # 10. Inkala (Norvig hardest #1) — verified from norvig.com/hardest.txt
