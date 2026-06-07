@@ -18,10 +18,7 @@ def draw_board():
     with hold_canvas():
         canvas.clear()
         G.draw_grid(canvas, grid_spec)
-        for pos, val in M.pos_and_values(game.board):
-            if val == 0:
-                continue
-            G.fill_text(canvas, str(val), pos, grid_spec, margin=0.2)
+        ...
 
 
 def update(event):

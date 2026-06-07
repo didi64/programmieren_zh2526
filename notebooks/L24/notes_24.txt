@@ -1,5 +1,15 @@
+Liebe Studierende,
+
+am Montag werden wir
+
+
+Beste Gruesse,
+Dieter
+
+
+
 Nachtrag Generators:
-AUch mit enumerate benutzbar! E.G.
+Auch mit enumerate benutzbar! E.G.
 for i, pos in enumerate(M.positions)
 
 fix M.find !
@@ -16,22 +26,84 @@ def find(matrix, item):
 def as_tuple(mat):
     return tuple(tuple(row) for row in mat)
 
+-----------------
 
 queens: in get_neighbors: early return is superfluous.
 
 metric: look at len(go_back)
+Grid-Controller:
 
-is the generator approch for serachin any better!?
+Ausblick: 14/15 Puzzle, mache Spiel fertig.
 
-zeige generator approch an spannbaeumen (directer depth first)
-zeige auch anhand von maze Generation
+# copy past from play sokoban
+---- 14.15 game.py ----
 
-play solitare
-copy past from play sokoban
+board = []
 
 
-----game.py -----------
+def update(event):
+    print(event)
+
+
+def new_game():
+    numbers = list(range(16))
+    board[:] = [numbers[i:i+4] for i in range(0, 16, 4)]
+    update('new_game')
+
+
+def move(pos):
+    x, y = pos
+    for dx, dy in ((0, -1), (1, 0), (0, 1), (-1, 0)):
+        nx, ny = x+dx, y+dy
+        if nx > 3 or ny > 3:
+            continue
+        if board[ny][nx] == 0:
+            tmp = board[y][x]
+            board[y][x] = 0
+            board[ny][nx] = tmp
+            update('move')
+            break
+
+----14.15-view.py----
+import widget_helpers as W
+import grid_helpers as G
 import matrix_helpers as M
+from ipycanvas import hold_canvas
+
+
+grid_spec = [20, 20, 20, 20, 4, 4]
+
+
+def init(game_):
+    global canvas, game
+    canvas = W.get_canvas(width=120, height=120)
+    game = game_
+    game.update = update
+
+
+def draw_board():
+    with hold_canvas():
+        canvas.clear()
+        G.draw_grid(canvas, grid_spec)
+        for pos, val in M.pos_and_values(game.board):
+            if val == 0:
+                continue
+            G.fill_text(canvas, str(val), pos, grid_spec, margin=0.2)
+
+
+def update(event):
+    draw_board()
+
+
+-----------------
+
+Peg-Solitaire: game und view fertig machen.
+
+
+import matrix_helpers as M
+
+------peg solitarie game.py ----
+# history = []
 
 
 def update(event):
@@ -40,6 +112,7 @@ def update(event):
 
 def new_game():
     global board
+    history.clear()
     board = M.make_matrix(7, default=1)
     M.set_item(board, (3, 3), 0)
     update('new_game')
@@ -63,12 +136,22 @@ def move(jpeg, hole):
     if not is_legal(jpeg, peg, hole):
         return
 
+    # history.append(M.copy(board))
     M.set_item(board, jpeg, 0)
     M.set_item(board, peg, 0)
     M.set_item(board, hole, 1)
     update('move')
 
---------view.py ----------
+spaeter, bew als Uebung.
+def undo():
+    if not history:
+        return
+
+    board[:] = history.pop()
+    update('undo')
+
+
+---- peg solitaire view.py -----------
 
 import widget_helpers as W
 import grid_helpers as G
@@ -102,29 +185,13 @@ def draw_board():
 def update(event):
     draw_board()
 
---- game_1.py with undo() ---
+ 
 
-history = []
-
-
-def new_game():
-    global board
-    history.clear()
-    
+Exkurs Iterators and Iterables
+gemeinsam show and move fertig schreiben!
 
 
-def move(jpeg, hole):
-    history.append(M.copy(board))
-    
-
-
-def undo():
-    if not history:
-        return
-
-    board[:] = history.pop()
-    update('undo')
-----------preview_move und show_and_move-----
+----------preview_move und show_and_move in peg solitaire view.py-----
 from solution import get_move_iter
 
 moves = get_move_iter()
@@ -151,7 +218,10 @@ def show_and_move(move=[None, None]):
     else:
         game.move(*move)
         move[:] = None, None
------- verbessere touch --
+
+
+Als Uebung, ev. erste spaeter!
+------ verbessere touch in peg solitarie Notebookcell--
 def color_stone(pos, color):
     view.canvas.save()
     view.G.fill_circle(view.canvas, pos, view.grid_spec, color=color)
@@ -173,6 +243,162 @@ def touch(pos, move=[None, None]):
         else:
             move[1] = None
     print(f'move: {move}')
+
+-----------------------------------
+
+Sudoku-Solver: 1. Aufgabe als Uebung!
+2. Gemeinsam!
+
+
+gehe durch notebook
+
+hard1: nicht loesbar, aber mit get_good_neighbors
+
+starte mit leerem SUdoku
+
+1. 
+solutions = search_df_all((0,) * 81, get_neighbors)
+
+print_sudoku(next(solutions))
+
+2. 
+def has_unique_solution(sudoku):
+    solutions = search_df_all(sudoku, get_neighbors)
+    return next(solutions) and not next(solutions, None)
+
+has_unique_solution(as_tuple(escargot))
+
+has_unique_solution((0,) * 81)
+
+3.
+def set_block_in_diag(sudoku, blk, numbers):
+    col = row = 3 * blk
+    for i in range(3):
+        for j in range(3):
+            sudoku[9*(row + i) + col + j] = numbers[3*i + j]
+
+
+sudoku = [0] * 81
+numbers = list(range(1, 10))
+set_block_in_diag(sudoku, 2, numbers)
+print_sudoku(sudoku)
+
+4.
+import random
+
+
+sudoku = [0] * 81
+numbers = list(range(1, 10))
+
+for blk in range(3):
+    random.shuffle(numbers)
+    set_block_in_diag(sudoku, blk, numbers)
+
+
+print_sudoku(sudoku)
+5.
+my_sudoku = list(search_df(sudoku, get_neighbors))
+print_sudoku(my_sudoku)
+6.
+
+indices = list(range(81))
+clues = 81
+random.shuffle(indices)
+
+for i in indices:
+    v = my_sudoku[i]
+    my_sudoku[i] = 0
+    if not has_unique_solution(my_sudoku):
+        my_sudoku[i] = v
+    else:
+        clues -= 1
+        print(clues, end=', ')
+        if clues < 30:
+            break
+
+7.
+print_sudoku(my_sudoku)
+
+8.
+
+solution = search_df(sudoku, get_neighbors)
+print_sudoku(solution)
+
+9. 
+has_unique_solution(my_sudoku)
+
+fuer hueschere Sudokus:
+
+def rot90(i):
+    y, x = divmod(i, 9)
+    j = 9*x + (8 - y)
+    return j
+
+
+def rotated(i):
+    indices = [i]
+    for _ in range(3):
+        i = rot90(i)
+        indices.append(i)
+
+    return indices
+
+
+list(rotated(0))
+
+indices = [9*y + x for y in range(5) for x in range(4)]
+indices
+
+
+s = set()
+for i in indices:
+    s.update(set(rotated(i)))
+
+set(range(81)) - s
+
+
+Fuer huebschere Suudokus:
+nach fuellen:
+- entferne rotationssymmetrisch:
+
+indices = [9*y + x for y in range(5) for x in range(4)]
+random.shuffle(indices)
+
+while has_unique_solution(my_sudoku):
+    i = indices.pop()
+    idxs = rotated(i)
+    vals = []
+    for idx in idxs:
+        vals.append(my_sudoku[idx])
+        my_sudoku[idx] = 0
+
+for idx, v in zip(idxs, vals):
+    my_sudoku[idx] = v
+
+nun entferene wie oben aus
+
+indices = [i for i in range(81) if my_sudoku[i] != 0]
+clues = len(indices)
+
+random.shuffle(indices)
+
+for i in indices:
+    v = my_sudoku[i]
+    my_sudoku[i] = 0
+    if not has_unique_solution(my_sudoku):
+        my_sudoku[i] = v
+    else:
+        clues -= 1
+        print(clues, end=', ')
+        if clues < 30:
+            break
+
+
+
+
+
+
+
 
 ---peg_solitare move_1 ---
 
