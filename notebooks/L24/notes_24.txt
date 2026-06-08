@@ -244,6 +244,17 @@ def update(event):
 Exkurs Iterators and Iterables
 gemeinsam show and move fertig schreiben!
 
+xs = [1, 2, 3]
+hat kein next, aber iter
+xs.__iter__
+it = iter(xs)
+next(it)
+
+
+
+
+
+gen = (i*2 for i in (2, 3, 4))
 
 ----------preview_move und show_and_move in peg solitaire view.py-----
 from solution import get_move_iter
