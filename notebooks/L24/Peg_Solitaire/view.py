@@ -16,16 +16,7 @@ def init(game_):
 
 
 def draw_board():
-    with hold_canvas():
-        canvas.clear()
-        for pos, val in M.pos_and_values(game.board):
-            if not game.is_pos(pos):
-                continue
-
-            if val == 1:
-                G.fill_circle(canvas, pos, grid_spec)
-            else:
-                G.stroke_circle(canvas, pos, grid_spec)
+    ...
 
 
 def update(event):

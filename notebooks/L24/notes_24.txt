@@ -33,11 +33,33 @@ def find(matrix, item):
 diskutiere, wie als dict representieren?
 In welcher Reihenfolge werden die Knoten besucht?
 
+neues notebook:
+
 tree = {
     1: (11, 12),
     11: (111, 112, 113),
     12: (121, 122, 123),
     }
+
+copy from searching:
+def search_df(node, get_neighbors, is_goal=None):
+    nodes_to_visit = [node]
+    go_back = {node: None}
+
+    while nodes_to_visit:
+        node = nodes_to_visit.pop()
+        #if is_goal and is_goal(node):
+        #    break
+
+        for neighbor in get_neighbors(node):  # in tree[node]
+            if neighbor in go_back:
+                continue
+
+            go_back[neighbor] = node
+            nodes_to_visit.append(neighbor)
+
+    return node, go_back
+
 
 copy from Spannbaueme: diskutiere, wie 
 insert
@@ -45,6 +67,8 @@ while nodes_to_visit:
         node = nodes_to_visit.pop()
         --> print(f'visiting node {node}')
 
+
+Anzahl besuchter Knoten: len(go_back)!
 -------
 
 queens: in get_neighbors: early return is superfluous? Does it hurt?
