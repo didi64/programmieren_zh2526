@@ -4,7 +4,7 @@ import matrix_helpers as M
 from ipycanvas import hold_canvas
 
 
-grid_spec = [20, 20, 20, 20, 20, 7, 7]
+grid_spec = [20, 20, 20, 20, 20, 7, 7]  # 7x7 Gitter an Pos (20, 20)
 
 
 def init(game_):
