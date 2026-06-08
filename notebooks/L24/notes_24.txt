@@ -1,18 +1,15 @@
-Liebe Studierende,
-
-am Montag werden wir
-
-
-Beste Gruesse,
-Dieter
-
-
 
 Nachtrag Generators:
 Auch mit enumerate benutzbar! E.G.
 for i, pos in enumerate(M.positions)
 
-fix M.find !
+ns = (i**2 for i in range(3))
+ns
+
+[(i, n) for i, n in enumerate(ns)]
+
+!fix M.find !
+
 def find(matrix, item):
     '''return the position of the first cell that contains item
        or None if item is not found
@@ -23,14 +20,47 @@ def find(matrix, item):
             if val == item:
                 return pos
 
-def as_tuple(mat):
-    return tuple(tuple(row) for row in mat)
+
 
 -----------------
 
-queens: in get_neighbors: early return is superfluous.
+'''
+               1
+11                12
+111, 112, 113     121, 122, 123 
+'''
 
-metric: look at len(go_back)
+diskutiere, wie als dict representieren?
+In welcher Reihenfolge werden die Knoten besucht?
+
+tree = {
+    1: (11, 12),
+    11: (111, 112, 113),
+    12: (121, 122, 123),
+    }
+
+copy from Spannbaueme: diskutiere, wie 
+insert
+while nodes_to_visit:
+        node = nodes_to_visit.pop()
+        --> print(f'visiting node {node}')
+
+-------
+
+queens: in get_neighbors: early return is superfluous? Does it hurt?
+alle Loesungen fuer 8 Damen,
+visited und scheduled nodes ausgeben.
+extend_left: ungeschickt fuer counter der schedlued nodes:
+    for neighbor in get_neighbors(node):
+        #if neighbor in go_back:
+        #    continue
+        go_back[neighbor] = node
+        nodes_to_visit.appendleft(neighbor)
+
+
+
+metric: look at len(go_back): Anzahl besuchter Knoten!
+
 Grid-Controller:
 
 Ausblick: 14/15 Puzzle, mache Spiel fertig.
@@ -327,7 +357,8 @@ print_sudoku(solution)
 9. 
 has_unique_solution(my_sudoku)
 
-fuer hueschere Sudokus:
+fuer hueschere Sudokus:   rot90 um Ursprung: (x, y) -> (-y, x)
+                          rot90 um (4, 4):  (x, y) -> (x-4, y-4) -> (4 - y, x - 4) -> (8-y, x)
 
 def rot90(i):
     y, x = divmod(i, 9)
@@ -422,3 +453,57 @@ def move_1(pos):
 
     update('move1')
 ----------------------
+
+
+
+
+
+
+--- solutions maze generations ------
+
+def get_moves_bf(dims, start=(0, 0), shuffle=True):
+    stack = [start]
+    visited = {start}
+
+    while len(visited) < dims[0]*dims[1]:
+        pos = stack.pop(0)
+        for npos in get_random_neighbors(pos, dims, shuffle=shuffle):
+            if npos in visited:
+                continue
+            visited.add(npos)
+            stack.append(npos)
+            yield pos, npos
+
+
+def get_path_home(node, go_back):
+    path = []
+    while node:
+        path.append(node)
+        node = go_back[node]
+
+    return path
+
+
+def draw_maze_1(ncol, nrow, dx=20, dy=20, shuffle=True):
+    go_back = {(0, 0): None}
+    canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
+    for src, dst in get_moves_bf(dims=(ncol, nrow), shuffle=shuffle):
+        go_back[dst] = src
+        connect(canvas, src, dst, grid_spec)
+    display(canvas)
+    return go_back
+
+
+def draw_maze_2(ncol, nrow, dx=20, dy=20, shuffle=True):
+    go_back = {(0, 0): None}
+    canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
+    for src, dst in get_moves_bf(dims=(ncol, nrow), shuffle=shuffle):
+        connect(canvas, src, dst, grid_spec)
+        go_back[dst] = src
+
+    canvas.stroke_style = 'lightblue'
+    path = get_path_home((ncol-1, nrow-1), go_back)
+    for i in range(1, len(path)):
+        connect(canvas, path[i-1], path[i], grid_spec)
+
+    display(canvas)

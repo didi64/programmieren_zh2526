@@ -379,3 +379,60 @@ def draw_maze(ncol, nrow, dx=20, dy=20):
     for i in range(1, len(path)):
         connect(canvas, path[i-1], path[i], grid_spec)
     display(canvas)
+
+
+
+
+
+
+
+
+
+
+
+def get_moves_bf(dims, start=(0, 0), shuffle=True):
+    stack = [start]
+    visited = {start}
+
+    while len(visited) < dims[0]*dims[1]:
+        pos = stack.pop(0)
+        for npos in get_random_neighbors(pos, dims, shuffle=shuffle):
+            if npos in visited:
+                continue
+            visited.add(npos)
+            stack.append(npos)
+            yield pos, npos
+----solutions maze generations ---
+
+def get_path_home(node, go_back):
+    path = []
+    while node:
+        path.append(node)
+        node = go_back[node]
+
+    return path
+
+
+def draw_maze_1(ncol, nrow, dx=20, dy=20, shuffle=True):
+    go_back = {(0, 0): None}
+    canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
+    for src, dst in get_moves_bf(dims=(ncol, nrow), shuffle=shuffle):
+        go_back[dst] = src
+        connect(canvas, src, dst, grid_spec)
+    display(canvas)
+    return go_back
+
+
+def draw_maze_2(ncol, nrow, dx=20, dy=20, shuffle=True):
+    go_back = {(0, 0): None}
+    canvas, grid_spec = init_canvas(ncol, nrow, dx, dy)
+    for src, dst in get_moves_bf(dims=(ncol, nrow), shuffle=shuffle):
+        connect(canvas, src, dst, grid_spec)
+        go_back[dst] = src
+
+    canvas.stroke_style = 'lightblue'
+    path = get_path_home((ncol-1, nrow-1), go_back)
+    for i in range(1, len(path)):
+        connect(canvas, path[i-1], path[i], grid_spec)
+
+    display(canvas)
