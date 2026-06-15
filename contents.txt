@@ -23,6 +23,7 @@
 22:Fehlerbehandlung.ipynb Generators.ipynb Matrizen_Loesungen.ipynb Maze_Generation.ipynb Sokoban tiktak_L19_mit_Tests.py view_tiktak_L.py
 23:App_mit_3_Komp_L Damenproblem.ipynb Deques.ipynb Generators_L.ipynb Searching.ipynb Sokoban_L Solve_Maze.ipynb Solve_Sokoban.ipynb Spannbaeume.ipynb maze.py mehr_matrixhelper.py sokoban_graph.py wQ.svg mehr_gridhelpers.py
 24:14_15_Puzzle Iterables_and_Iterators.ipynb Peg_Solitaire Sudoku_Solver.ipynb hardest_puzzles.txt
+25:1415_Solver.ipynb Bidirectional_Search GreedySearch_Heapqueue.ipynb Loesungen_24
 #
 99:
 # update -e is update 999

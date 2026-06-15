@@ -1,0 +1,142 @@
+Projekt: 22. 29. 06.7, dann Ferien.
+NOch mehr zu Suchstrategien.
+
+Projekt:
+An knokreten Beispielen, verschl. suchstrategien testen.
+
+Sokoban, Pegsolitair, 1415 rubigs Cube,
+Graph, Distanznetzwert,
+Gitter.
+
+Verucht irgendwie zu visualliereren welche Knoten besucht werdenk, wie sich die Suchfront,
+Knoten in notes_tovisit ausbreiten, u.s.w.
+
+----------------
+Clean up.
+
+----------------
+
+Heapqueue und Grreedy- Search
+
+Teste am Beispiel 1415!
+
+-------
+Loesungen bf und df
+
+def search_df(board, get_neighbors):
+    goal = get_board(*M.get_dims(board))
+
+    count = 0
+    hole = M.find(board, 0)
+    nodes_to_visit = [(hole, board)]
+    go_back = {board: None}
+
+    while nodes_to_visit:
+        count += 1
+        hole, board = nodes_to_visit.pop()
+        if board == goal:
+            print(f'count: {count}')
+            return (hole, board), go_back
+
+        for new_pos, new_board in get_neighbors(hole, board):
+            if new_board in go_back:
+                continue
+
+            go_back[new_board] = (hole, board)
+            nodes_to_visit.append((new_pos, new_board))
+
+    print(f'failure, count: {count}')
+------------------
+Loeung greedy:
+
+def search_greedy(board, get_neighbors, h):
+    goal = get_board(*M.get_dims(board))
+
+    count = 0
+    hole = M.find(board, 0)
+    priority = (h(board), count)
+    nodes_to_visit = [(priority, hole, board)]
+    go_back = {board: None}
+
+    while nodes_to_visit:
+        _, hole, board = heapq.heappop(nodes_to_visit)
+        if board == goal:
+            print(f'nodes scheduled: {len(go_back)}')
+            return (hole, board), go_back
+
+        for new_pos, new_board in get_neighbors(hole, board):
+            if new_board in go_back:
+                continue
+
+            go_back[new_board] = (hole, board)
+            count += 1
+            priority = (h(new_board), count)
+            heapq.heappush(nodes_to_visit, (priority, new_pos, new_board))
+
+    print('failure')
+
+
+Loesung bibf Cube
+
+def search_bibf(node, get_neighbors, goal):
+    def search(i):
+        node = deques[i].pop()
+        if node in go_backs[1-i]:  # Knoten von andern Suchteam bereits entdeckt
+            return node
+
+        for op, neighbor in get_neighbors(node):
+            if neighbor in go_backs[i]:
+                continue
+
+            go_backs[i][neighbor] = cube.inv_key(op), node
+            deques[i].appendleft(neighbor)
+
+    count = 0
+    nodes_to_visit_1 = deque([node])
+    nodes_to_visit_2 = deque([goal])
+    go_back_1 = {node: None}
+    go_back_2 = {goal: None}
+
+    deques = (nodes_to_visit_1, nodes_to_visit_2)
+    go_backs = (go_back_1, go_back_2)
+
+    while nodes_to_visit_1 and nodes_to_visit_2:
+        count += 1
+        for i in (0, 1):
+            if (node := search(i)):
+                print(count)
+                return node, go_backs
+
+
+def join_paths_home(midpoint, go_backs):
+    path_1 = get_path_home(midpoint, go_backs[0])
+    path_2 = get_path_home(midpoint, go_backs[1])
+    path = inv_path(path_2) + path_1
+    return path
+
+-------------------
+
+ID = cube.ID
+s = apply_word('RUF2U2rUrUR2fU2FurfU2')
+s
+
+midpoint, go_backs = search_bibf(s, get_neighbors, ID)
+midpoint
+
+scramble = join_paths_home(midpoint, go_backs)
+solution = inv_path(scramble)
+print(solution)
+apply_ops(solution, s)
+
+apply_ops(scramble) == s
+
+--
+
+s = scramble_cube()
+s
+
+midpoint, go_backs = search_bibf(s, get_neighbors, ID)
+scramble = join_paths_home(midpoint, go_backs)
+solution = inv_path(scramble)
+print(solution)
+apply_ops(solution, s)
