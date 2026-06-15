@@ -140,3 +140,7 @@ scramble = join_paths_home(midpoint, go_backs)
 solution = inv_path(scramble)
 print(solution)
 apply_ops(solution, s)
+
+----
+def swap(matrix, p, q):
+    matrix[p[1]][p[0]], matrix[q[1]][q[0]] = matrix[q[1]][q[0]], matrix[p[1]][p[0]]
