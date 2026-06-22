@@ -6,6 +6,19 @@ Verschiedene Suchstrategien zum Durchsuchen eines Graphen.
 - hs ist ein Paar (h_forward, h_backward) von Heuristiken fuer bidirektionales Suchen
   h_forward(node) schaetzt die Distanz von node zum goal
   h_backwards(node) schaetzt die Distanz von node zum start
+
+1. search_df(node, get_neighbors, goal):                 Depth-first search
+
+2. search_bf(node, get_neighbors, goal, max_depth=None): Breadth-first search
+
+3. search_greedy(node, get_neighbors, h, goal):          wie depth-first, aber es wird jeweils der
+                                                         vermeindlich beste Nachbar gewaehlt
+
+4. search_smart(node, get_neighbors, h, goal):           eher wie breadth-first, aber Suchfront bewegt sich Richtung goal
+
+5. search_bibf(node, get_neighbors, goal):               Bidirektionale breadth-first Suche
+
+6. search_bi_smart(node, get_neighbors, hs, goal):       Bidirektionale smarte Suche
 '''
 
 
