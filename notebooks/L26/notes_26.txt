@@ -1,0 +1,299 @@
+Aufraeumen:
+Loesche 
+ - Dekorators
+ - Bidirectional_Search
+ kommt neu!
+
+
+
+Loesung 1415.
+ev. zu matrix helpers hinzufuegen.
+
+def as_tuple(mat):
+    return tuple(tuple(row) for row in mat)
+
+
+def as_list(mat):
+    return [list(row) for row in mat]
+
+------------
+
+import matrix_helpers as M
+
+
+def follow_path(board, path):
+    if len(path) == 0:
+        return board
+
+    hole = M.find(board, 0)
+    if hole != path[0]:
+        raise ValueError(f'Bad path. Path must start at {hole}.')
+
+    board = as_list(board)
+    n = len(path)
+    for i in range(1, n):
+        M.swap(board, path[i-1], path[i])
+    return as_tuple(board)
+
+
+Review: get_neighbors(hole, board): ev get_neighbors(node), wo node so ein Tuple, 
+damit wir immer gleichen serch_df Algo benutzen koennen.
+
+follow_path: 
+- edge cases: path laenge 0
+- ist 0 im board auf dem startfeld des Pfades?
+- folge dem Pfad!
+
+zu search_df: 
+bf_search: copy-past df, nodes_to_visit nun ein deque, statt append -> appendleft
+Um Anzahl Zustaende/Knoten im Suchraum zu bestimmen,
+lasse serach_bf Fehlschlagen.
+Damit werden alle Knoten besucht, dann wird go_back zurueckgegeben.
+Die Schluessel in go_back sind alle Zustaende!
+
+greedy: Zielsuchende Variante von depth first. Gut, falls Heuristik gut.
+
+Nimmt element mit kleinster Priority aus Liste/Heap/ Priority-queue.
+
+----------------
+
+Projektvorschlaege!
+
+-----------------
+Versuch, die versch. Suchstrategien zu illustieren.
+Kleines Tool geschreiben.
+Ueber die Zeit etwas gewachsen.
+Code im Detail, nicht super relevant.
+
+
+-----------------
+Decorators
+
+
+
+-> update grid_helpers, 
+
+from functools import wraps
+
+
+def save_state(f):
+    @wraps(f)
+    def wrapper(canvas, *args, **kwargs):
+        canvas.save()
+        f(canvas, *args, **kwargs)
+        canvas.restore()
+
+    return wrapper
+
+dekoriere:
+
+@save_state
+def draw_grid(canvas, grid_spec, line_width=None, color=None):
+    '''zeichnet Gitter mit geg. grid_spec'''
+   
+
+@save_state
+def draw_chessboard(canvas, grid_spec, colors=None):
+    '''draws a chessbord:
+       colors: function f(col, row) -> color
+    '''
+    
+
+@save_state
+def fill_rect(canvas, pos, grid_spec, color=None):
+    '''fuellt das Gitterfeld pos=(col, row) mit der Farbe color'''
+    
+
+
+@save_state
+def stroke_rect(canvas, pos, grid_spec, color=None, line_width=None):
+    '''fuellt das Gitterfeld pos=(col, row) mit der Farbe color'''
+   
+
+
+@save_state
+def fill_circle(canvas, pos, grid_spec, radius=1/3, color=None):
+    '''zeichnet Kreisscheibe ins Gitterfeld pos=(col, row) mit
+       Radius min(dx*radius, dy*radius)
+    '''
+   
+
+
+@save_state
+def stroke_circle(canvas, pos, grid_spec, radius=1/3, color=None, line_width=None):
+    '''zeichnet Kreislinie ins Gitterfeld pos=(col, row) mit
+       Radius min(dx*radius, dy*radius)
+    '''
+    
+
+@save_state
+def fill_polygon(canvas, pos, pts, grid_spec, color=None):
+    '''zeichnet ein Polygon ins Gitterfeld pos=(col, row),
+       pts ist die Liste der Polygonpunkte, skaliert fuer ein 1x1 Feld
+       (verbunden werden die Punkte [(x0+x*dx, y0+y*dy) for x, y in pts], wo (x0, y0) = cr2xy(*pos, grid_spec))
+    '''
+   
+
+@save_state
+def stroke_polygon(canvas, pos, pts, grid_spec, color=None, line_width=None):
+    '''wie fill_polygon'''
+   
+
+
+@save_state
+def fill_text(canvas, text, pos, grid_spec, color=None, margin=0.1):
+    '''platziert den Text text im Gitterfeld pos=(col, row)'''
+
+---------------
+
+
+update grid-controller:
+-> verschiebe den neuen grid-controller in den Ordner modules!
+
+import widget_helpers as W
+import grid_helpers as G
+from IPython.display import display
+
+
+OUT = W.get_out()
+CLEAR_OUTPUT = {'mouse_down': True,
+                'mouse_up': True, # neu
+                'mouse_move': True, # neu
+                'key_down': True, # neu
+                }
+
+
+def try_to_call(key, args=()):
+    if key in callbacks:
+        f = callbacks[key]
+        print(f'Calling {f.__name__}{args}')
+        f(*args)
+
+
+@OUT.capture(clear_output=CLEAR_OUTPUT['mouse_down'])
+def on_mouse_down(x, y):
+    pos = G.xy2cr(x, y, grid_spec)
+    try_to_call(key='mouse_down', args=(pos,))
+
+
+@OUT.capture(clear_output=CLEAR_OUTPUT['mouse_up'])  # neu
+def on_mouse_up(x, y):
+    pos = G.xy2cr(x, y, grid_spec)
+    try_to_call(key='mouse_up', args=(pos,))
+
+
+@OUT.capture(clear_output=CLEAR_OUTPUT['mouse_move'])  # neu
+def on_mouse_move(x, y):
+    pos = G.xy2cr(x, y, grid_spec)
+    try_to_call(key='mouse_move', args=(pos,))
+
+
+@OUT.capture(clear_output=CLEAR_OUTPUT['key_down'])  # neu
+def on_key_down(key, *flags):
+    try_to_call(key=key)
+
+
+def init(canvas_, callbacks_, grid_spec_=None):
+    global canvas, grid_spec, callbacks
+    canvas, grid_spec, callbacks = canvas_, grid_spec_, callbacks_
+    if grid_spec:
+        if 'mouse_down' in callbacks:
+            canvas.on_mouse_down(on_mouse_down)
+        if 'mouse_up' in callbacks:  # neu
+            canvas.on_mouse_up(on_mouse_up)
+        if 'mouse_move' in callbacks:  # neu
+            canvas.on_mouse_move(on_mouse_move)
+    canvas.on_key_down(on_key_down)
+
+
+def show(debug=False):
+    if debug:
+        display(canvas, OUT)
+    else:
+        display(canvas)
+    canvas.focus()
+
+
+--------------------
+Searchexperiments:
+Kommentiere:
+- color_gradient
+- searchstrategies:
+  - get_path
+  - join_paths_home
+  - search_df, serch_bf: geben auch die Suchfront zurueck, 
+    i.e. Liste nodes_to_visit, denn das ist die Suchfront, Grenze von bereits entdeckten/gesehenen Konten
+    zum noch unbekannten Teil des Suchraums/Graph.
+  - greedy: versucht einen Pfad direkt ins Ziel zu dirigieren.
+  - smart: sucht auf ganzer Breite, aber nur in Richtung Ziel.
+           Priority ist geschaetze Laenge des gesamten Pfades,
+           nicht nur Laenge des Reststuecks.
+           Wird bewusst konservativ geschaetzt,
+           haben Knoten nahe beim Start, aber in Richtung Ziel, noch kleinere Prioritaet als
+           Knoten auf den richtigen Weg nahe des Ziels
+  - Bidirektional: Suche vom Start und von Ziel her 
+    Nicht immer moeglich.
+    Z.B. beim Sudoku kennt man das Ziel ja noch nicht.
+    Moeglich bei 1415, Sokoban, Rubiks Cube, Rushhour, ...
+
+  - Bidirektional smart: Achtung Suchfronten mussen sich treffen!
+    greedy: in der Regel treffen sich die Suchfronten dann nicht.
+
+
+- game.py:
+  state
+  get_neighors
+  search
+
+- view.py:
+  nur grid_sped (Liste!)
+      init
+      update
+
+Dann Play:
+- Kommentiere Intro:
+- Dann betrachte Callback:
+
+Zeige nur 
+    greedy, smart, bibf, bismart.
+    dann kuerz noch blocks hinzufuegen,
+    downsize und knightmoves
+    knight moves direct nebeneinander
+
+Bidirectional Search
+
+- Intro
+- search_strategies
+  - serach_bf nun auch zur Erkundung des Graphen.
+    Erstelle dict mit Abstaenden.
+  - is_path
+
+
+
+Cube:
+- kurz durch Intro und was Operationen sind.
+- babycube.py (nur kurz: Kern is apply_op(s, state)
+
+- get_turns ff. Funktionen um bequem arbeiten zu koennen.
+...
+
+
+
+
+
+Loesung CUbe:
+
+
+s = apply_word('RUF2U2rUrUR2fU2FurfU2')
+s
+
+midpoint, go_backs = S.search_bibf(ID, get_neighbors, s)
+path = S.join_paths_home(midpoint, go_backs)
+scramble = word_to_goal(path)
+scramble
+
+solution = inv_word(scramble)
+solution
+
+apply_word(solution, s)
+
