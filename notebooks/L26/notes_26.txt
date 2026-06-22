@@ -269,7 +269,91 @@ Bidirectional Search
   - is_path
 
 
+Aufgaben zur Pfadsuche!
 
+loesung bf_all
+
+from collections import deque
+
+
+def search_bf_all_paths(node, get_neighbors, goal, max_len=None):
+    count = 0
+    path = (node,)
+    paths_to_visit = deque([path])
+    seen = {path}
+
+    while paths_to_visit:
+        count += 1
+        path = paths_to_visit.pop()
+        node = path[-1]
+        if node == goal:
+            yield path
+
+        if max_len and len(path) == max_len:
+            continue  # besuche keine neuen Knoten mehr
+
+        nodes = set(path)
+        for neighbor in get_neighbors(node):
+            if neighbor in nodes:
+                continue  # kein kreisfreier Pfad
+            new_path = path + (neighbor,)
+            if new_path in seen:
+                continue
+            seen.add(path)
+            paths_to_visit.appendleft(new_path)
+
+
+paths = search_bf_all_paths(1, get_neighbors, 10, max_len=6)
+
+Loesung greedy mit h
+
+import heapq
+
+
+def search_greedy_all_paths(node, get_neighbors, get_priority, goal):
+    count = 0
+    path = (node,)
+    priority = (get_priority(path), count)
+    paths_to_visit = [(priority, path)]
+    seen = {path}
+    current_dist = 1000
+
+    while paths_to_visit:
+        _, path = heapq.heappop(paths_to_visit)
+        node = path[-1]
+        if node == goal:
+            if (n := len(path)) > current_dist:
+                return
+            current_dist = min(n, current_dist)
+            yield path
+
+        nodes = set(path)
+        for new_node in get_neighbors(node):
+            if new_node in nodes:
+                continue  # kein kreisfreier Pfad
+            new_path = path + (new_node,)
+            if new_path in seen:
+                continue
+
+            seen.add(new_path)
+            count += 1
+            priority = (get_priority(new_path), count)
+            heapq.heappush(paths_to_visit, (priority, new_path))
+
+    print(f'failure: {count}')
+
+def h(path, goal):
+    return len(path) + (abs(path[-1] - goal)+1) // 2
+
+start = 1
+goal = 52
+
+paths_gen = search_greedy_all_paths(start, get_neighbors, lambda x: h(x, goal), goal)
+
+paths = list(paths_gen)
+len(paths)
+
+====
 Cube:
 - kurz durch Intro und was Operationen sind.
 - babycube.py (nur kurz: Kern is apply_op(s, state)
