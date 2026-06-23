@@ -1,0 +1,5 @@
+Greedy vs Smart:
+
+Habe Tool etwas verbessert:
+-> nochmals neues Version von grid_controller
+

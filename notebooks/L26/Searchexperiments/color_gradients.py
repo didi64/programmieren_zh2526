@@ -1,4 +1,4 @@
-green_red = [
+green_brown = [
     '#90EE90', '#95EF89', '#9AF082', '#A1F17A', '#A6F173',
     '#ABF26C', '#B2F364', '#B7F45D', '#BCF556', '#C3F64E',
     '#C8F747', '#CDF740', '#D4F838', '#D9F931', '#DEFA2A',

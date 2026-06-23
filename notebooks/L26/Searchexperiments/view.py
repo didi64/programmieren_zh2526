@@ -26,14 +26,6 @@ def draw_state():
     mark_pts(start, goal)
 
 
-def show_h(h, go_back, gradient):
-    canvas.save()
-    with hold_canvas(canvas):
-        for pos in go_back:
-            G.fill_rect(canvas, pos, grid_spec, color=gradient[h(pos)])
-    canvas.restore()
-
-
 def mark_path(path, color='black'):
     col0, row0 = path[0]
     x0, y0 = G.cr2xy(col0, row0, grid_spec, center=True)
@@ -56,14 +48,19 @@ def mark_front(front, color='black'):
             G.fill_circle(canvas, p, grid_spec, radius=0.2, color=color)
 
 
-def mark_go_back(go_back):
+def mark_goback(go_back, h_dict, gradient):
+    m = max(h_dict.values())
+    n = len(gradient)-1
     with hold_canvas():
         for p, q in go_back.items():
             if q is None:
                 continue
+            val = min(n, int(n/m*h_dict[p]))
+            G.fill_rect(canvas, p, grid_spec, color=gradient[val])
             start = G.cr2xy(*p, grid_spec, center=True)
             end = G.cr2xy(*q, grid_spec, center=True)
             canvas.stroke_line(*start, *end)
+            G.fill_circle(canvas, p, grid_spec, radius=0.2, color='black')
 
 
 def mark_pts(start, goal, colors=('green', 'red')):
@@ -78,21 +75,21 @@ def mark_blocked(color='black'):
 
 
 
-def mark(node, start, goal, go_back, front):
-    mark_go_back(go_back)
+def mark_uni(start, goal, node, go_back, front, h_dict):
+    mark_goback(go_back, h_dict, C.green_brown)
     mark_front(front)
-    if node:
+    if node == goal:
         path = S.get_path_home(node, go_back)
         mark_path(path, color='#00E5FF')
     mark_pts(start, goal)
 
 
-def show_bibf(start, goal, go_backs, front0, front1, midpoint):
-    front0, front1 = set(front0), set(front1)
+def mark_bi(start, goal, midpoint, go_backs, fronts, h_dicts):
+    front0, front1 = (set(front) for front in fronts)
     common = front0 & front1
 
-    for d in go_backs:
-        mark_go_back(d)
+    for d, h in zip(go_backs, h_dicts):
+        mark_goback(d, h, C.green_brown)
 
     for front, color in zip((front0-common, front1-common, common), ('black', 'grey', 'lightblue')):
         mark_front(front, color)
@@ -103,21 +100,12 @@ def show_bibf(start, goal, go_backs, front0, front1, midpoint):
         mark_path(path, color='#00E5FF')
 
 
-def update(event, data):
+def update(event, data, start=None, goal=None):
     canvas.clear()
     if event == 'state':
         draw_state()
     mark_blocked()
-    if event == 'dfbf':
-        mark(*data)
-    if event == 'greedy':
-        *data_, h = data
-        show_h(h, data[3], C.green_red)
-        mark(*data_)
-    if event == 'bibf':
-        show_bibf(*data)
-    if event == 'bi_smart':
-        start, goal, go_backs, front0, front1, midpoint, h1, h2 = data
-        show_h(h1, go_backs[0], gradient=C.green_red)
-        show_h(h2, go_backs[1], gradient=C.green_red)
-        show_bibf(start, goal, go_backs, front0, front1, midpoint)
+    if event == 'uni':
+        mark_uni(start, goal, *data)
+    if event == 'bi':
+        mark_bi(start, goal, *data)

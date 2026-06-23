@@ -6,7 +6,7 @@ searcher = S.search_bf
 state = {'dims': (30, 30),
          'start': (0, 0),
          'goal': (29, 29),
-         'blocked': set(),
+         'blocked': {},
          'shuffle': True,
          'knightmoves': False
          }
@@ -37,8 +37,8 @@ def get_neighbors(pos, ncol, nrow, blocked=None, shuffle=False):
         yield (x, y)
 
 
-def update(event, data):
-    print(event, data)
+def update(event, data, start=None, goal=None):
+    print(event, data, start, goal)
 
 
 def set_searcher(val):
@@ -51,13 +51,13 @@ def change_state(ks, vs):
         if k not in state:
             raise KeyError(f'{k} must be on of {list(state)}')
         state[k] = v
-    update('state', None)
+    update('state', None, None, None)
 
 
 def reset():
     ncol, nrow = state['dims']
     change_state(('start', 'goal', 'blocked'),
-                 ((0, 0), (ncol-1, nrow-1), set()),
+                 ((0, 0), (ncol-1, nrow-1), {}),
                  )
 
 
@@ -67,21 +67,17 @@ def search():
     get_neighbors_ = lambda pos: get_neighbors(pos, ncol, nrow, blocked=blocked, shuffle=shuffle)
 
     if searcher.__name__[7:] in ('df', 'bf'):
-        node, go_back, front = searcher(start, get_neighbors_, goal)
-        data = node, start, goal, go_back, front
-        update('dfbf', data)
+        data = searcher(start, get_neighbors_, goal)
+        update('uni', data, start, goal)
     elif searcher.__name__[7:] in ('greedy', 'smart'):
         h = lambda pos: H(pos, goal)
-        node, go_back, front = searcher(start, get_neighbors_, h, goal)
-        data = node, start, goal, go_back, front, h
-        update('greedy', data)
+        data = searcher(start, get_neighbors_, h, goal)
+        update('uni', data, start, goal)
     elif searcher.__name__[7:] == 'bibf':
-        midpoint, go_backs, fronts = searcher(start, get_neighbors_, goal)
-        data = start, goal, go_backs, *fronts, midpoint
-        update('bibf', data)
+        data = searcher(start, get_neighbors_, goal)
+        update('bi', data, start, goal)
     elif searcher.__name__[7:] == 'bi_smart':
         h1 = lambda pos: H(pos, goal)
         h2 = lambda pos: H(pos, start)
-        midpoint, go_backs, fronts = searcher(start, get_neighbors_, (h1, h2), goal)
-        data = start, goal, go_backs, *fronts, midpoint, h1, h2
-        update('bi_smart', data)
+        data = searcher(start, get_neighbors_, (h1, h2), goal)
+        update('bi', data, start, goal)
