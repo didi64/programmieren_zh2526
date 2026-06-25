@@ -25,6 +25,7 @@
 24:14_15_Puzzle Iterables_and_Iterators.ipynb Peg_Solitaire Sudoku_Solver.ipynb hardest_puzzles.txt
 25:1415_Solver.ipynb GreedySearch_Heapqueue.ipynb Loesungen_24
 26:Bidirectional_Search Decorators.ipynb 1415_Solver_L.ipynb Projektvorschlaege Searchexperiments grid_controller.py search_strategies.py
+# 27:L26/Searchexperiments Suchstrategien_illustriert.ipynb grid_controller.py Rubics_Cube
 99:
 # update -e is update 999
-999:
+# 999: Bidirectional_Search_L.ipynb
