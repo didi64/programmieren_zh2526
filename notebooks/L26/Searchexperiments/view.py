@@ -48,15 +48,21 @@ def mark_front(front, color='black'):
             G.fill_circle(canvas, p, grid_spec, radius=0.2, color=color)
 
 
-def mark_goback(go_back, h_dict, gradient):
-    m = max(h_dict.values())
+
+def mark_colors(c_dict, gradient):
+    m = max(c_dict.values())
     n = len(gradient)-1
+    with hold_canvas():
+        for p, c in c_dict.items():
+            val = min(n, int(n/m*c))
+            G.fill_rect(canvas, p, grid_spec, color=gradient[val])
+
+
+def mark_goback(go_back):
     with hold_canvas():
         for p, q in go_back.items():
             if q is None:
                 continue
-            val = min(n, int(n/m*h_dict[p]))
-            G.fill_rect(canvas, p, grid_spec, color=gradient[val])
             start = G.cr2xy(*p, grid_spec, center=True)
             end = G.cr2xy(*q, grid_spec, center=True)
             canvas.stroke_line(*start, *end)
@@ -74,9 +80,9 @@ def mark_blocked(color='black'):
             G.fill_rect(canvas, pos, grid_spec, color=color)
 
 
-
-def mark_uni(start, goal, node, go_back, front, h_dict):
-    mark_goback(go_back, h_dict, C.green_brown)
+def mark_uni(start, goal, node, go_back, front, c_dict):
+    mark_colors(c_dict, C.green_red)
+    mark_goback(go_back)
     mark_front(front)
     if node == goal:
         path = S.get_path_home(node, go_back)
@@ -84,15 +90,19 @@ def mark_uni(start, goal, node, go_back, front, h_dict):
     mark_pts(start, goal)
 
 
-def mark_bi(start, goal, midpoint, go_backs, fronts, h_dicts):
+def mark_bi(start, goal, midpoint, go_backs, fronts, c_dicts):
     front0, front1 = (set(front) for front in fronts)
     common = front0 & front1
 
-    for d, h in zip(go_backs, h_dicts):
-        mark_goback(d, h, C.green_brown)
+    for c_dict in c_dicts:
+        mark_colors(c_dict, C.green_red)
+
+    for go_back in go_backs:
+        mark_goback(go_back)
 
     for front, color in zip((front0-common, front1-common, common), ('black', 'grey', 'lightblue')):
         mark_front(front, color)
+
     mark_pts(start, goal)
     if midpoint:
         G.fill_circle(canvas, midpoint, grid_spec, color='blue')

@@ -21,6 +21,10 @@ def apply_word(word):
 
 
 def scramble():
+    '''loesbarer Zufallsstate der Form 
+       (cubie_auf_pos_0, ..., cubie_auf_pos_6, 7) + 
+       (orientation_cubie_auf_pos_0, ..., 0) mit Gesamtsumme 0 mod 3
+    '''
     positions = tuple(random.sample(range(7), 7)) + (7,)
     orientations = tuple(random.randint(0, 2) for _ in range(6))
     state = positions + orientations + (-sum(orientations) % 3, 0)

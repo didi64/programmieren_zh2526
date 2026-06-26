@@ -6,17 +6,19 @@ KEY_OP = {'F': (0, 1, 3, 4, 5, 2, 6, 7, 0, 0, 1, 2, 1, 2, 0, 0),
 
 
 def apply_op(op, s=ID):
-    positions = tuple(s[op[i]] for i in range(8))
-    orientations = tuple((op[i+8] + s[op[i]+8]) % 3 for i in range(8))
-    return positions + orientations
-
-
-def inv_op(op):
-    op_inv = [0] * 16
+    new_state = [0] * 16
     for i in range(8):
-        op_inv[op[i]] = i
-        op_inv[op[i]+8] = -op[i+8] % 3
-    return tuple(op_inv)
+        new_state[i] = s[op[i]]  # W. von Pos. op[i] geht nach Pos i
+        new_state[i+8] = (s[op[i]+8] + op[i+8]) % 3  # neue O. von W. an Pos. op[i]: alte O. + O.änderung
+    return tuple(new_state)
+
+
+def inv_op(s):
+    s_inv = [0] * 16
+    for i in range(8):
+        s_inv[s[i]] = i
+        s_inv[s[i]+8] = -s[i+8] % 3
+    return tuple(s_inv)
 
 
 def is_solvable(state):

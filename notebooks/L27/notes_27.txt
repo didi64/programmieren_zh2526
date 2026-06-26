@@ -2,16 +2,25 @@ Aufraeumen:
 - in Bidirectional Search, loesche
   Babycube.ipynb, babycube.py
 - loesche Searchexperimets/, kommt mit update 27, try 26/Searchexperiments in contents
+- erst jezt verschieben!
 
 verschiebe search_strategies.py -> modules
 
 update 27
 
-Greedy vs Smart:
+Suchstrategien illustriert: Habe Tool noch etwas verbessert,
+ein Paar Screenshots gemacht.
 
 Habe Tool etwas verbessert:
 -> nochmals neues Version von grid_controller
--> Bespreche Suchstrategien_illustriert.ipynb
+-> zeige auf 14x14 nicht moves mit Abstand 2: bibf manchmal minimales Bild bibf-smart immer
+-> Zeige smart-fail und wie man H updated
+
+def H(pos, goal):
+    if pos == (2, 0): return 7
+    return 0
+
+game.H = H
 
 Bidirectional Search
 
@@ -172,87 +181,83 @@ update -e, liefert was wir soeben gemeinsam gemacht haben.
 ===
 Rubiks Cube
 
+zeige App-view, wie cube dort dargestgellt wird.
+
+zeige kurz: babycube.py, game.py, view.py
+zu view.py:
+  init wie immer
+  update wie immeer
+  draw cube: zeichnet einige Rechtecke
+
+Nun zu 
 Start with Play:
 
+zeige: App
+
+game.state
 
 
+s = (0, 1, 2, 3, 4, 5, 6, 7) + (0, 1, 1, 1, 0, 0, 0, 0)
+game.set_state(s)
+game.state
 
-
-
-
-
-
-
-Cube:
-- kurz durch Intro und was Operationen sind.
-- babycube.py (nur kurz: Kern is apply_op(s, state)
-
-- get_turns ff. Funktionen um bequem arbeiten zu koennen.
-...
-
-
-
-
-
-Loesung Cube:
-
-
-s = apply_word('RUF2U2rUrUR2fU2FurfU2')
-s
-
-midpoint, go_backs = S.search_bibf(ID, get_neighbors, s)
-path = S.join_paths_home(midpoint, go_backs)
-scramble = word_to_goal(path)
-scramble
-
-solution = inv_word(scramble)
+spaeter:
+solution = find_solution(game.state)
+game.apply_word(solution)
 solution
 
-apply_word(solution, s)
+
+Loese Aufgaben:
+
+import search_strategies as S
 
 
+def get_neighbors(state):
+    for k, op in cube.KEY_OP.items():
+        new_state = cube.apply_op(op, state)
+        yield new_state
 
 
-
-def inv_word(word):
-    '''liefert Wort, welche umgekehrte Operation ausfuehrt'''
-    keys = cube.get_turns(word)
-    return ''.join(cube.inv_key(k) for k in reversed(keys))
-
+def pathword(path):
+    keys = [get_transition(t, s) for t, s in zip(path[:-1], path[1:])]
+    word = ''.join(keys)
+    return word
 
 
+def find_solution(scramble):
+    midpoint, go_backs = S.search_bibf(cube.ID, get_neighbors, scramble)
+    path = S.join_paths_home(midpoint, go_backs)
+    solution = pathword(path)
+    return solution
+
+def get_depth_nstats_dict():
+    _, _, dist_dict = S.search_bf(cube.ID, get_neighbors, None, max_depth=6)
+    depth_nstates = {}
+    for state, depth in dist_dict.items():
+        depth_nstates[depth] = depth_nstates.get(depth, 0) + 1
+
+    return depth_nstates
+----
+
+scramble = (0, 1, 2, 3, 4, 5, 6, 7, 1, 1, 1, 0, 0, 0, 0, 0)
+solution = find_solution(scramble)
+
+print(solution)
+cube.apply_word(solution, scramble) == cube.ID
+-----
+
+midpoint, go_backs = S.search_bibf(cube.ID, get_neighbors, scramble)
+path = S.join_paths_home(midpoint, go_backs)
+path
 
 
+solution = pathword(path)
+solution
+
+cube.apply_word(solution, scramble)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-gs = (20, 30, 20, 20, 6, 2)
-G.fill_text(view.canvas, '0', (0, 0), gs, color='black')
-G.fill_text(view.canvas, '1', (1, 0), gs, color='black')
-G.fill_text(view.canvas, '2', (1, 1), gs, color='black')
-G.fill_text(view.canvas, '3', (0, 1), gs, color='black')
-G.fill_text(view.canvas, '4', (4, 1), gs, color='black')
-G.fill_text(view.canvas, '5', (5, 1), gs, color='black')
-G.fill_text(view.canvas, '6', (5, 0), gs, color='black')
-G.fill_text(view.canvas, '7', (4, 0), gs, color='black')
-
+----- wo gebraucht?
 
 def search_bibf_all(node, get_neighbors, goal):
     def search(i):
