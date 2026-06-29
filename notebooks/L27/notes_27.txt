@@ -2,7 +2,7 @@ Aufraeumen:
 - in Bidirectional Search, loesche
   Babycube.ipynb, babycube.py
 - loesche Searchexperimets/, kommt mit update 27, try 26/Searchexperiments in contents
-- erst jezt verschieben!
+erst jezt verschieben!
 
 verschiebe search_strategies.py -> modules
 
@@ -11,9 +11,14 @@ update 27
 Suchstrategien illustriert: Habe Tool noch etwas verbessert,
 ein Paar Screenshots gemacht.
 
-Habe Tool etwas verbessert:
 -> nochmals neues Version von grid_controller
--> zeige auf 14x14 nicht moves mit Abstand 2: bibf manchmal minimales Bild bibf-smart immer
+-> zeige auf 14x14 knight-moves mit Abstand 2: 
+     bibf nur manchmal minimales Bild, bibf-smart immer
+     erst beim Entfernen aus nodes_to_visit wird auf Match geprueft!
+
+--> smart: alle Knoten auf kuerzestem Pfad haben die kleine Prioritaet, 
+    Zeitpunkt er AUfnahme ist Tiebreaker (wird BSF auf den guten Knoten/ Knoten auf
+    von der Heuristik als gut bewertete Knoten)
 -> Zeige smart-fail und wie man H updated
 
 def H(pos, goal):
@@ -21,21 +26,19 @@ def H(pos, goal):
     return 0
 
 game.H = H
-
+------
 Bidirectional Search
 
-Loesungen:
-
-Zuerst gemeinsam, dann update -e Bidirectional_Search_L
+Loesungen: Zuerst gemeinsam, dann update -e (holt L26/Bidirectional_Search_L)
 
 
-1. Pfade suchen, mit Funktionen, die uns bereits zur Verfuegung stehen.
+1. Pfade suchen, mit Funktionen, die uns bereits zur Verfuegung stehen. (extra)
    mit search_bf.
    Suchen Pfade: 
    Start = (1,)
    goal: Pfad (1, 2, 4, 6, 8, 10) der mit 10 endet.
 
-   Problem: Wir testen mit direktem vergleich, ob das Ziel erreicht ist.
+   Problem: Wir testen mit direktem Vergleich, ob das Ziel erreicht ist.
    Ausweg: Suche ohne Ziel, aber beschraenkte Tiefe/Pfadlaenge
 
 
@@ -65,9 +68,9 @@ from collections import deque
 
 def search_bf_paths(node, get_neighbors, goal, max_len=None):
     count = 0
-    path = (node,)
-    paths_to_visit = deque([path])
-    seen = {path}
+    path = (node,)                   # umbenannt
+    paths_to_visit = deque([path])   # umbenannt
+    seen = {path}                    # umbenannt nun nur Menge statt Dict
 
     while paths_to_visit:
         count += 1
@@ -83,7 +86,7 @@ def search_bf_paths(node, get_neighbors, goal, max_len=None):
             if node in nodes:
                 continue
 
-            new_path = path + (node,)
+            new_path = path + (node,)  # neu
             if new_path in seen:
                 continue
             seen.add(new_path)
@@ -110,7 +113,7 @@ Heurisik ist schlecht:
 
 
 besser: 
-def h(path, goal):
+def h1(path, goal):
     '''konservativ geschaetzte Gesamtlaenge des Pfades'''
     start = path[-1]
     if start > goal:
@@ -135,7 +138,7 @@ def search_greedy_paths(node, get_neighbors, h, goal):
     priority = (h(path), count)
     paths_to_visit = [(priority, path)]
     seen = {path}
-    current_len = 1000
+    current_len = 1000  #neu, oben wieder umbenannt
 
     while paths_to_visit:
         _, path = heapq.heappop(paths_to_visit)
@@ -152,7 +155,7 @@ def search_greedy_paths(node, get_neighbors, h, goal):
             if node in nodes:
                 continue
 
-            new_path = path + (node,)
+            new_path = path + (node,) # neu
             if new_path in seen:
                 continue
 
@@ -164,14 +167,11 @@ def search_greedy_paths(node, get_neighbors, h, goal):
     print(f'Failure. Count: {count}')
     return None, go_back
 
-def h(path, goal):
-    '''geschaetzte Gesamtlaenge des Pfades'''
-    return len(path) + (abs(path[-1] - goal)+1) // 2
 
 
 start = 1
 goal = 30
-paths_gen = search_greedy_paths(start, get_neighbors, lambda p: h(p, goal), goal)
+paths_gen = search_greedy_paths(start, get_neighbors, lambda p: h1(p, goal), goal)
 paths = list(paths_gen)
 len(paths)
 
@@ -257,7 +257,7 @@ solution
 cube.apply_word(solution, scramble)
 
 
------ wo gebraucht?
+----- wo gebraucht? gar nicht
 
 def search_bibf_all(node, get_neighbors, goal):
     def search(i):
