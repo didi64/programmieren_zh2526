@@ -12,3 +12,5 @@ __pycache__/
 !modules/view_tiktaktoe.pyc
 !modules/app_1.pyc
 !modules/view_1.pyc
+!modules/topspin.pyc
+!modules/searchstrategies.pyc
