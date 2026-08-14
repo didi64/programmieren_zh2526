@@ -27,6 +27,8 @@
 26:Bidirectional_Search Decorators.ipynb 1415_Solver_L.ipynb Projektvorschlaege Searchexperiments grid_controller.py search_strategies.py
 27:Searchexperiments Suchstrategien_illustriert.ipynb grid_controller.py Rubics_Cube Bidirectional_Search_L.ipynb grid_controller.py graph.py
 28:TopSpin
-99:
+
+99: TopSpin_Keri
 # update -e is update 999
-999: Bidirectional_Search_L.ipynb
+# 999: Bidirectional_Search_L.ipynb
+999:

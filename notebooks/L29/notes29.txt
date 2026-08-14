@@ -1,0 +1,90 @@
+Projekte Vorstellen: je 15' total 30' Termin fuer Prungungsgespraech, naechstes mal zu Lektionsbeginn?
+
+update 29, update- e liefert ev dann och Vektorklasse.
+
+Klasse als Namensraum, aehnlich einem Modul, TikTak Beispiel
+20'
+
+Klassen Intro: Kennen schon Klassen, z.B. str
+
+Klassen Ohne Init, Vector Beisiel umstaendlich
+dann Vector mit __init__
+
+30'
+
+Klassen Beispiele: u.a. Deck.
+ev. noch Aufabe dazu
+
+ev. gemeinsam Blackjack schreiben
+Aufgabe: Selber irgend ein 3 Klassen, falls handelt mit __repr__ und weiteren
+dunder-Methoden.
+
+mache etwas mit diesen Klassen.
+
+Magic-Methos:
+Suche in KI mode: Python, einfache Klasse mit __repr__
+
+RANK_VALUE = ({r: int(r) for r in Deck.ranks[:8]} |
+              dict(zip('TJQKA', (10, 10, 10, 10, 11)))
+              )
+
+RANK_VALUE
+
+def handvalue(hand):
+    value = sum(RANK_VALUE[card[0]] for card in hand)
+    n_aces = sum(card[0] == 'A' for card in hand)
+
+    while value > 21 and n_aces > 0:
+        value -= 10
+        n_aces -= 1
+    return value
+
+class BlackJack:
+    def __init__(self):
+        self.deck = Deck()
+        self.deck.shuffle()
+        self.player = []  # omit, show _repr__ problem
+        self.dealer = []
+
+    def new_game(self):
+        if self.deck.cards_left() < 20:
+            self.deck = Deck()
+            self.deck.shuffle()
+
+        self.player = self.deck.deal(2)
+        self.dealer = self.deck.deal(2)
+
+        print(self)
+        if handvalue(self.player) == 21:
+            print('player wins with BlackJack!')
+
+    def hit(self):
+        if self.player:
+            self.player.append(self.deck.deal())
+        if handvalue(self.player) >= 21:
+            print(f'player loses: {self}')
+        else:
+            print(f'player: {self.player}')
+
+    def stand(self):
+        if self.dealer:
+            while handvalue(self.dealer) < 17:
+                self.dealer.append(self.deck.deal())
+
+            val_p = handvalue(self.player)
+            val_d = handvalue(self.dealer)
+
+            if val_d >= 21 or val_p > val_d:
+                print('player wins')
+            elif val_p == val_d:
+                print('draw')
+            else:
+                print('player loses')
+            print(f'player: {val_p}, dealer: {val_d}, {self.dealer}')
+
+    def __repr__(self):
+        return (f'player: {self.player}, dealer:'
+                f'{self.dealer[:1] + ['*'] if len(self.dealer) == 2 else self.dealer}'
+                )
+
+
