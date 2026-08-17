@@ -1,5 +1,5 @@
 Projekte Vorstellen: je 15' total 30' Termin fuer Prungungsgespraech, naechstes mal zu Lektionsbeginn?
-Gespreach 15' ueber Projekt.
+Gespraech 15' ueber Projekt.
 
 update 29, update- e liefert ev dann och Vektorklasse.
 
@@ -105,8 +105,30 @@ for i in range(4):
 1h'
 
 
----------
-Klassen Beispiele: u.a. Deck.
+Klassen Beispiele: 
+
+Aufgabe zu Students:
+
+def init_students(noten):
+    students = []
+    for name, lectures in noten.items():
+        student = Student(name)
+        for subject, grades in lectures.items():
+            for grade in grades:
+                student.add_grade(subject, grade)
+        students.append(student)
+
+    return students
+
+def show_marks(students):
+    for student in students:
+        print(student.name)
+        for subject, grades in student.grades.items():
+            print(f'    {subject}: Durchschnitt: {sum(grades)/len(grades):.2f}')
+        print('-'*40)
+
+---------------------
+u.a. Deck.
 ev. noch Aufabe dazu
 
 ev. gemeinsam Blackjack schreiben
@@ -114,9 +136,6 @@ Aufgabe: Selber irgend ein 3 Klassen, falls handelt mit __repr__ und weiteren
 dunder-Methoden.
 
 mache etwas mit diesen Klassen.
-
-Magic-Methos:
-Suche in KI mode: Python, einfache Klasse mit __repr__
 
 RANK_VALUE = ({r: int(r) for r in Deck.ranks[:8]} |
               dict(zip('TJQKA', (10, 10, 10, 10, 11)))
@@ -181,4 +200,14 @@ class BlackJack:
                 f'{self.dealer[:1] + ['*'] if len(self.dealer) == 2 else self.dealer}'
                 )
 
+---------------
+Magic_Methods:
 
+
+Magic-Methos:
+Suche in KI mode: 
+   Python, einfache Klasse mit __repr__
+   Python, einfache Vektor Klasse mit __add__
+
+
+---------
