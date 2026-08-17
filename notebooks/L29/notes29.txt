@@ -1,7 +1,11 @@
 Projekte Vorstellen: je 15' total 30' Termin fuer Prungungsgespraech, naechstes mal zu Lektionsbeginn?
 Gespraech 15' ueber Projekt.
 
-update 29, update- e liefert ev dann och Vektorklasse.
+Hat jemand von euch erfolglos verswucht ein Problem innerhalb eures Projektes zu loesen,
+und moechte eine moegliche Loesung sehen?
+
+
+update 29
 
 Klasse als Namensraum, aehnlich einem Modul, TikTak Beispiel
 vor oeffnen, zeige B.py
