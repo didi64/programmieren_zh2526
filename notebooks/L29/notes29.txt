@@ -1,17 +1,111 @@
 Projekte Vorstellen: je 15' total 30' Termin fuer Prungungsgespraech, naechstes mal zu Lektionsbeginn?
+Gespreach 15' ueber Projekt.
 
 update 29, update- e liefert ev dann och Vektorklasse.
 
 Klasse als Namensraum, aehnlich einem Modul, TikTak Beispiel
+vor oeffnen, zeige B.py
+
+B.x
+
+B.z
+
+B.z = 7
+B.z
+
+B.x = 43
+B.x
+
+B.f()
+--
+copy paste von B.py, dann aendere, nachdem Fehler gesehen.
+class A:
+    x = 42
+    y = 0
+
+    def f():
+        y = 1
+        print(f'x vom Klasse {A.__name__}: {A.x}')
+        print(f'y: {y}')  # lokales y
+
+-> Klasse als Namensraum
+
+Aufgabe: Modul statt Klasse:
+
+#  File state.py
+EMPTY = '.'
+player_chars = 'XO'
+player_to_move = 0
+board = EMPTY * 9
+result = None
+
 20'
 
-Klassen Intro: Kennen schon Klassen, z.B. str
+---------------------------------------------
+Vor oeffnen Klassen Intro: Kennen schon Klassen, z.B. str
 
-Klassen Ohne Init, Vector Beisiel umstaendlich
-dann Vector mit __init__
+s = 'Hallo'
+print(type(s))
 
-30'
+S = str.upper(s)
+S
 
+str.find(S, 'O')
+
+s.upper()
+
+s.upper().find('O')
+---
+
+
+
+-> Gehe durch Intro-Text
+- Foo, was passiert, wenn die Zelle ausgefuehrt wird?
+- ohne Init
+
+- Vector mit init.
+  kommentiere alles ausser __repr__ aus, fuege eins ums andere wieder hinzu
+
+
+-def sub(self, other):
+        '''gibt den Vector self - other zurueck'''
+        return Vector(self.x-other.x, self.y-other.y)
+
+
+e1 = Vector(1, 0)
+OA = Vector(1, 0)  # Ortsvektor von Ursprung nach A
+OB = Vector(4, 1)
+
+AB = OB.sub(OA)  # Richtungsvektor von A nach B
+AD = AB.rot90()
+
+OD = OA.add(AD)
+
+OC = OB.add(AD)
+OA, OB, OC, OD
+
+
+e1.angle(OB)
+
+OB.sub(OA).norm()
+
+vecs = [OA, OB, OC, OD, OA]
+for i in range(4):
+    x = vecs[i].sub(vecs[i+1])
+    print(x.norm())
+
+
+vecs = [OD, OA, OB, OC, OD, OA]
+for i in range(4):
+    seite_1 = vecs[i+1].sub(vecs[i])
+    seite_2 = vecs[i+2].sub(vecs[i+1])
+    angle = seite_1.angle(seite_2)
+    print(angle)
+
+1h'
+
+
+---------
 Klassen Beispiele: u.a. Deck.
 ev. noch Aufabe dazu
 
