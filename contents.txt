@@ -28,7 +28,8 @@
 27:Searchexperiments Suchstrategien_illustriert.ipynb grid_controller.py Rubics_Cube Bidirectional_Search_L.ipynb grid_controller.py graph.py
 28:TopSpin
 29:Klassen
+30:Classmethod_Staticmethod.ipynb Loesungen_L29.ipynb Vektoren
 99:
 # 99: TopSpin_Keri
 # update -e is update 999
-999:
+999: vector.py

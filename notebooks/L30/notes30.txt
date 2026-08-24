@@ -1,0 +1,520 @@
+Adam Projekt
+Probleme, die du nicht loesen konntest?
+
+Etwas aufgeraeumtes Notebook (nur relevanter Code)
+- kurze beschreibung was fuer Aufgaben du loest und wie du das machst.
+- imports und Funktionesdefinitionen am
+
+- dann Loesungen der einzelnen Aufgaben, 
+
+Fachgespraech Mo in einer Woche (etwas vorher, falls nicht moeglich, beginnen wir etwas spaeter)
+
+-------------------------
+
+
+Ausblick:
+Klassen. Ziel: kleines Projekt, wo ihr euer erstes oder 2. Projket (Variante/Verbesserung) mit Klassen implementiert, 
+(mit Tests).
+===============================
+setattr und getattr! not yet
+debugging: aendert man den  Klassencode, muss eine neues Objekt erstellt werden!
+
+update 30
+spaeter mit update -e:
+  vector.py
+  helpers.py?
+==================================
+
+Recap: Loesungen_L29.ipynb
+    Weise auf __repr__(self) Errors hin, bei noch nicht definierten Attributen
+    # self.grades = {}
+
+
+
+Vor classmethod_staticmethod.ipynb
+
+2. Wiederhole, wie man einfach testen kann, welche args eine Funktion bekommt.
+   Erneute Demo
+    class A:
+    
+        def f(*args):
+            print(f'method bekommt {len(args)} Argument(e):')
+            print('Argumente: ', end='')
+            print(*args, sep=' und ')
+
+    a = A()
+    A, a, type(a) is A
+
+    b = type(a)()  # fuer b = A()
+   Dann Aufgabe, wie classmethod und staticmethod Decorators dieses Verhalten aendern.
+
+Loesung: Funktionen dekorieren und testen, woran erstes Argument gebunden wird.
+
+class A:
+
+    def f(*args):
+        print(f'method bekommt {len(args)} Argument(e):')
+        print('Argumente: ', end='')
+        print(*args, sep=' und ')
+
+    @classmethod
+    def g(*args):
+        print(f'classmethod bekommt {len(args)} Argument(e):')
+        print('Argumente: ', end='')
+        print(*args, sep=' und ')
+
+    @staticmethod
+    def h(*args):
+        print(f'staticmethod bekommt {len(args)} Argument(e):')
+        print('Argumente: ', end='')
+        print(*args, sep=' und ')
+
+- ClasshethodStaticMethod.ipynb
+
+Loesung Aufgabe:
+    class Person:
+        def __init__(self, name, age):
+            '''initializiert eine Instanz der Klasse Person'''
+            self.name = name
+            self.age = age
+    
+        @staticmethod
+        def birthyear2age(year):
+            return 2026 - year
+    
+        @classmethod
+        def from_birthyear(cls, name, year):
+            return cls(name=name, age=cls.birthyear2age(year))
+    
+        def birthday(self):
+            '''inkrementiert self.age'''
+            self.age = self.age + 1
+    
+        def __repr__(self):
+            return 'Person({}, {})'.format(self.name, self.age)
+
+20'
+=======
+
+Ausbau Vektoren:
+3. Vektoren
+
+- Gehe durch vector_L29.py 
+- diskutiere Fehlermeldungen bei
+  v * 3  # __mul__ ist schuld
+  3 * v  # int implementiert mult. mit Vector nicht.
+
+
+
+ a)
+  __neg__
+  __rmul__
+  __matmul__
+ b) zusaetzliche Funktionen
+
+Loesung Vectoren
+
+
+import math
+
+
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def as_tuple(self):
+        return (self.x, self.y)
+
+    def rot90(self):
+        '''rotiert den Vektor um 90 Grad gegen den Uhrzeigersinn'''
+        return Vector(-self.y, self.x)
+
+    def rotate(self, alpha):
+        return Vector(self.x*math.cos(alpha)-self.y*math.sin(alpha),
+                      self.x*math.sin(alpha)+self.y*math.cos(alpha))
+
+    def angle(v, w, degree=False):
+        '''gib den Winkel zw. v und w zurueck'''
+        alpha = math.acos(v@w / (v.norm()*w.norm()))
+        if degree:
+            alpha *= 180/math.pi
+        return alpha
+
+    def norm(self):
+        '''gib die Laenge von v zurueck'''
+        return (self.x**2 + self.y**2)**.5
+
+    @staticmethod
+    def transform(pts, translation=(0, 0), alpha=0, scale=1):
+        '''pts: Liste od. Tuple von Punkten (x, y)
+           rotiert, streckt (vom Ursprung) und verschiebt alle Punkte und gibt sie
+           als Liste von Tupeln zurueck
+        '''
+        dv = Vector(*translation)
+        return [(scale*Vector(x, y).rotate(alpha) + dv).as_tuple()
+                for x, y in pts
+                ]
+
+    def __add__(self, other):
+        '''gibt den Vektor self+other zurueck'''
+        return Vector(self.x+other.x, self.y+other.y)
+
+    def __sub__(self, other):
+        '''gibt den Vektor self-other zurueck'''
+        return Vector(self.x-other.x, self.y-other.y)
+
+    def __neg__(self):
+        '''gibt den Vektor -self zurueck'''
+        return Vector(-self.x, -self.y)
+
+    def __mul__(self, s):
+        '''s: Zahl
+           gibt den Vektor s*self zurueck
+        '''
+        if isinstance(s, (int, float)):
+            return Vector(s*self.x, s*self.y)
+        return NotImplemented
+
+    def __rmul__(self, s):
+        return self * s
+
+    def __truediv__(self, s):
+        '''s: Zahl
+           gibt den Vektor self/s zurueck
+        '''
+        if isinstance(s, (int, float)):
+            return Vector(self.x / s, self.y / s)
+        return NotImplemented
+
+    def __matmul__(self, other):
+        '''gib das Skalarproduct von self und other zurueck'''
+        return self.x*other.x + self.y*other.y
+
+    def __repr__(self):
+        return f'Vec({self.x}, {self.y})'
+
+
+Vector.ORIGIN = Vector(0, 0)
+Vector.e1 = Vector(1, 0)
+Vector.e2 = Vector(0, 1)
+
+----------
+
+ den mit update ?? vectoren.py
+ > verschiebe nach modules
+   damit von nun an immer importierbar.
+
+
+4) Anwendungen Vektoren:
+   - draw arrow
+
+    def get_arrow_tip(start, end, tip_size=5, tip=((-2, 1), (-2, -1), (0, 0))):
+        '''gibt die Punkte der Pfeilspitze als Tuple zurueck
+           die Pfeilspitze liegt bei end des Pfeils von start nach end
+           size ist Laenge der Pfeilspitze
+        '''
+        arrow = Vec(*end) - Vec(*start)
+        alpha = math.atan2(arrow.y, arrow.x)
+    
+        pts = Vec.transform(tip, end, alpha, tip_size)
+        return pts
+    
+    
+    def draw_arrow(canvas, start, end, tip_size=5, line_width=1,
+                   color='black', tip_color='red'):
+        '''zeichnet einen Pfeil von start nach end auf canvas'''
+        pts = get_arrow_tip(start, end, tip_size)
+    
+        canvas.save()
+        canvas.line_width = line_width
+        canvas.stroke_style = color
+        canvas.fill_style = tip_color
+        canvas.stroke_line(*start, *end)
+        canvas.fill_polygon(pts)
+        canvas.restore()
+
+
+
+   - draw_Zifferblatt
+
+    def draw_clockface(canvas, center, radius):
+        '''zeichet ein Zifferblatt am Punkt center mit geg. radius'''
+        marks = [(math.cos(i*PI/30), math.sin(i*PI/30)) for i in range(60)]
+        starts = Vec.transform(marks, center, scale=0.9*radius)
+        ends = Vec.transform(marks, center, scale=1.1*radius)
+    
+        lines = [[start, end] for start, end in zip(starts, ends)]
+    
+        canvas.save()
+        for i, line in enumerate(lines):
+            if i % 5 == 0:
+                canvas.line_width = 3
+                canvas.stroke_style = 'blue'
+            else:
+                canvas.line_width = 1
+                canvas.stroke_style = 'black'
+    
+            canvas.stroke_lines(line)
+    
+        canvas.restore()
+
+   - draw_hands
+    def draw_hour_hand(canvas, center, radius, hour, minute):
+        '''zeichnet den Stundenzeiger , passend auf
+           ein Zifferblatt an Pos. center mit geg. radius
+        '''
+        alpha = 2*PI*(hour % 12) / 12 + 2*PI*minute/60/12
+        hand = 0.4*radius*(-Vec.e2).rotate(alpha) + Vec(*center)
+    
+        canvas.save()
+        canvas.fill_style = 'black'
+        canvas.line_width = 3
+        canvas.stroke_line(*center, *hand.as_tuple())
+    
+        canvas.restore()
+    
+    
+    def draw_minute_hand(canvas, center, radius, minute):
+        '''zeichnet den Minutenzeiger'''
+        alpha = 2*PI*minute / 60
+        hand = 0.6*radius*(-Vec.e2).rotate(alpha) + Vec(*center)
+    
+        canvas.save()
+        canvas.fill_style = 'black'
+        canvas.line_width = 2
+        canvas.stroke_line(*center, *hand.as_tuple())
+    
+        canvas.restore()
+    
+    
+    def draw_second_hand(canvas, center, radius, second):
+        '''zeichnet den Sekundenzeiger'''
+        alpha = 2*PI*second / 60
+        tip = 0.8*radius*(-Vec.e2).rotate(alpha) + Vec(*center)
+        draw_arrow(canvas, center, tip.as_tuple())
+
+
+5) Animate clock 
+
+6) Aufgaben
+
+-------------
+
+
+
+Loesung Aufgabe in Vektor_Anwendungen_I.ipynb:
+
+
+
+class Rectangle:
+    def __init__(self, lower_left, width, height):
+        self.lower_left = lower_left
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return self.width * 2 + self.height * 2
+
+    def move(self, dx, dy):
+        x0, y0 = self.lower_left
+        self.lower_left = (x0 + dx, y0 + dy)
+
+    def draw(self, canvas, clear=True, fill_style=None, stroke_style=None):
+        canvas.save()
+
+        x0, y0 = self.lower_left
+        if clear:
+            canvas.clear()
+        if fill_style:
+            canvas.fill_style = fill_style
+
+        if stroke_style:
+            canvas.stoke_style = stroke_style
+
+        canvas.fill_rect(x0, y0, self.width, self.height)
+        canvas.stroke_rect(x0, y0, self.width, self.height)
+
+        canvas.restore()
+
+    def __repr__(self):
+        return f'Rectangle(lower_left={self.lower_left}, width={self.width}, height={self.height})'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------
+Bilder: Anwendungen 1
+--------------------------------
+
+
+canvas.clear()
+canvas.fill_style = 'black'
+
+pt_O = (30, 70)
+pt_A = (60, 60)
+pt_B = (80, 20)
+
+canvas.fill_circle(*pt_O, 2)
+draw_arrow(canvas, pt_O, pt_A, tip_size=3)
+draw_arrow(canvas, pt_O, pt_B, tip_size=3)
+draw_arrow(canvas, pt_A, pt_B, tip_size=3, color='blue', tip_color='orange')
+
+canvas.fill_text('A', 65, 65)
+canvas.fill_text('B', 85, 25)
+canvas.fill_text('O', 20, 70)
+
+canvas.fill_text('v', 45, 75)
+canvas.fill_text('w-v', 70, 50)
+canvas.fill_text('w', 40, 50)
+
+canvas.clear()
+
+
+O, A, B = (Vec(*pt) for pt in (pt_O, pt_A, pt_B))
+AB = B - A
+e1 = Vec(1, 0)
+s = AB.norm()
+phi = e1.angle(AB)
+r = 20
+C = O+AB
+c = O+r*AB/AB.norm()
+v = -AB.rot90()
+
+
+canvas.fill_circle(*pt_O, 2)
+draw_arrow(canvas, pt_O, (O+0.01*e1).as_tuple(), tip_size=10, tip_color='orange')
+draw_arrow(canvas, pt_O, (O+AB).as_tuple(), tip_size=10, tip_color='orange')
+draw_arrow(canvas, c.as_tuple(), (c+0.01*v).as_tuple(), tip_size=3, tip_color='red')
+canvas.stroke_line(0, 70, 100, 70)
+
+canvas.stroke_arc(*pt_O, radius=r, start_angle=-phi, end_angle=0)
+
+canvas.fill_text('O', 20, 70)
+canvas.fill_text('φ', 37, 65)
+
+
+
+class Rectangle:
+    def __init__(self, left_upper: tuple, right_lower: tuple):
+        self.left_upper = left_upper
+        self.right_lower = right_lower
+        self.width = right_lower[0]-left_upper[0]
+        self.height = right_lower[1]-left_upper[1]
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return self.width * 2 + self.height * 2
+
+    def move(self, x_change: int, y_change: int):
+        corner = self.left_upper
+        self.left_upper = (corner[0]+x_change, corner[1]+y_change)
+        corner = self.right_lower
+        self.right_lower = (corner[0]+x_change, corner[1]+y_change)
+
+
+
+=========Vector.py
+import math
+
+
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def as_tuple(self):
+        return (self.x, self.y)
+
+    def rot90(self):
+        '''rotiert den Vektor um 90 Grad gegen den Uhrzeigersinn'''
+        return Vector(-self.y, self.x)
+
+    def rotate(self, alpha):
+        return Vector(self.x*math.cos(alpha)-self.y*math.sin(alpha),
+                      self.x*math.sin(alpha)+self.y*math.cos(alpha))
+
+    def angle(v, w, degree=False):
+        '''gib den Winkel zw. v und w zurueck'''
+        alpha = math.acos(v@w / (v.norm()*w.norm()))
+        if degree:
+            alpha *= 180/math.pi
+        return alpha
+
+    def norm(self):
+        '''gib die Laenge von v zurueck'''
+        return (self.x**2 + self.y**2)**.5
+
+    @staticmethod
+    def transform(pts, translation=(0, 0), alpha=0, scale=1):
+        '''pts: Liste od. Tuple von Punkten (x, y)
+           rotiert, streckt (vom Ursprung) und verschiebt alle Punkte und gibt sie
+           als Liste von Tupeln zurueck
+        '''
+        dv = Vector(*translation)
+        return [(scale*Vector(x, y).rotate(alpha) + dv).as_tuple()
+                for x, y in pts
+                ]
+
+    def __add__(self, other):
+        '''gibt den Vektor self+other zurueck'''
+        return Vector(self.x+other.x, self.y+other.y)
+
+    def __sub__(self, other):
+        '''gibt den Vektor self-other zurueck'''
+        return Vector(self.x-other.x, self.y-other.y)
+
+    def __neg__(self):
+        '''gibt den Vektor -self zurueck'''
+        return Vector(-self.x, -self.y)
+
+    def __mul__(self, s):
+        '''s: Zahl
+           gibt den Vektor s*self zurueck
+        '''
+        if isinstance(s, (int, float)):
+            return Vector(s*self.x, s*self.y)
+        return NotImplemented
+
+    def __rmul__(self, s):
+        return self * s
+
+    def __truediv__(self, s):
+        '''s: Zahl
+           gibt den Vektor self/s zurueck
+        '''
+        if isinstance(s, (int, float)):
+            return Vector(self.x / s, self.y / s)
+        return NotImplemented
+
+    def __matmul__(self, other):
+        '''gib das Skalarproduct von self und other zurueck'''
+        return self.x*other.x + self.y*other.y
+
+    def __repr__(self):
+        return f'Vec({self.x}, {self.y})'
+
+
+Vector.ORIGIN = Vector(0, 0)
+Vector.e1 = Vector(1, 0)
+Vector.e2 = Vector(0, 1)
