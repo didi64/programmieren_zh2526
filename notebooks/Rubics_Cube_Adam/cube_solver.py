@@ -1,6 +1,6 @@
 from collections import deque
 import babycube as cube
-import search_strategies_ as S
+import search_strategies as S
 import random
 
 
