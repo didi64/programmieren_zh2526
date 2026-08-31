@@ -30,7 +30,8 @@
 29:Klassen
 30:Classmethod_Staticmethod.ipynb Loesungen_L29.ipynb Vektoren
 31:Klassen_Vererbung.ipynb Loesungen_Klassen_L30.ipynb Loesungen_Vektoren_L30.ipynb MCV loesungen_vektoren.py
-111:Rubics_Cube_Adam
+222:Nachtrag_L31
+#111:Rubics_Cube_Adam
 # 99: TopSpin_Keri
 # update -e is update 999
 999: vector.py
