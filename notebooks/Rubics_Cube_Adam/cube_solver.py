@@ -144,10 +144,8 @@ def search_all_bibf(node, get_neighbors, goal):
                 midpoint, distance = result
                 if min_distance is None:
                     min_distance = distance
-                # if distance == min_distance:
-                #     results.append((midpoint, (go_back_1.copy(), go_back_2.copy())))
-                if distance <= min_distance:
-                    results.append((midpoint, (go_back_1, go_back_2)))
+                if distance == min_distance:
+                    results.append((midpoint, (go_back_1.copy(), go_back_2.copy())))
                 elif distance > min_distance:
                     print(f'Success. Count: {count}')
                     return results
