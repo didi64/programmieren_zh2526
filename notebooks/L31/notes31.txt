@@ -1,0 +1,338 @@
+In `search_all_bibf(node, get_neighbors, goal)`
+
+# if distance == min_distance:
+#     results.append((midpoint, (go_back_1.copy(), go_back_2.copy())))
+if distance <= min_distance:
+    results.append((midpoint, (go_back_1, go_back_2)))
+
+scramble = cube.apply_word('rF2R2fRFUF')  # Laenge 8!
+
+word = solve.pathword(S.get_path_home(state, go_back))
+word  # 'fufrfR2F2r'
+
+
+cube.apply_word('fufrfR2F2r', scramble) ist Cube.ID !
+
+
+17.08.
+24.08. 
+31.08.  Game als Observable, View als Klasse
+07.09.  Start Projekt 2, Game in MCV Style schreiben.
+14.09. 
+21.09.  Abgabe und Praesentation Projekt 2
+28.09.  (17)
+
+
+
+------
+Loesungen: Klassen
+- classmethod und static_method
+- Person (hat ihr das versucht??)
+- Account
+
+Dann revisite Vector: 
+
+- Loesungen zu Drawing arrows und Zifferblatt, skip the rest, ev. spaeter.
+- show Loesungen_Vektoren_L30
+
+=> Oeffne Notebook Draw_Arrow, kopiere Loesungen, teste Loesungen
+
+=> oeffne Notebook Zifferblatt, kopiere Loesungen, teste Loesungen
+=> oeffne Clock.ipynb rename imort helpers -> loesungen_vektoren
+
+Ticking_Clock: (spaeter) rename r -> width_rect, ul -> lower_left
+Fuege Fehler in Animation ein!
+
+!! Fix Vector Klasse, verschiebe diese in den Orner modules.
+- change staticmethod to classmethod!
+
+
+Vorbereitung Vererbung und MCV
+=============
+-- game0.py ---
+player_pos = (50, 50)
+
+
+def update(event, data):
+    print(event, data)
+
+
+def move_to(x, y):
+    global player_pos
+    player_pos = (x, y)
+    update('move',  player_pos)
+
+-- view0.py---
+
+import widget_helpers as W
+
+
+def init(game):
+    global canvas
+    canvas = W.get_canvas()
+    canvas.fill_style = 'red'
+    canvas.fill_circle(*game.player_pos, 5)
+    game.update = update
+   
+
+def update(event, data):
+    if event == 'move':
+        x, y = data
+        canvas.clear()
+        canvas.fill_circle(x, y, 5)
+
+------how to use----
+import game0 as game
+import view0 as view
+import grid_controller as C
+
+
+callbacks = {'1': lambda: game.move_to(10, 10),
+             '2': lambda: game.move_to(90, 90),
+             }
+
+
+view.init(game)
+C.init(view.canvas, callbacks)
+C.show(debug=True)
+
+-----------------------
+
+class Game:
+    def __init__(self):
+        self.player_pos = (50, 50)
+
+    def update(self, event, data):
+        print(event, data)
+
+    def move_to(self, x, y):
+        self.player_pos = (x, y)
+        self.update('move', self.player_pos)
+
+import widget_helpers as W
+
+
+class View:
+    def __init__(self, game):
+        self.canvas = W.get_canvas()
+        self.canvas.fill_style = 'red'
+        self.canvas.fill_circle(*game.player_pos, 5)
+        game.update = self.update
+
+    def update(self, event, data):
+        if event == 'move':
+            x, y = data
+            self.canvas.clear()
+            self.canvas.fill_circle(x, y, 5)
+
+
+callbacks = {'1': lambda: game.move_to(10, 10),
+             '2': lambda: game.move_to(90, 90),
+             }
+
+game = Game()
+view = View(game)
+C.init(view.canvas, callbacks)
+C.show(debug=True)
+
+--next iteration
+class Game:
+    def __init__(self):
+        self.player_pos = (50, 50)
+        self.callbacks = []
+
+    def notify(self, event, data=None):
+        for f in self.callbacks:
+            f(event, data)
+
+    def move_to(self, x, y):
+        self.player_pos = (x, y)
+        self.notify('move', self.player_pos)
+
+
+class View:
+    def __init__(self, game):
+        self.canvas = W.get_canvas()
+        self.canvas.fill_style = 'red'
+        self.canvas.fill_circle(*game.player_pos, 5)
+        game.callbacks.append(self.update)  # game.register_callback()
+
+    def update(self, event, data):
+        if event == 'move':
+            x, y = data
+            self.canvas.clear()
+            self.canvas.fill_circle(x, y, 5)
+
+=============
+Dieses Pattern hat einen Namen, MVC.
+- Jedes Game hat Code, der er erlaubt Callbacks zu registrieren.
+Moechten diesen gleichen Code nicht immer schreiben muessen.
+
+- Jede View erstellt eine Canvas und registriert ein Callback
+  Wollen auch diesen Code nicht jedesmal schreiben mussen.
+
+Hier koennen wir Vererbung nutzen!!
+======================
+- Vererbung (nicht so einfach, das gut Einzusetzen, viele Tuecken)
+  Wollen Pattern, wie wir bis jetzt einfache Spiele mit View und Controller Programmiert haben mit Klassen realisieren.
+  Dazu brauchen wir Vereerbung.
+
+Vererbung mit Animals
+Will eine Reihe von Klassen schreiben, die alle die gleiche Grundfunktionalitaet/Kern haben.
+Will diesen Kern in separate Klasse auslagern.
+Oft hat man zuerst mehrere aehnliche Klassen, und erkennt dand den gemeinsamen Kern und lagert diesen in eigene Klasse aus.
+
+Erstellen wir eine Cat-Klasse.
+
+class Cat(Animal):
+    def __init__(self, name, owner, sound='Miau!'):
+        self.owner = owner
+        super().__init__(name, sound)
+
+    def __repr__(self):
+        return f'Cat(name={self.name!r}, owner={self.owner!r}, sound={self.sound!r})'
+
+Aufgabe: Shape
+
+class Shape:
+    def __init__(self, anchor, width):
+        self.anchor = anchor
+        self.width = width
+
+    def move(self, dx, dy):
+        x, y = self.anchor
+        self.anchor = (x+dx, y+dy)
+
+    def stroker(self, canvas, center, width):
+        print(f'stroke {type(self).__name__} on canvas with center/corner {center} and widht/radius {width}')
+
+    def filler(self, canvas, center, width):
+        print(f'stroke {type(self).__name__} on canvas at center/corner {center} and widht/radius {width}')
+
+    def draw(self, canvas, clear=True,  fill_style=None, stroke_style='black'):
+        canvas.save()
+
+        if clear:
+            canvas.clear()
+        if fill_style:
+            canvas.fill_style = fill_style
+            self.filler(canvas, self.anchor, self.width)
+        if stroke_style:
+            canvas.stroke_style = stroke_style
+            self.stroker(canvas, self.anchor, self.width)
+
+        canvas.restore()
+
+class Circle(Shape):
+    def __init__(self, anchor, width):
+        super().__init__(anchor, width)
+
+    # def stroker(self, canvas, center, radius):
+    #     canvas.stroke_circle(*center, radius)
+
+    # def filler(self, canvas, center, radius):
+    #     canvas.fill_circle(*center, radius)
+
+
+class Square(Shape):
+    def __init__(self, anchor, width):
+        super().__init__(anchor, width)
+
+    # def stroker(self, canvas, center, width):
+    #     canvas.stroke_rect(*center, width)
+
+    # def filler(self, canvas, center, width):
+    #     canvas.fill_rect(*center, width)
+=====================
+
+Game als Observable
+
+falls Zeit Beispiel.
+
+MCV_Pattern erwaehnen
+
+========
+
+
+MCV kopiere gridhelper.py und model_view_controller.py nach modules/!
+
+MCV + Demo:  # Recall Diagonale ist blockiert!
+====
+
+Aufgabe: schreibe
+def on_mouse_down(self, x, y, state):
+    '''bei klick auf ein Feld wird dort ein Kreis gezeichnet
+       benutze den Gridhelper der View, um die Klickposition in col row umzurechnen
+       pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    '''
+    
+
+
+def on_mouse_down(self, x, y, state):
+    pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    if pos:
+        self.game.place(pos)
+
+def on_mouse_up(self, x, y, state):
+    pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    if pos:
+        old_pos = state.pop('old_pos', pos)
+        if old_pos == pos:
+            self.game.place(pos)
+        else:
+            self.game.move(old_pos, pos)
+
+=====
+
+def on_mouse_down(self, x, y, state):
+    pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    if pos is None:
+        return
+
+    if pos in self.game.placed:
+        state['picked'] = pos
+    else:
+        old_pos = state.pop('picked', None)
+        if old_pos:
+            self.game.move(old_pos, pos)
+        else:
+            self.game.place(pos)
+
+
+def key_handler(self, key, state):
+    if key == 'Escape':
+        state['keys'] = []
+        return
+
+    keys = state.pop('keys', [])
+    keys.append(key)
+    if len(keys) < 4:
+        state['keys'] = keys
+    elif all(key.isdigit() for key in keys):
+        u, v, x, y = [int(key) for key in keys]
+        self.game.move((u, v), (x, y))
+        self.log(f'state: {state}')
+
+
+def cursor(self, key, state):
+    tt = {'Right': (1, 0), 'Left': (-1, 0), 'Up': (-1, 0), 'Down': (1, 0)}
+
+    if key == 'Escape':
+        state['cursor'] = not state.get('cursor', False)
+        if state['cursor']:
+            pos = state.setdefault('pos', (0, 0))
+            self.log(f'Cursor at pos {pos}')
+        return
+
+    if key.startswith('Arrow') and state['cursor']:
+        col, row = state['pos']
+        dc, dr = tt[key[5:]]
+        pos = (col+dc, col+dr)
+        state['pos'] = pos
+        self.log(f'Cursor at pos {pos}')
+
+    if key == 'Enter' and state['cursor']:
+        
+
+Vererbung mit Observables
+

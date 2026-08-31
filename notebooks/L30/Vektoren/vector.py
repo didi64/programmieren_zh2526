@@ -28,14 +28,14 @@ class Vector:
         '''gib die Laenge von v zurueck'''
         return (self.x**2 + self.y**2)**.5
 
-    @staticmethod
-    def transform(pts, translation=(0, 0), alpha=0, scale=1):
+    @classmethod
+    def transform(cls, pts, translation=(0, 0), alpha=0, scale=1):
         '''pts: Liste od. Tuple von Punkten (x, y)
            rotiert, streckt (vom Ursprung) und verschiebt alle Punkte und gibt sie
            als Liste von Tupeln zurueck
         '''
-        dv = Vector(*translation)
-        return [(scale*Vector(x, y).rotate(alpha) + dv).as_tuple()
+        dv = cls(*translation)
+        return [(scale*cls(x, y).rotate(alpha) + dv).as_tuple()
                 for x, y in pts
                 ]
 
