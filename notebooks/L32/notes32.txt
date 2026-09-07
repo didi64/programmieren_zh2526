@@ -1,0 +1,557 @@
+What about Keri 14.9.?
+
+
+
+1. Vektoren Tests und Aufgaben:
+@classmethod
+def from_pts(cls, p, q):
+    '''gibt den Vector q-p zurueck'''
+    return cls(*q) - cls(*p)
+
+
+def angle(self, other):
+    '''gib den Winkel zw. self und other'''
+    alpha = math.acos(self@other / (self.norm()*other.norm()))
+    return alpha
+
+==============
+
+Weitere Aufgabe Vektoren
+
+# Hilfsfunktion
+def stroke_line(canvas, v, w, color='black', line_width=1):
+    canvas.save()
+    canvas.stroke_style = color
+    canvas.line_width = line_width
+    canvas.stroke_line(*v.as_tuple(), *w.as_tuple())
+    canvas.restore()
+
+
+canvas.stroke_line(*A, *B)
+canvas.fill_circle(*P, 2)
+H.draw_arrow(canvas, A, P)
+
+
+AB = Vec.from_pts(A, B)
+f1 = AB / AB.norm()
+f2 = f1.rot90()
+
+O = Vec(*A)
+stroke_line(canvas, O+30*f2, O-30*f2, color='blue')
+
+AP = Vec.from_pts(A, P)
+x = AP @ f1
+y = AP @ f2
+stroke_line(canvas, Vec(*P), O+x*f1, color='lightblue')
+stroke_line(canvas, Vec(*P), O+y*f2, color='midnightblue')
+
+Q = (O+x*f1-y*f2).as_tuple()
+canvas.fill_circle(*Q, 2)
+H.draw_arrow(canvas, A, Q)
+
+def reflection(A, B, P):
+    AB = Vec.from_pts(A, B)
+    f1 = AB / AB.norm()
+    f2 = f1.rot90()
+
+    AP = Vec.from_pts(A, P)
+    x, y = AP @ f1, AP @ f2
+    Q = (Vec(*A) + x*f1 - y*f2).as_tuple()
+    return Q
+
+====  Animations =============
+Animations:
+
+Jupyterlab ist keine Game-Engine.
+
+Pattern. Task kreieren und task zurueckgeben.
+Task enthaelt Fehlermeldungen.
+
+Kleine Aufgabe:
+    direction = (-)1
+    t += direction * dt
+=================================
+
+
+
+Getter und Setter_
+Wiese Getter und Setter und wie man das bequem in Python haben kann.
+(sieht @property sehr oft, auch deshalb eingefuehrt).
+
+
+Aufgabe I:
+
+class Polygon:
+    def __init__(self, pts, anchor):
+        self._vecs = [Vec(*pt) for pt in pts]
+        self._anchor = Vec(*anchor)
+
+    def _translate_vecs(self, dv):
+        '''dv: Verschiebungsvektor'''
+        self._vecs = [v + dv for v in self._vecs]
+
+    @property
+    def pts(self):
+        return [v.as_tuple() for v in self._vecs]
+
+    @property
+    def anchor(self):
+        return self._anchor.as_tuple()
+
+    @anchor.setter
+    def anchor(self, pos):
+        new_anchor = Vec(*pos)
+        dv = new_anchor - self._anchor  # self._anchor + dv = new_anchor
+        self._translate_vecs(dv)
+        self._anchor = new_anchor
+
+    def __repr__(self):
+        return f'Polygon(anchor={self.anchor}, pts={self.pts})'
+
+
+
+center = (50, 50)
+pts = [(10, 10), (20, 20), (20, 10)]
+triangle = Polygon_1(pts, pts[0])
+triangle.anchor = center
+triangle
+
+
+class Polygon:
+    def __init__(self, pts, anchor):
+        self._vecs = [Vec(*pt) for pt in pts]
+        self._anchor = Vec(*anchor)
+        self._size = 1
+        self._angle = 0
+
+    def _translate_vecs(self, dv):
+        '''dv: Verschiebungsvektor'''
+        self._vecs = [v + dv for v in self._vecs]
+
+    def _scale_vecs(self, scale):
+        '''scale: Streckungsfaktor
+           streckt Punkte von anchor aus
+        '''
+        c = self._anchor
+        self._vecs = [scale*(v-c) + c for v in self._vecs]
+
+    def _rotate_vecs(self, alpha):
+        '''rotiere alle Punkte den Ankerpunkt'''
+        c = self._anchor
+        self._vecs = [(v-c).rotate(alpha) + c for v in self._vecs]
+
+    @property
+    def pts(self):
+        return [v.as_tuple() for v in self._vecs]
+
+    @property
+    def anchor(self):
+        return self._anchor.as_tuple()
+
+    @anchor.setter
+    def anchor(self, pos):
+        new_anchor = Vec(*pos)
+        dv = new_anchor - self._anchor  # self._anchor + dv = new_anchor
+        self._translate_vecs(dv)
+        self._anchor = new_anchor
+
+    @property
+    def size(self):
+        return self._size
+
+    @size.setter
+    def size(self, new_size):
+        scale_factor = new_size / self._size  # self._size * scale_factor = new_size
+        self._scale_vecs(scale_factor)
+        self._size = new_size
+
+    @property
+    def angle(self):
+        return self._angle
+
+    @angle.setter
+    def angle(self, new_angle):
+        phi = new_angle - self._angle  # self._angle + phi = new_angle
+        self._rotate_vecs(phi)
+        self._angle = new_angle
+
+    def draw(self, canvas, clear=True,  fill_style=None, stroke_style='black'):
+        canvas.save()
+        if clear:
+            canvas.clear()
+        if fill_style:
+            canvas.fill_style = fill_style
+            canvas.fill_polygon(self.pts)
+        if stroke_style:
+            canvas.stroke_style = stroke_style
+            canvas.stroke_polygon(self.pts)
+        canvas.restore()
+
+    def __repr__(self):
+        return f'Polygon(anchor={self.anchor}, pts={self.pts})'
+
+
+import widget_helpers as W
+
+
+canvas = W.get_canvas()
+canvas
+
+pts_F = [(0, 0), (1, 0), (1, 2), (3, 2), (3, 3), (1, 3), (1, 4), (4, 4), (4, 5), (0, 5)]
+
+F = Polygon(pts_F, (.5, 0))
+F.anchor = (20, 70)
+F.size = 5
+F
+
+=================
+
+VierGewinnt show Workflow (spaeter!)
+
+1. Minimales funktionierende Basis in Notebook
+2. Schreibe Zellen mit Klassen in Files
+3. Importiere Files und reload mit importlib
+
+
+
+============
+
+Zurueck zur Lektion 31
+Nachtrag L31
+
+    Minimales Game als Modul im MCV Pattern.
+    -> game0.py
+    -> view0.py
+    
+    -> Klasse Game und View
+       Moechten Teil der die Callbacks handelt nicht jedesmal schreiben muessen.
+       Wollen dies in separate Klassen auslagern und davon erben.
+
+Game als Observable:
+    - Select asl Beispiel eines Observables
+    - Was wir Auslagern und wie wir es Auslabern in Observable und BaseView
+
+
+
+
+=============
+Dieses Pattern hat einen Namen, MVC.
+- Jedes Game hat Code, der er erlaubt Callbacks zu registrieren.
+Moechten diesen gleichen Code nicht immer schreiben muessen.
+
+- Jede View erstellt eine Canvas und registriert ein Callback
+  Wollen auch diesen Code nicht jedesmal schreiben mussen.
+
+Hier koennen wir Vererbung nutzen!!
+======================
+- Vererbung (nicht so einfach, das gut Einzusetzen, viele Tuecken)
+  Wollen Pattern, wie wir bis jetzt einfache Spiele mit View und Controller Programmiert haben mit Klassen realisieren.
+  Dazu brauchen wir Vereerbung.
+
+Vererbung mit Animals
+Will eine Reihe von Klassen schreiben, die alle die gleiche Grundfunktionalitaet/Kern haben.
+Will diesen Kern in separate Klasse auslagern.
+Oft hat man zuerst mehrere aehnliche Klassen, und erkennt dand den gemeinsamen Kern und lagert diesen in eigene Klasse au
+
+============
+Dann Beispiel:
+
+Aufgabe: schreibe 
+
+def on_mouse_down(self, x, y, state):
+    '''plaziere Stein an Klickposition'''
+
+
+def on_mouse_down(self, x, y, state):
+    '''plaziere Stein an Klickposition
+       liegt dort bereits ein Stein, speichere seine Position in
+       state['grabbed'] = pos
+    '''
+
+def on_mouse_up(self, x, y, state):
+    '''verschiebe im state gespeicherten Stein an mouse_up-Position,
+       entferne Eintraeg aus Dict state
+    '''
+
+==Loesungen
+
+def on_mouse_down(self, x, y, state):
+    pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    if pos:
+        self.game.place(pos)
+
+
+def on_mouse_down(self, x, y, state):
+    pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    if pos:
+        if pos in self.game.placed:
+            state['grabbed'] = pos
+        else:
+            self.game.place(pos)
+
+
+def on_mouse_up(self, x, y, state):
+    pos = self.view.gridhelper.xy2cr(x, y, strict=True)
+    old_pos = state.pop('grabbed', None)
+
+    if old_pos is None or pos is None:
+        return
+
+    self.game.move(old_pos, pos)
+
+=====
+
+Aufgabe:
+- druecke 4 Ziffern, um Stein zu verschieben
+
+
+def key_handler(self, key, state):
+    if key == 'Escape':
+        state['keys'] = []
+        return
+
+    keys = state.pop('keys', [])
+    keys.append(key)
+    if len(keys) < 4:
+        state['keys'] = keys
+    elif all(key.isdigit() for key in keys):
+        u, v, x, y = [int(key) for key in keys]
+        self.game.move((u, v), (x, y))
+
+
+====
+Nun Examples aus L32.
+Workflow
+
+
+
+=== neachstes Mal ====
+Observalbe Controller:
+- regisgter callback is overloaded!
+- list callback is shadowed. USE name mangling!
+
+class Observable:
+    def register_callback(self, fun):
+        '''fun: function f(event_name, data)'''
+        if not callable(fun):
+            raise TypeError('fun must be callable!')
+        if not hasattr(self, '_Observable__callbacks'):
+            self.__callbacks = []
+        if fun not in self.__callbacks:
+            self.__callbacks.append(fun)
+
+    def remove_callbacks(self):
+        '''removes all registered callbacks'''
+        if hasattr(self, '_Observable__callbacks'):
+            self.__callbacks.clear()
+
+    def _notify(self, event, data=None):
+        '''calls all registered callbacks with the arguments event and data'''
+        if hasattr(self, '_Observable__callbacks'):
+            for f in self.__callbacks:
+                f(event, data)
+
+
+
+===== vector.py=====
+import math
+
+
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def is_close(self, other, err=1E-8):
+        return abs(other.x - self.x) < err and abs(other.y - self.y) < err
+
+    @classmethod
+    def from_pts(cls, p, q):
+        '''gibt den Vector q-p zurueck'''
+        return cls(*q) - cls(*p)
+
+    def as_tuple(self):
+        return (self.x, self.y)
+
+    def rot90(self):
+        '''rotiert den Vektor um 90 Grad gegen den Uhrzeigersinn'''
+        return Vector(-self.y, self.x)
+
+    def rotate(self, alpha):
+        return Vector(self.x*math.cos(alpha) - self.y*math.sin(alpha),
+                      self.x*math.sin(alpha) + self.y*math.cos(alpha))
+
+    def angle(v, w, degree=False):
+        '''gib den Winkel zw. v und w zurueck'''
+        alpha = math.acos(v@w / (v.norm()*w.norm()))
+        if degree:
+            alpha *= 180/math.pi
+        return alpha
+
+    def norm(self):
+        '''gib die Laenge von v zurueck'''
+        return (self.x**2 + self.y**2)**.5
+
+    @classmethod
+    def transform(cls, pts, translation=(0, 0), alpha=0, scale=1):
+        '''pts: Liste od. Tuple von Punkten (x, y)
+           rotiert, streckt (vom Ursprung) und verschiebt alle Punkte und gibt sie
+           als Liste von Tupeln zurueck
+        '''
+        dv = cls(*translation)
+        return [(scale*cls(x, y).rotate(alpha) + dv).as_tuple()
+                for x, y in pts
+                ]
+
+    def __add__(self, other):
+        '''gibt den Vektor self+other zurueck'''
+        return Vector(self.x+other.x, self.y+other.y)
+
+    def __sub__(self, other):
+        '''gibt den Vektor self-other zurueck'''
+        return Vector(self.x-other.x, self.y-other.y)
+
+    def __neg__(self):
+        '''gibt den Vektor -self zurueck'''
+        return Vector(-self.x, -self.y)
+
+    def __mul__(self, s):
+        '''s: Zahl
+           gibt den Vektor s*self zurueck
+        '''
+        if isinstance(s, (int, float)):
+            return Vector(s*self.x, s*self.y)
+        return NotImplemented
+
+    def __rmul__(self, s):
+        return self * s
+
+    def __truediv__(self, s):
+        '''s: Zahl
+           gibt den Vektor self/s zurueck
+        '''
+        if isinstance(s, (int, float)):
+            return Vector(self.x / s, self.y / s)
+        return NotImplemented
+
+    def __matmul__(self, other):
+        '''gib das Skalarproduct von self und other zurueck'''
+        return self.x*other.x + self.y*other.y
+
+    def __repr__(self):
+        return f'Vec({self.x}, {self.y})'
+
+
+Vector.PI = math.pi
+Vector.ORIGIN = Vector(0, 0)
+Vector.e1 = Vector(1, 0)
+Vector.e2 = Vector(0, 1)
+
+====end vector.py======
+
+==== Test fuer vector.py=====
+
+if __name__ == '__main__':
+
+    def is_close(x, y, err=1E-8):
+        return abs(x - y) < err
+
+    def test_add():
+        return (Vector(1, 2) + Vector(3, -4)).as_tuple() == (4, -2)
+
+    def test_sub():
+        return (Vector(1, 2) - Vector(3, -4)).as_tuple() == (-2, 6)
+
+    def test_neg():
+        return (-Vector(1, 2)).as_tuple() == (-1, -2)
+
+    def test_mul():
+        return (3 * Vector(1, 2)).as_tuple() == (3, 6)
+
+    def test_rmul():
+        return (Vector(1, 2) * 3).as_tuple() == (3, 6)
+
+    def test_truediv():
+        return (Vector(3, 6) / 3).as_tuple() == (1, 2)
+
+    def test_matmul():
+        return Vector(1, 2) @ Vector(3, -4) == -5
+
+    def test_from_pts():
+        return (Vector.from_pts((1, 2), (3, -4))).as_tuple() == (2, -6)
+
+    def test_is_close():
+        return Vector(1-1E-9, 1+1E-9).is_close(Vector(1, 1))
+
+    def test_rot90():
+        return Vector(1, 2).rot90().as_tuple() == (-2, 1) 
+
+    def test_rotate():
+        v = Vector(1, 2).rot90()
+        w = Vector(1, 2).rotate(Vector.PI/2)
+        return v.is_close(w)
+
+    def test_angle():
+        v = Vector(1, 2)
+        w = v.rotate(Vector.PI/3)
+        return is_close(v.angle(w), Vector.PI/3)
+
+    def test_norm():
+        return Vector(3, 4).norm() == 5
+
+    def test_transform():
+        pts = [(1, 2), (-3, 4)]
+        translation = (1, 2)
+        alpha = Vector.PI/3
+        scale = 2
+
+        pts_0 = Vector.transform(pts, translation=(1, 2), alpha=Vector.PI/3, scale=2)
+        pts_1 = [(scale*Vector(*pt).rotate(alpha) + Vector(*translation)).as_tuple() for pt in pts]
+        return all(is_close(x0, x1) and is_close(y0, y1)
+                   for (x0, y0), (x1, y1) in zip(pts_0, pts_1)
+                   )
+
+    tests = [test_add, test_sub, test_neg, test_mul, test_rmul, test_truediv, test_matmul,
+             test_from_pts, test_is_close, test_rot90, test_rotate, test_angle, test_norm, test_transform,
+             ]
+    failed_tests = [test.__name__ for test in tests if not test()]
+
+    n = len(tests)
+    m = len(failed_tests)
+    print(f'{n-m}/{n} tests passed')
+
+    for test in failed_tests:
+        print(f'    Test "{test}" failed')
+
+=== drawing_helpers.py=======
+
+import math
+from vector import Vector as Vec
+
+
+def get_arrow_tip(start, end, tip_size=5, tip=((-2, 1), (-2, -1), (0, 0))):
+    '''gibt die Punkte der Pfeilspitze als Tuple zurueck
+       die Pfeilspitze liegt bei end des Pfeils von start nach end
+       size ist Laenge der Pfeilspitze
+    '''
+    arrow = Vec(*end) - Vec(*start)
+    alpha = math.atan2(arrow.y, arrow.x)
+
+    pts = Vec.transform(tip, end, alpha, tip_size)
+    return pts
+
+
+def draw_arrow(canvas, start, end, tip_size=5, line_width=1,
+               color='black', tip_color='red'):
+    '''zeichnet einen Pfeil von start nach end auf canvas'''
+    pts = get_arrow_tip(start, end, tip_size)
+
+    canvas.save()
+    canvas.line_width = line_width
+    canvas.stroke_style = color
+    canvas.fill_style = tip_color
+    canvas.stroke_line(*start, *end)
+    canvas.fill_polygon(pts)
+    canvas.restore()
+
+=======end drawing_helpers.py
