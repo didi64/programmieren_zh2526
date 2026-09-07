@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+set -euo pipefail
+
+share_repo="${HOME}/work/share"
+response_repo="${HOME}/work/share/.response"
+response="${HOME}/work/share/response"
+
+git -C "$share_repo" add .
+git -C "$share_repo" commit . -m "$(date)" || true
+git -C "$share_repo" push -f
+
+if [[ $(git -C "${response_repo}" fetch --dry-run 2>&1 | wc -l) -eq 0 ]]; then
+    echo "no new files in response"
+    exit 0
+fi
+
+git -C "${response_repo}" reset --hard
+git -C "${response_repo}" fetch
+git -C "${response_repo}" merge --allow-unrelated-histories --no-edit
+
+
+mapfile -t lines < <(git log --name-status -1)
+for ((i=${#lines[@]}-1; i>=0; i--)); do
+    line=${lines[i]}
+    read -ra parts <<<"$line"
+    if (( ${#parts[@]} >= 2 )); then
+        modifier="${parts[0]}"
+        file="${parts[1]}"
+    
+        if [[ $modifier == [AM] ]]; then
+            cp -i "${response_repo}/${file}" "${response}/."
+            echo "updated ${file} in response"
+        fi
+    fi
+done
