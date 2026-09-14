@@ -1,0 +1,281 @@
+Keri: Talk about Pong Project. ->  Programmieren_2526/L33/Pong,ipynb Pong mit Pad und Ball, Idee: padaehnliche Obstacles, mit health,
+die Farbe bestimmt.
+Ist health <=0 verschwinden die Obstacles.
+
+Verschiebe gridhelper.py in Ordner Modul
+====
+
+Adam:
+- Minesweeper mit was fuer Klassen:
+-Grid
+-Timer
+-Solver?
+- ???
+
+--------
+
+Falls noch beide da: Verschiebe gridhelper.py in Ordner modules
+
+def run(self):
+        async def move_objs():
+            while self.running:
+                self.step()
+                await asyncio.sleep(1/5)
+
+        self.running = True
+        self.task = asyncio.create_task(move_objs(), name='move_objs')
+
+import asyncio
+
+
+def show_tasks():
+    for i, task in enumerate(asyncio.all_tasks()):
+        print(f'Task {i+1}: {task.get_name()}')
+        print(f'  - Status:   {task._state}')
+        print(f'  - Coroutine: {task.get_coro()}')
+        print('-' * 40)
+
+
+def cancel_task(task_name):
+    for task in asyncio.all_tasks():
+        if task.get_name() == task_name:
+            print(f'trying to cancel task {task_name}')
+            return task.cancel()
+
+========================
+
+
+Loesungen VectorL32 (funktioniert das auch noch mit alter vector.py?)
+
+Getters und Setters, v.as_tuple() -> tuple(v).
+Hier auch moeglich: return self._pts und return self._anchor! (teste es)
+
+    @property
+    def pts(self):
+        return [v.as_tuple() for v in self._vecs]
+
+    @property
+    def anchor(self):
+        return self._anchor.as_tuple()
+
+====
+
+1. Vector mit == und v[i]
+Tests fuer __eq__ und __getitem__
+
+    def test_getitem():
+        v = Vector(1, 2)
+        x, y = v
+        return x == v.x and y == v.y and x == v[0] and y == v[1]
+
+    def test_eq():
+        v = Vector(1, 2)
+        w = Vector(1, 2)
+        return v == w
+
+
+2. Named Tuples:
+
+from typing import NamedTuple
+
+
+class Contact(NamedTuple):
+    name: str
+    phone: str
+
+
+bob = Contact('Bob', '099 123 45 67')
+bob
+
+bob.phone
+
+bob[0]
+
+-> Vector als NamedTuple
+
+
+
+Composition: Bullet, Cannon, shooter
+3. Komposition von Klassen:
+  Intro -> Bullets und Cannon.
+
+erste Version im Notebook, fuer weiterentwicklung dann mit %%file in File schreiben.
+    fuege noetige Import hinzu
+    from model_view_controller import Observable, notify
+    from cannon import Cannon
+
+in Test_shooter
+
+    game._run()
+
+    import asyncio
+    
+    [task.get_name() for task in asyncio.all_tasks()]
+    
+    for task in asyncio.all_tasks():
+        if task.get_name() == 'move_bullets':
+            task.cancel()
+
+
+
+
+==reflection update, 
+    size=100
+    def _move_bullets(self):
+        for bullet in self.bullets:
+            x_new, y_new = bullet.pos + bullet.speed
+            bullet.speed.x = bullet.speed.x * (1 if 0 <= x_new <= self.size else -1)
+            bullet.speed.y = bullet.speed.y * (1 if 0 <= y_new <= self.size else -1)
+            bullet.move()
+
+        self.bullets = {bullet for bullet in self.bullets if bullet.health > 0}
+
+
+add Timer -> Timer
+
+
+# import asyncio
+from model_view_controller import Observable, notify
+from bullet import Bullet
+from cannon import Cannon
+# from vector import Vector as Vec
+
+
+class Game(Observable):
+    cannon_pos = (50, 50)
+    cannon_size = 10
+    # size = 100
+
+    def __init__(self):
+        self.cannon = Cannon(self.cannon_pos, self.cannon_size)
+        self.bullets = set()
+        self.is_running = False
+
+    @notify
+    def new_game(self):
+        self.bullets.clear()
+#        if not self.is_running:
+#            self._run()
+
+#    def stop(self):
+#        self.is_running = False
+
+    @notify
+    def increase_angle(self):
+        self.cannon.increase_angle()
+
+    @notify
+    def decrease_angle(self):
+        self.cannon.decrease_angle()
+
+    @notify
+    def shoot(self):
+        self.bullets.add(self.cannon.shoot())
+
+    @notify
+    def step(self):
+        self._move_bullets()
+
+    def _move_bullets(self):
+        for bullet in self.bullets:
+#            s_x, s_y = (1 if 0 <= z <= self.size else -1
+#                        for z in bullet.pos + bullet.speed)
+#            bullet.speed = Vec(s_x * bullet.speed.x, s_y * bullet.speed.y)
+            bullet.move()
+
+        self.bullets = {bullet for bullet in self.bullets if bullet.health > 0}
+
+#    def _run(self):
+#        async def move_bullets():
+#            while self.is_running:
+#                self.step()
+#                await asyncio.sleep(0.2)
+
+#        self.is_running = True
+#        self.task = asyncio.create_task(move_bullets(), name='move_bullets')
+
+    def __repr__(self):
+        return f'Bullets({self.bullets})'
+
+=== add timer ====
+
+    def __init__(self):
+        self.cannon = Cannon(self.cannon_pos, self.cannon_size)
+        self.bullets = set()
+        self.is_running = False
+        self.timer = Timer()
+        self.timer.register_callback(self.update_timer)
+
+    @notify
+    def update_timer(self, event, displayed_time):
+        return displayed_time
+
+
+in view:
+
+import importlib
+import shooter_mit_timer as shooter
+from model_view_controller import BaseView
+from ipycanvas import hold_canvas
+importlib.reload(shooter)
+
+
+class View(BaseView):
+    def __init__(self, game):
+        super().__init__(game)
+        self.redraw()
+
+    def redraw(self):
+        with hold_canvas(self.canvas):
+            self.canvas.clear()
+            s = f'{self.game.timer.displayed_time:06.2f}'
+            self.canvas.fill_text(s, 30, 10)
+            self.game.cannon.draw(self.canvas)
+            for bullet in self.game.bullets:
+                bullet.draw(self.canvas)
+
+    def update(self, event, data):
+        self.redraw()
+
+
+game = shooter.Game()
+game.new_game()
+view = View(game)
+view
+
+from model_view_controller import Controller
+
+
+def key_handler(self, key, state):
+    timer = self.game.timer
+    if key == 'Enter':
+        if timer.is_running:
+            timer.is_running = False
+        else:
+            timer.start()
+
+    elif key == 'Backspace':
+        timer.reset()
+
+
+game = shooter.Game()
+
+callbacks = {'n': game.new_game,
+             's': game.stop(),
+             ' ': game.shoot,
+             'ArrowLeft': game.decrease_angle,
+             'ArrowRight': game.increase_angle,
+             'ArrowUp': game.step,
+             }
+
+game.new_game()
+view = View(game)
+controller = Controller(game, view, callbacks, key_handler=key_handler)
+controller
+
+=============
+
+L31/MVC Pattern dann nochmals Beispiel.
+
+Nochmals Beispiel:
+

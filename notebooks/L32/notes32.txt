@@ -333,7 +333,7 @@ Workflow
 
 === neachstes Mal ====
 Observalbe Controller:
-- regisgter callback is overloaded!
+- register callback is overloaded!
 - list callback is shadowed. USE name mangling!
 
 class Observable:
