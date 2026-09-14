@@ -14,7 +14,9 @@ Adam:
 
 --------
 
-Falls noch beide da: Verschiebe gridhelper.py in Ordner modules
+Falls noch beide da: Verschiebe 
+  gridhelper.py in Ordner modules
+  model_view_controller.py 
 
 def run(self):
         async def move_objs():
