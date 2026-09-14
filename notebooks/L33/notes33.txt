@@ -9,9 +9,16 @@ Adam:
 - Minesweeper mit was fuer Klassen:
 -Grid
 -Timer
--Solver?
 - ???
 
+Klasse MinesGrid mit Methoden
+- get_val(pos)
+- set_val(pos, val)
+- is_inside(pos)
+- pos_val(): Generator, der alle pos, value Paare liefert
+- get_neighbors(pos)
+- get_mines_count(pos)
+- add_mines_with_count(mines)
 --------
 
 Falls noch beide da: Verschiebe 
@@ -281,3 +288,73 @@ L31/MVC Pattern dann nochmals Beispiel.
 
 Nochmals Beispiel:
 
+
+class MinesGrid:
+    MINE = '*'
+
+    def __init__(self, ncol, nrow, default=None):
+        self.ncol = ncol
+        self.nrow = nrow
+        self._grid = [[default]*ncol for _ in range(nrow)]
+
+    def get_val(self, pos):
+        col, row = pos
+        return self._grid[row][col]
+
+    def set_val(self, pos, val):
+        col, row = pos
+        self._grid[row][col] = val
+
+    def is_inside(self, pos):
+        col, row = pos
+        return 0 <= row < self.nrow and 0 <= col < self.ncol
+
+    def pos_val(self):
+        for col in range(self.ncol):
+            for row in range(self.nrow):
+                yield (col, row), self._grid[row][col]
+
+    def get_neighbors(self, pos):
+        col, row = pos
+        for dc, dr in [(0, 1), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]:
+            new_pos = col + dc, row + dr
+            if self.is_inside(new_pos):
+                yield new_pos
+
+    def get_mines_count(self, pos):
+        count = 0
+        for p in self.get_neighbors(pos):
+            count += self.get_val(p) == self.MINE
+        return count
+
+    def _add_mines(self, mines):
+        for pos in mines:
+            self.set_val(pos, self.MINE)
+
+    def _add_mines_count(self):
+        for pos, val in self.pos_val():
+            if val != self.MINE:
+                count = self.get_mines_count(pos)
+                self.set_val(pos, count)
+
+    def add_mines_with_count(self, mines):
+        self._add_mines(mines)
+        self._add_mines_count()
+
+    def get_component(self, pos):
+        component = {pos}
+        stack = [pos]
+        while stack:
+            pos = stack.pop()
+            if self.get_val(pos) != 0:
+                continue
+            for pos in self.get_neighbors(pos):
+                if pos not in component:
+                    component.add(pos)
+                    stack.append(pos)
+        return component
+
+    def __repr__(self):
+        max_width = max(len(str(s)) for row in self._grid for s in row) + 2
+        lines = [''.join(f'{val!s:^{max_width}}' for val in row) for row in self._grid]
+        return '\n'.join(lines)
