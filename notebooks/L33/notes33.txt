@@ -1,3 +1,27 @@
+Hallo Keri,
+
+Zur Lektion 33:
+Update 33 gibt die neuen Files.
+Verschiede als erstes 
+vector.py, model_view_controller.py und gridhelper.py in den Ordner modules.
+
+Im Ordner Composition erklaert das Notebook Komposition_von_Klassen.ipynb, wie 
+bestehende Klassen in einer andern Klasse nutzen kann.
+shooter.py enthaelt das eigentliche Spiel, die auskommentierten Zeilen werden spaeter hinzugefuegt,
+um die Bullets selber zu bewegen und an den Waenden zu reflektieren.
+
+Bei deinem Projekt "Pong mit Klassen", kann man aehnlich vorgehen.
+Statt Cannon und Bullet hast du Klassen Pad und Ball, und ev. noch Obstacle, Hindernisse, die man mit dem Ball treffen kann.
+
+Falls du zeit hast, koennten wir das z.B. am Mittwoch Abend, 18h anschauen?
+
+Liebe Gruesse, 
+Dieter
+
+
+
+
+
 Keri: Talk about Pong Project. ->  Programmieren_2526/L33/Pong,ipynb Pong mit Pad und Ball, Idee: padaehnliche Obstacles, mit health,
 die Farbe bestimmt.
 Ist health <=0 verschwinden die Obstacles.
