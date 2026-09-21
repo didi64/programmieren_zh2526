@@ -1,0 +1,389 @@
+Praesentation Adam,
+Praesentation Keri
+
+--------------
+Summary:
+Sprachelemente: Rechnen mit Booleans, Walruss, Ternary: x if foo else bar, 
+                Generators, Decorators,
+                Fehler ausloesen und Abfangen, Decorators
+
+Walruss, oft sehr nuetzlich um Wiederholung einer Berechnugn zu vermeiden
+Generator: SEHR bequem um z.B. Nachbar (auch im weiteren Sinn) zu liefern, 
+
+Maze generieren und lösen mit DFS (und BFS für kürzeste Wege)
+Loesungsalgos:  Am Beispiel Labyrith. 
+DFS + BFS       Suchraum mit Zustaenden. 
+                Suchen Weg ins Ziel. Kennen, bez. koennen Nachbarzustaende eines Zustandes berechnen.
+                Bei jedem besuchten Zustand:
+                speichern UNBESUCHTE Nachbarn in einer Liste nodes_to_visit,
+                durch hinaufuegen von rechts           
+                - DFS: entferne immer letzten Zustand/Knoten/Feld aus Liste nodes_to_visit und besuche dieses
+                - entferne immer ersten letzten Zustand/Knoten/Feld aus Liste nodes_to_visit und besuche dieses
+                  nodes_to_visit = [n_{11}, n_{12},...,n{1k}]
+                                 = [n_12, n_22,...,n1k] + [n_21,..n2l]           
+                                  = [n_22,...,n1k, n_21,..n2l]    
+
+                Oft: Kommt dem Ziel immer einen Schritt naeher
+                DFS: 8-Damenproblem (Zustaende sind Teilloesungen, naechster Zustand hat eine platzierte Dame mehr
+                Sudoku: Jeder Zustand hat eine Zahl mehr
+
+                BFS:
+                Nachbarzustand in der Regel nicht naehre bie der Loesung.
+                Wuerfel: 
+                TopSpin:
+
+
+Wirf Blick auf Implementation (Nutzt MVC-Pattern):
+- maze.py
+- view_maze.py
+
+
+MVC:
+- einfache Implementation
+- Pattern
+
+
+Klassen:
+- Methoden, @staticmethod, @classmethod, dunder/Magic-Methods
+- setter und getter als Designpattern
+
+- setter und getter mit @property (skip)
+- Vererbung
+- Komposition (fixed/completted Shotterexample)
+
+
+Module mit Test:
+- Vec Beispiele (nur kurz)
+
+
+
+======================
+Pong:
+
+from vector import Vector as Vec
+
+
+class Pad:
+    def __init__(self, rect, speed_y, color='black'):
+        self.rect = rect
+        self.pos = Vec(rect[0], rect[1])
+        self.width, self.height = rect[2:]
+        self.speed_y = speed_y
+        self.color = color
+
+    def move(self, direction=None):
+        '''direction: -1 for up, 1 for down'''
+        if direction:
+            self.speed_y = direction*abs(self.speed_y)
+        self.pos.y += self.speed_y
+
+    def is_inside(self, pos):
+        v = pos - self.pos
+        return 0 < v.x < self.width and 0 < v.y < self.height
+
+    def draw(self, canvas):
+        canvas.save()
+        canvas.fill_style = self.color
+        canvas.fill_rect(*self.pos, self.width, self.height)
+        canvas.restore()
+
+    def __repr__(self):
+        return f'Pad(rect={self.rect}, speed_y: {self.speed_y}, color: {self.color})'
+
+
+class Obstacle(Pad):
+    def __init__(self, rect, speed_y, health, colors):
+        assert len(colors) == health + 1
+        self.colors = colors
+        self.health = health
+        super().__init__(rect, speed_y, color=colors[health])
+
+    def decrease_health(self):
+        self.health = self.health - 1
+        if self.health >= 0:
+            self.color = self.colors[self.health]
+
+    def __repr__(self):
+        return f'Obstacle(rect={self.rect}, speed_y: {self.speed_y}, health={self.health}, color: {self.color})'
+
+
+class Ball:
+    def __init__(self, pos, radius, speed, color='black'):
+        self.pos = Vec(*pos)
+        self.radius = radius
+        self.speed = Vec(*speed)
+        self.color = color
+
+    def move(self):
+        self.pos = self.pos + self.speed
+
+    def draw(self, canvas):
+        canvas.save()
+        canvas.fill_style = self.color
+        canvas.fill_circle(*self.pos, self.radius)
+        canvas.restore()
+
+    def __repr__(self):
+        return f'Ball(pos={self.pos},  speed: {self.speed})'
+
+
+import asyncio
+from model_view_controller import Observable, notify
+
+
+class Pong(Observable):
+    UP, DOWN = -1, 1
+    o_colors = ['red', 'orange', 'blue']
+
+    def __init__(self, width=100, height=100):
+        self.width = width
+        self.height = height
+        self.pad = Pad(rect=(10, 40, 5, 30), speed_y=5, color='blue')
+        self.ball = Ball((50, 50), 2, speed=(-2, 1))
+        self.obstacles = [Obstacle((80, 10, 5, 20), 0, 2, self.o_colors),
+                          Obstacle((80, 60, 5, 20), 0, 2, self.o_colors),
+                          ]
+        self.is_running = False
+
+    @notify
+    def new_game(self):
+        self.pad.pos = Vec(10, 40)
+        self.ball.pos = Vec(50, 50)
+        for obstacle in self.obstacles:
+            self.health = 2
+
+        if not self.is_running:
+            self._run()
+
+    def stop(self):
+        self.is_running = False
+
+    @notify
+    def move_up(self):
+        self.pad.move(self.UP)
+
+    @notify
+    def move_down(self):
+        self.pad.move(self.DOWN)
+
+    def move_pad(self):
+        if self.pad.pos.y <= 0 or self.pad.pos.y + self.pad.height >= self.height:
+            self.pad.speed_y *= -1
+        self.pad.move()
+
+    def move_ball(self):
+        self._reflect_ball_on_walls()
+        self._reflect_ball_on_pad(self.pad)
+        self._reflect_ball_on_obstacles(self.pad)
+        self.ball.move()
+
+    def _reflect_ball_on_walls(self):
+        speed = self.ball.speed
+        x_new, y_new = self.ball.pos + speed
+        speed.x *= (1 if 0 <= x_new <= self.width else -1)
+        speed.y *= (1 if 0 <= y_new <= self.height else -1)
+
+    def _reflect_ball_on_pad(self, pad):
+        if self.pad.is_inside(self.ball.pos):
+            self.ball.speed.x = -self.ball.speed.x
+
+    def _reflect_ball_on_obstacles(self, pad):
+        for obstacle in self.obstacles[:]:
+            if obstacle.is_inside(self.ball.pos):
+                self.ball.speed.x = -self.ball.speed.x
+                obstacle.decrease_health()
+        self.obstacles[:] = [obstacle for obstacle in self.obstacles if obstacle.health >= 0]
+
+    @notify
+    def step(self):
+        self.move_ball()
+        self.move_pad()
+
+    def _run(self):
+        async def move_staff():
+            while self.is_running:
+                self.step()
+                await asyncio.sleep(0.05)
+
+        self.is_running = True
+        self.task = asyncio.create_task(move_staff(), name='move_staff')
+
+    def __repr__(self):
+        return f'Pad: {self.pad}, ball: {self.ball}'
+
+
+
+from model_view_controller import BaseView
+from ipycanvas import hold_canvas
+
+
+class View(BaseView):
+    def __init__(self, game, debug=True):
+        super().__init__(game, debug=debug)
+        self.redraw()
+
+    def redraw(self):
+        with hold_canvas(self.canvas):
+            self.canvas.clear()
+            self.game.pad.draw(self.canvas)
+            for obstable in self.game.obstacles:
+                obstable.draw(self.canvas)
+            self.game.ball.draw(self.canvas)
+
+    def update(self, event, data):
+        self.redraw()
+
+
+
+
+from model_view_controller import Controller
+
+game = Pong()
+
+callbacks = {'n': game.new_game,
+             's': game.stop,
+             'ArrowRight': game.step,
+             'ArrowDown': game.move_down,
+             'ArrowUp': game.move_up,
+             }
+
+game.new_game()
+view = View(game, debug=False)
+controller = Controller(game, view, callbacks, debug=False)
+controller
+
+=============================
+
+
+class Grid:
+    directions = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
+
+    def __init__(self, ncol, nrow, default=None):
+        self.ncol = ncol
+        self.nrow = nrow
+        self._grid = [[default]*ncol for _ in range(nrow)]
+
+    def get_val(self, col, row):
+        return self._grid[row][col]
+
+    def set_val(self, col, row, val):
+        self._grid[row][col] = val
+
+    def is_inside(self, col, row):
+        return 0 <= row < self.nrow and 0 <= col < self.ncol
+
+    def col_row_val(self):
+        for col in range(self.ncol):
+            for row in range(self.nrow):
+                yield col, row, self._grid[row][col]
+
+    def get_neighbors(self, col, row):
+        for dc, dr in self.directions:
+            if 0 <= (r := row + dr) < self.nrow and 0 <= (c := col + dc) < self.ncol:
+                yield c, r
+
+    def get_save_neighbors(self, col, row):
+        if self.get_val(col, row) == 0:
+            yield from self.get_neighbors(col, row)
+
+    def get_component(self, pos, get_neighbors):
+        component = {pos}
+        stack = [pos]
+        while stack:
+            pos = stack.pop()
+            for pos in get_neighbors(pos):
+                if pos not in component:
+                    component.add(pos)
+                    stack.append(pos)
+        return component
+
+    def __repr__(self):
+        max_width = max(len(str(s)) for row in self._grid for s in row) + 2
+        lines = [''.join(f'{val!s:^{max_width}}' for val in row) for row in self._grid]
+        return '\n'.join(lines)
+
+
+import random
+from model_view_controller import Observable, notify
+
+
+class MineSweeper(Observable):
+    MINE, FLAG = '*', 'F'
+
+    def __init__(self, *, ncol=5, nrow=5, n_mines=5):
+        self.n_mines = n_mines
+        self.ncol = ncol
+        self.nrow = nrow
+        self.size = ncol * nrow
+
+        self.grid = None
+        self.safe_fields = set()
+        self.flags = set()
+
+    @notify
+    def new_game(self):
+        self.result = None
+        self.safe_fields.clear()
+        self.flags.clear()
+
+        self.grid = Grid(ncol=self.ncol, nrow=self.nrow)
+        idxs = random.sample(range(self.ncol*self.nrow), self.n_mines)
+        self.mines = {divmod(i, self.ncol)[::-1] for i in idxs}
+
+        for col, row in self.mines:
+            self.grid.set_val(col, row, self.MINE)
+
+        self._add_mine_counts()
+
+    def _add_mine_counts(self):
+        for col, row, val in self.grid.col_row_val():
+            if val != self.MINE:
+                count = 0
+                for c, r in self.grid.get_neighbors(col, row):
+                    count += self.grid.get_val(c, r) == self.MINE
+                self.grid.set_val(col, row, count)
+
+    def is_valid_move(self, pos):
+        return (self.result is None and
+                self.grid.is_inside(*pos) and
+                pos not in self.safe_fields)
+
+    @notify
+    def flag_cell(self, pos):
+        if self.is_valid_move(pos):
+            if pos in self.flags:
+                self.flags.remove(pos)
+                return pos, False
+            else:
+                self.flags.add(pos)
+                return pos, True
+
+    @notify
+    def reveal_cell(self, pos):
+        if self.is_valid_move(pos) and pos not in self.flags:
+            return self._reveal_cell(pos)
+
+    def _reveal_cell(self, pos):
+        def get_safe_neighbors(pos):
+            if self.grid.get_val(*pos) != 0:
+                return
+            yield from self.grid.get_neighbors(*pos)
+
+        if self.grid.get_val(*pos) == self.MINE:
+            self.result = 0
+            return 'boom'
+
+        comp = self.grid.get_component(pos, get_safe_neighbors)
+        self.safe_fields.update(comp)
+        if len(self.safe_fields) == self.ncol*self.nrow - self.n_mines:
+            self.result = 1
+        return comp
+
+    @notify
+    def take_back(self):
+        if game.result == 0:
+            game.result = None
+
+    def __repr__(self):
+        return (f'{self.grid!r}\nsafe fields: {self.safe_fields}\n'
+                f'mines left: {self.size - len(self.safe_fields) - self.n_mines}')
