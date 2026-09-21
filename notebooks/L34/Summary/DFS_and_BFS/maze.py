@@ -1,5 +1,5 @@
 import random
-import search_strategies_ as S
+import search_strategies as S
 from model_view_controller import Observable, notify
 
 
