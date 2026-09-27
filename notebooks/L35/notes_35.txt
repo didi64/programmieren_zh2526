@@ -1,0 +1,27 @@
+Umfrage
+Praesentationen
+Noten
+
+Nachtarg:
+L34 BFS: Hinzufuegen von LINKS wegnehmen von rechts, mix up in Notebook
+Koennte das auch so machen, haben es aber NICHT so gemacht.
+
+Synthese alle unserer Betrachtungen: Sokoban im MCV-Style mit BFS- und Greedy-Search Solver!
+
+
+
+Sokoban:
+- start showing Play:
+  kann nicht immer Solver aufrufen, nur im Levelmode!
+  vor start eines neuen Spiels oder nach `Escape`
+
+- Kommentiere Klasse Sokoban und zugeh. View Klasse
+- Kommentiere Controller.
+
+Sokoban-Levels: zeige, wie Levels in einem .txt File gespeichert werden.
+
+Sokoban_Solver (Notebook).
+
+LevelHelpers:
+- Berechnet und speichert viele nuetzliche Eigenschaften eines Sokoban-Levels
+
