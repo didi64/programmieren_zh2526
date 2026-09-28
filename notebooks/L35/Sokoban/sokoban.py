@@ -9,7 +9,7 @@ class Sokoban(Observable):
 
     @staticmethod
     def _add_pts(u, v, scale=1):
-        '''returns u + scale*v'''
+        '''returns u + scale*v, u und v sind Positionen (x,y)'''
         return u[0]+scale*v[0], u[1]+scale*v[1]
 
     def __init__(self, level_idx=1):

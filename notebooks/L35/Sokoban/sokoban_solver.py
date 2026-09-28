@@ -1,15 +1,18 @@
-from levelhelper import LevelHelper
 import searching as S
+from levelhelper import LevelHelper
 
 
 class Solver:
     @staticmethod
-    def get_box_move(s, t):
-        old_box = list(s[0] - t[0])[0]
-        new_box = list(t[0] - s[0])[0]
+    def _get_box_move(state_1, state_2):
+        '''liefert die Box Verschiebung zweier benachbarter Zustaende
+           state_1=(boxes1, comp1) und state_2=(boxes2, comp2)
+        '''
+        old_box = list(state_1[0] - state_2[0])[0]
+        new_box = list(state_2[0] - state_1[0])[0]
         return old_box, new_box
 
-    @staticmethod 
+    @staticmethod
     def update_frozenset(fs, old_item, new_item):
         '''swap old_item for new_item'''
         s = set(fs)
@@ -44,7 +47,6 @@ class Solver:
         for old_box, new_box in box_moves:
             ppos = self.lh.new_pull_pos(new_box, old_box)
             if player_pos != ppos:
-                print(type(boxes))
                 path = self.lh.get_shortest_path(player_pos, ppos, boxes)
                 walk += path[1:-1]
             walk += [ppos, old_box]
@@ -75,7 +77,7 @@ class Solver:
 
     def get_box_moves(self, goal, go_back):
         path = S.get_path_to_goal(goal, go_back)
-        box_moves = [self.get_box_move(path[i], path[i+1]) for i in range(len(path)-1)]
+        box_moves = [self._get_box_move(path[i], path[i+1]) for i in range(len(path)-1)]
         return box_moves
 
     def solve_bf(self):

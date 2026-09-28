@@ -2,7 +2,7 @@ Umfrage
 Praesentationen
 Noten
 
-Nachtarg:
+Nachtrag:
 L34 BFS: Hinzufuegen von LINKS wegnehmen von rechts, mix up in Notebook
 Koennte das auch so machen, haben es aber NICHT so gemacht.
 
@@ -19,9 +19,12 @@ Sokoban:
 - Kommentiere Controller.
 
 Sokoban-Levels: zeige, wie Levels in einem .txt File gespeichert werden.
+ Wie speichern wir Level, wie bereiten wir sie auf (LevelHelper)
+ Wie loesen, mehr im Solver
 
 Sokoban_Solver (Notebook).
 
 LevelHelpers:
 - Berechnet und speichert viele nuetzliche Eigenschaften eines Sokoban-Levels
 
+Umfragenotebook

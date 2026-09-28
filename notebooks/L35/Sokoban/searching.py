@@ -46,20 +46,3 @@ def get_path_to_goal(node, go_back):
         path.append(node)
         node = go_back[node]
     return path[::-1]
-
-
-#######
-def h(state):
-        score = 0
-        targets = set(self.targets)
-
-        for box in state[0]:
-            dist, t = min((self.distances[(box, t)], t)
-                          for t in targets
-                          )
-            score += dist
-            targets.remove(t)
-
-        return score
-
-

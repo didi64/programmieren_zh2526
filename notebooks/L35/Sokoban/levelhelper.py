@@ -38,8 +38,8 @@ class LevelHelper:
     def get_pulls(self, pos):
         for box in self.G[pos]:
             if self.new_pull_pos(pos, box) in self.cells:
-                yield box  
-    
+                yield box
+
     def get_box_cells(self):
         box_cells = set()
         for target in self.level.targets:
@@ -52,16 +52,16 @@ class LevelHelper:
              if (vs := set(q for q in ns if p in self.get_pulls(q)))
              }
         B = dict(sorted(B.items(), key=lambda x: (len(x[1]), x[0])))
-    
+
         B_push = {}
         for box, neighbors in B.items():
             B_push[box] = []
             for bpos in neighbors:
                 ppos = self.new_pull_pos(bpos, box)
                 B_push[box].append((ppos, bpos))
-    
+
         return B_push
-        
+
     def get_deadlocks(self):
         deadlocks = []
         for c in range(self.level.ncol):
@@ -70,10 +70,9 @@ class LevelHelper:
                 # deadlock-Quadrat hat Felder ausserhalb der targets
                 if (deadlock := square & self.cells) and deadlock - set(self.level.targets):
                     deadlocks.append(deadlock)
-    
-        
+
         deadlocks.sort(key=lambda x: len(x))
-    
+
         n = len(deadlocks)
         to_keep = set(range(n))
         for i in range(n):
@@ -81,7 +80,7 @@ class LevelHelper:
                 dl1, dl2 = deadlocks[i], deadlocks[j]
                 if dl1.issubset(dl2):
                     to_keep.discard(j)
-    
+
         deadlocks = [deadlocks[i] for i in to_keep]
         return [deadlock for deadlock in deadlocks if deadlock.issubset(self.box_cells)]
 
