@@ -12,7 +12,7 @@ class Level(NamedTuple):
     title: str
     ncol: int
     nrow: int
-    player_pos: tuple(int, int)
+    player_pos: tuple[int, int]
     boxes: Iterable
     targets: Iterable
     blocked: Iterable
