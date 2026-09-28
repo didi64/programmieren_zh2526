@@ -2,6 +2,236 @@ Umfrage
 Praesentationen
 Noten
 
+Adam:
+game nicht unabhaenig von View!
+rekursives Floodfill, nicht mod BFS!
+
+_notify nur fuer Timer und highscore!
+BoardView eher GidHelper statt tatsaechlich View fuer Minesweeper!
+
+
+Fragen: Fuehere Projekt kurz vor und age wie die einzelnen Teile zusammenspielen.
+
+
+1. fuehre Grid Glasse vor!
+
+from grid import Grid
+
+grid = Grid(5, 5)
+grid.initialize(0, 0)
+
+grid.mines
+grid.visible
+grid.neighbor_counts
+
+2. Fuehere View-Klasse vor, zeige obiges Grid an
+
+import minesweeper as M
+from darstellung import BoardView as View
+
+
+view = View(M.BOARD_SPEC, M.CANVAS_CONFIG)
+view.canvas
+
+
+view.draw_background(grid)
+view.draw_cover(grid)
+view.canvas[1].clear()
+view.draw_grid()
+view.show_highscore(23)
+view.show_time(621.5)
+
+
+3. Kann ich auf einen kleineren, z.B. 5x5 Feld mit 5 Minen spielen?
+   Rufe game mit Defaultargs size=5 und mines= 5 auf! View passt nun nicht mehr!
+   Muss minesweeper editieren, unschoen!
+   output_aera gehoert dem Modul, versch. Instanzen der Klasse Teilen sich diese Output-area!
+   unschoen!
+
+   Modul enthaelt die Game-Instanz, unschoen!
+
+!! copy minesweeper.py nach game.py!!
+arbeiten mit game.py
+
+4. game: start_game und cheat_code gehoeren in die Klasse Game!
+     Game(size=10, n_mines = 10 view=None)! erstelle View, falls eine uebergeben.
+     view = view or BoardView(BOARD_SPEC, CANVAS_CONFIG)
+
+
+   cheat_code und start_game ins game selber! Copy/paste, fuehere Arg f(game) ein
+   und rename symbol to self.
+
+    if __name__ == '__main__':
+        game = Game()
+        game.start_game()
+
+
+    class Game(Observable):
+        def __init__(self, size=10, number_of_mines=10, view=None):  # add defaultarguments!
+            self.grid = Grid(size, number_of_mines)
+    +       self.view = view or BoardView(BOARD_SPEC, CANVAS_CONFIG)
+
+5. Output-Area muss ins Game! Gehort der Instanz, versch game instanzen haben versch Outputaeras!
+
+
+   self.output_area = Output() 
+   def show_game_over_message(self):
+   def show_win_message(self):
+
+   show_game_over -> self.show_game_over
+   show_win_message -> self.show_win_message
+   output_area -> self.output_aera
+
+
+6. Veschiebe alles wa zeichnet von Game nach View!
+   Exemplarisch, arbeiten an reveal cell!
+
+In Darstellung:
+
+    def update(self, event, data):
+        '''
+        Reagiert auf Änderungen des Game-Objekts.
+        '''
+        if event.endswith('timer'):
+            self.show_time(data)
+        elif event.endswith('highscore'):
+            self.show_highscore(data)
+        elif event == 'reveal_cell':
+            if data:
+                self.reveal_cell(*data)
+
+    def reveal_cell(self, cells_to_reveal, flags_to_place, grid):
+        self.reveal_cells(cells_to_reveal)
+        for flag in flags_to_place:
+            self.draw_flag(flag)
+        if grid:
+            self.draw_background(grid)
+
+in game reveal_cell
+    only one return!
+
+    @notify
+    def reveal_cell:
+        grid = None
+        flags_to_place = []
+    
+        ...
+    
+        if not self.grid.initialized:
+           
+            # self.view.draw_background(self.grid)  #
+            grid = self.grid
+            ...
+
+        # self.view.reveal_cells(revealed)
+        cells_to_reveal = revealed
+        
+        if self.grid.mines[row][col]:
+           
+            # self.view.reveal_cells(revealed_mines)
+            cells_to_reveal += revealed_mines
+            # return
+
+        # Gewonnen: Alle sicheren Felder aufgedeckt: Spiel beenden.
+        elif self.grid.check_win():
+            
+            for flag_row, flag_col in flagged:
+                # self.view.set_flag(flag_row, flag_col)  #
+                flag = (flag_row, flag_col)
+                flags_to_place.append(flag)
+           
+
+        return cells_to_reveal, flags_to_place, grid    
+
+
+7. BORAD_SPEC berechnen in game.__init__
+
+
+
+class Game(Observable):
+    def __init__(self, size=10, number_of_mines=10, view=None):
+        self.grid = Grid(size, number_of_mines)
+        self.view = view or BoardView(BOARD_SPEC, CANVAS_CONFIG)
+        self.output_area = Output()
+        self.game_over = False         # True, wenn Spiel beendet (Gewonnen oder Verloren)
+        self.highscore = None
+        self.timer = Timer()
+        self.timer.register_callback(self.update_timer)
+        self.register_callback(self.view.update)
+        self.new_game_button = Button(description='Neues Spiel')
+        self.flag_mode_button = ToggleButton(
+            description='Flaggen-Modus',
+            value=False,
+            disabled=True,
+            tooltip='Aktiv: Klick = Flagge setzen/entfernen\nInaktiv: Klick = Feld aufdecken'
+        )
+         self.start_game()
+
+Keri: TopSpin
+- search_bg,
+- search_greedy eigene Implementation, ohne deque one heapq (langsam!)
+
+# import grid_controller as C
+
+Fuehere Projekt vor und erklaere, wie die einzelnen COde-Teile
+zusammenspielen.
+game, wird von Hand Observable gemacht, register callbacks, notify
+view registriert callback update
+search-Funktionen in Game.
+
+Fragen:
+1. View:
+   kommentiere
+
+
+   update: funktioniert, gleiche Zeichnungsfunktione wie bei vorherigem Projekt.
+   enthaelt unnoetigen Code, und Code der woanders hingehoert (Hint: Schleifenbody!)
+
+            # self.canvas.fill_style = 'white'
+            # self.canvas.fill_rect(0, 0, 600, 180)
+           Schleifenbody enthalet Code, der nicht dorthin gehoert.
+                # self.canvas.font = '16px Arial'
+                # self.canvas.text_align = 'center'
+                # self.canvas.text_baseline = 'middle'
+           wohin gehoert dieser Code?
+           in __init__ der View
+
+2. Game: Benutze search_bf, search_greedy und get_path_to_goal aus modul search_strategies_TopSpin
+
+    search_strategies_TopSpin
+    1. add: import search_strategies_TopSpin as S
+    2. loesche Methoden search_bf, search_greedy und get_path_to_goal
+    3. fix Methode show_solutions!
+       
+
+--
+import search_strategies_TopSpin as S, und in show solutions,
+
+    def show_solution(self):
+        start = tuple(self.numbers)
+        goal = tuple(range(len(self.numbers)))
+
+        if len(self.numbers) <= 10:
+            # node, go_back = self.search_bf(start, goal)
+            node, go_back, _ = S.search_bf(start, self.get_neighbors, goal)
+        else:
+            # node, go_back = self.search_greedy(start, goal)
+            node, go_back = S.search_greedy(start, self.get_neighbors, self.heuristic, goal)
+
+        # path = self.get_path_to_goal(node, go_back)
+        path = S.get_path_to_goal(node, go_back)
+--
+
+
+Keri: ToDo
+1. Notebook mir kurzer Doku
+2. Notebook Play mit kurzer Bedingunsanleitung, dann eine Codezelle, die das Spiel startet.
+===============
+
+
+
+
+
 Nachtrag:
 L34 BFS: Hinzufuegen von LINKS wegnehmen von rechts, mix up in Notebook
 Koennte das auch so machen, haben es aber NICHT so gemacht.
@@ -28,3 +258,121 @@ LevelHelpers:
 - Berechnet und speichert viele nuetzliche Eigenschaften eines Sokoban-Levels
 
 Umfragenotebook
+
+
+
+
+
+
+
+
+
+
+import widget_helpers as W
+from ipycanvas import hold_canvas
+
+Keri
+class View:
+    def __init__(self, game):
+        self.game = game
+        self.canvas = W.get_canvas(600, 180)
+
+        game.register_callback(self.update)
+        self.update(game.numbers)
+
+
+    def update(self, numbers):
+        with hold_canvas():
+            self.canvas.clear()
+
+            self.canvas.fill_style = 'white'
+            self.canvas.fill_rect(0, 0, 600, 180)
+
+            for i in range(len(numbers)):
+                row = i // 10
+                column = i % 10
+
+                x = 20 + column * 55
+                y = 40 + row * 60
+
+                self.canvas.fill_style = 'blue'
+                self.canvas.fill_rect(x, y, 50, 40)
+
+                self.canvas.stroke_style = 'black'
+                self.canvas.stroke_rect(x, y, 50, 40)
+
+                self.canvas.fill_style = 'black'
+                self.canvas.font = '16px Arial'
+                self.canvas.text_align = 'center'
+                self.canvas.text_baseline = 'middle'
+                self.canvas.fill_text(str(numbers[i]), x + 25, y + 20)
+
+            self.canvas.stroke_style = 'red'
+            self.canvas.stroke_rect(17, 37, 221, 46)
+
+
+===================
+changes in reveal_cell
+
+
+    @notify
+    def reveal_cell(self, row, col):
+        '''
+        Deckt ein Feld auf und behandelt Gewinn bzw. Game Over.
+        '''
+        grid = None
+        flags_to_place = []
+        
+        if self.game_over:
+            log('Ignoriert: Spiel ist bereits beendet.')
+            return
+
+        if self.grid.visible[row][col]:
+            log(f'Ignoriert: Feld ({row}, {col}) ist bereits sichtbar.')
+            return
+
+        if self.grid.flags[row][col]:
+            log(f'Ignoriert: Feld ({row}, {col}) ist markiert (Flagge).')
+            return
+
+        grid = None
+        if not self.grid.initialized:
+            self.grid.initialize(row, col)
+            # self.view.draw_background(self.grid)  #
+            grid = self.grid
+            self.timer.start()
+            self.flag_mode_button.disabled = False
+            log(f'Spielfeld initialisiert. Erstes Feld: ({row}, {col})')
+
+        revealed = self.grid.reveal(row, col)
+        
+        # self.view.reveal_cells(revealed)
+        cells_to_reveal = revealed
+        
+        log(f'Feld aufgedeckt: ({row}, {col}), Mine: {self.grid.mines[row][col]}')
+
+        # Verloren: Mine getroffen: Spiel beenden und alle Minen aufdecken.
+        if self.grid.mines[row][col]:
+            self.game_over = True
+            self.timer.stop()
+            revealed_mines = self.grid.reveal_all_mines()
+            # self.view.reveal_cells(revealed_mines)
+            cells_to_reveal += revealed_mines
+            self.output_area.clear_output()
+            self.show_game_over_message()
+            # return
+
+        # Gewonnen: Alle sicheren Felder aufgedeckt: Spiel beenden.
+        elif self.grid.check_win():
+            self.game_over = True
+            self.timer.stop()
+            self.update_highscore()
+            flagged = self.grid.flag_all_mines()
+            for flag_row, flag_col in flagged:
+                # self.view.set_flag(flag_row, flag_col)  #
+                flag = (flag_row, flag_col)
+                flags_to_place.append(flag)
+            self.output_area.clear_output()
+            self.show_win_message()
+
+        return cells_to_reveal, flags_to_place, grid

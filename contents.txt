@@ -35,6 +35,7 @@
 34:Summary
 35:Sokoban Zugang_Unterrichtsbeurteilung.ipynb
 # 222:Pong_Template
+333:Minesweeper_Adam
 #111:Rubics_Cube_Adam
 #99: TopSpin_Keri
 # update -e is update 999
